@@ -11,9 +11,5 @@ public partial class Evento
 
     public bool Estado { get; set; }
 
-    public int IdCategoriaEvento { get; set; }
-
-    public virtual CategoriaEvento IdCategoriaEventoNavigation { get; set; } = null!;
-
-    public virtual ICollection<ListaUsuario> ListaUsuarios { get; set; } = new List<ListaUsuario>();
+    public virtual ICollection<Producto> IdProductos { get; set; } = new List<Producto>();
 }

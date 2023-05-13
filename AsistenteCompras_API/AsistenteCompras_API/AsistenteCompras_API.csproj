@@ -18,8 +18,4 @@
     <ProjectReference Include="..\AsistenteCompras_Entities\AsistenteCompras_Entities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

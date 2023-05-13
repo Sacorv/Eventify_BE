@@ -11,13 +11,9 @@ public partial class Publicacion
 
     public int IdComercio { get; set; }
 
-    public decimal Precio { get; set; }
-
-    public DateTime FechaCreacion { get; set; }
-
-    public DateTime FechaModificacion { get; set; }
+    public string Precio { get; set; } = null!;
 
     public bool Estado { get; set; }
 
-    public virtual ICollection<ListadoPublicacion> ListadoPublicacions { get; set; } = new List<ListadoPublicacion>();
+    public virtual Comercio IdComercioNavigation { get; set; } = null!;
 }
