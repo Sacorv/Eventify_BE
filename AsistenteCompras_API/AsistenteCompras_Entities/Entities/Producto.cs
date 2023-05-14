@@ -19,5 +19,5 @@ public partial class Producto
 
     public virtual Categorium IdCategoriaNavigation { get; set; } = null!;
 
-    public virtual ICollection<Evento> IdEventos { get; set; } = new List<Evento>();
+    public virtual ICollection<Publicacion> Publicacions { get; set; } = new List<Publicacion>();
 }
