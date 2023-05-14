@@ -1,6 +1,4 @@
 ﻿using AsistenteCompras_Entities.DTOs;
-using AsistenteCompras_Entities.Entities;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace AsistenteCompras_Services
 {
-    public interface IEventoService
+    public interface IOfertaService
     {
-        List<Evento> ObtenerEventos();
-
+        List<OfertaDTO> BuscarOfertasPorLocalidadYEvento(int idEvento, string localidad);
 
     }
 }

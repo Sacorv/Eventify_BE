@@ -7,24 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AsistenteCompras_API.Controllers
 {
-    [Route("api/")]
+    [Route("api/[controller]")]
     [ApiController]
     public class EventoController : ControllerBase
     {
 
-        public IEventoService _servicio;
+        private IEventoService _service;
 
-        public EventoController(IEventoService servicio)
+        public EventoController(IEventoService service)
         {
-            this._servicio = servicio;
+            _service = service;
         }
-
+        
         [HttpGet("eventos")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PublicacionDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         public List<Evento> ObtenerEventos()
         {
-            return _servicio.ObtenerEventos();
+            return _service.ObtenerEventos();
         }
 
         //public Evento BuscarEventoPorId()
@@ -32,34 +32,7 @@ namespace AsistenteCompras_API.Controllers
         //    return null;
         //}
 
-        [HttpGet("eventosPorLocalidad/{idEvento}/{localidad}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PublicacionDTO>))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type =typeof(bool))]
-        public IActionResult FiltrarOfertasParaEventoPorLocalidad(int idEvento, String localidad)
-        {
-            try
-            {
-                List<PublicacionDTO> ofertasParaEvento = this._servicio.BuscarOfertasPorLocalidadYEvento(idEvento, localidad);
-                if(ofertasParaEvento.Count() != 0)
-                {
-                    return Ok(ofertasParaEvento);
-                }
-                else
-                {
-                    return BadRequest();
-                }
-                
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
 
-        //public List<Evento> FiltrarEventosPorPrecio()
-        //{
-        //    return null;
-        //}
 
 
     }

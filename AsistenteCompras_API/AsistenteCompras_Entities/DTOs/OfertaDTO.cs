@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AsistenteCompras_Entities.DTOs
 {
-    public class PublicacionDTO
+    public class OfertaDTO
     {
         public string NombreProducto { get; set; } = null!;
 

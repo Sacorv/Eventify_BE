@@ -12,8 +12,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IEventoService,EventoService>();
-builder.Services.AddSingleton<AsistenteComprasContext>();
+builder.Services.AddScoped<IEventoService,EventoService>();
+builder.Services.AddScoped<IOfertaService, OfertaService>();
+builder.Services.AddScoped<AsistenteComprasContext>();
 
 
 var app = builder.Build();
