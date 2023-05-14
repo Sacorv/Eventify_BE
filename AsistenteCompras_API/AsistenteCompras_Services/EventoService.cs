@@ -18,6 +18,11 @@ namespace AsistenteCompras_Services
             this._context = context;
         }
 
+        public List<Evento> ObtenerEventos()
+        {
+            return this._context.Eventos.ToList();
+        }
+
         public List<PublicacionDTO> BuscarOfertasPorLocalidadYEvento(int idEvento, string localidad)
         {
             
@@ -44,14 +49,8 @@ namespace AsistenteCompras_Services
             }
 
             return ofertas;
-      
         }
 
-        public List<Evento> ObtenerEventos()
-        {
-
-            return this._context.Eventos.ToList();
-
-        }
+       
     }
 }

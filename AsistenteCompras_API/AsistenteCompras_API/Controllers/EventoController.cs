@@ -12,9 +12,9 @@ namespace AsistenteCompras_API.Controllers
     public class EventoController : ControllerBase
     {
 
-        public EventoService _servicio;
+        public IEventoService _servicio;
 
-        public EventoController(EventoService servicio)
+        public EventoController(IEventoService servicio)
         {
             this._servicio = servicio;
         }
@@ -35,9 +35,25 @@ namespace AsistenteCompras_API.Controllers
         [HttpGet("eventosPorLocalidad/{idEvento}/{localidad}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PublicacionDTO>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type =typeof(bool))]
-        public List<PublicacionDTO> FiltrarOfertasParaEventoPorLocalidad(int idEvento, String localidad)
+        public IActionResult FiltrarOfertasParaEventoPorLocalidad(int idEvento, String localidad)
         {
-            return this._servicio.BuscarOfertasPorLocalidadYEvento(idEvento, localidad);
+            try
+            {
+                List<PublicacionDTO> ofertasParaEvento = this._servicio.BuscarOfertasPorLocalidadYEvento(idEvento, localidad);
+                if(ofertasParaEvento.Count() != 0)
+                {
+                    return Ok(ofertasParaEvento);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+                
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         //public List<Evento> FiltrarEventosPorPrecio()

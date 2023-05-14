@@ -10,7 +10,6 @@ namespace AsistenteCompras_Services
 {
     public interface IEventoService
     {
-
         List<Evento> ObtenerEventos();
         List<PublicacionDTO> BuscarOfertasPorLocalidadYEvento(int idEvento, string localidad);
 
