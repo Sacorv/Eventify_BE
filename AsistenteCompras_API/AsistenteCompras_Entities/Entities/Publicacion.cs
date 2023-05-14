@@ -11,9 +11,11 @@ public partial class Publicacion
 
     public int IdComercio { get; set; }
 
-    public string Precio { get; set; } = null!;
+    public decimal Precio { get; set; }
 
     public bool Estado { get; set; }
 
     public virtual Comercio IdComercioNavigation { get; set; } = null!;
+
+    public virtual Producto IdProductoNavigation { get; set; } = null!;
 }

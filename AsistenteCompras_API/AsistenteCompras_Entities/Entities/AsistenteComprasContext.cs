@@ -21,6 +21,8 @@ public partial class AsistenteComprasContext : DbContext
 
     public virtual DbSet<Evento> Eventos { get; set; }
 
+    public virtual DbSet<EventoProducto> EventoProductos { get; set; }
+
     public virtual DbSet<Producto> Productos { get; set; }
 
     public virtual DbSet<Publicacion> Publicacions { get; set; }
@@ -50,30 +52,29 @@ public partial class AsistenteComprasContext : DbContext
             entity.ToTable("Evento");
 
             entity.Property(e => e.Nombre).HasMaxLength(50);
+        });
 
-            entity.HasMany(d => d.IdProductos).WithMany(p => p.IdEventos)
-                .UsingEntity<Dictionary<string, object>>(
-                    "EventoProducto",
-                    r => r.HasOne<Producto>().WithMany()
-                        .HasForeignKey("IdProducto")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_EventoProducto_Producto"),
-                    l => l.HasOne<Evento>().WithMany()
-                        .HasForeignKey("IdEvento")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_EventoProducto_Evento"),
-                    j =>
-                    {
-                        j.HasKey("IdEvento", "IdProducto");
-                        j.ToTable("EventoProducto");
-                    });
+        modelBuilder.Entity<EventoProducto>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("EventoProducto");
+
+            entity.HasOne(d => d.IdEventoNavigation).WithMany()
+                .HasForeignKey(d => d.IdEvento)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EventoProducto_Evento");
+
+            entity.HasOne(d => d.IdProductoNavigation).WithMany()
+                .HasForeignKey(d => d.IdProducto)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EventoProducto_Producto");
         });
 
         modelBuilder.Entity<Producto>(entity =>
         {
             entity.ToTable("Producto");
 
-            entity.Property(e => e.Imagen).HasMaxLength(50);
             entity.Property(e => e.Marca).HasMaxLength(50);
             entity.Property(e => e.Nombre).HasMaxLength(50);
 
@@ -87,10 +88,15 @@ public partial class AsistenteComprasContext : DbContext
         {
             entity.ToTable("Publicacion");
 
-            entity.Property(e => e.Precio).HasMaxLength(50);
+            entity.Property(e => e.Precio).HasColumnType("decimal(5, 2)");
 
             entity.HasOne(d => d.IdComercioNavigation).WithMany(p => p.Publicacions)
                 .HasForeignKey(d => d.IdComercio)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Publicacion_Comercio");
+
+            entity.HasOne(d => d.IdProductoNavigation).WithMany(p => p.Publicacions)
+                .HasForeignKey(d => d.IdProducto)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Publicacion_Producto");
         });
