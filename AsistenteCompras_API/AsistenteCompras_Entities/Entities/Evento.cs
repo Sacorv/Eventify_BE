@@ -10,6 +10,4 @@ public partial class Evento
     public string Nombre { get; set; } = null!;
 
     public bool Estado { get; set; }
-
-    public virtual ICollection<Producto> IdProductos { get; set; } = new List<Producto>();
 }
