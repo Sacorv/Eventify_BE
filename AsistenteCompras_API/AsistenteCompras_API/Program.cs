@@ -17,7 +17,15 @@ builder.Services.AddScoped<IOfertaService, OfertaService>();
 builder.Services.AddScoped<AsistenteComprasContext>();
 
 
+
 var app = builder.Build();
+
+app.UseCors(builder =>
+{
+    builder.AllowAnyHeader()
+           .AllowAnyMethod()
+           .AllowAnyOrigin();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
