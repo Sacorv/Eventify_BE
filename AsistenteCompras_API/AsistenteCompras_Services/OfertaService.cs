@@ -1,12 +1,6 @@
 ﻿using AsistenteCompras_Entities.DTOs;
 using AsistenteCompras_Entities.Entities;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AsistenteCompras_Services;
 
@@ -22,28 +16,27 @@ public class OfertaService : IOfertaService
 
     public List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idEvento)
     {
-        Publicacion publicacion = new Publicacion();
         List<Producto> productosEvento;
         List<OfertaDTO> listaCompraEconomica = new List<OfertaDTO>();
-        OfertaDTO productoBarato = new OfertaDTO();
-
+        
         productosEvento = _context.EventoProductos
                                   .Where(evento => evento.IdEvento == idEvento)
                                   .Select(evento => evento.IdProductoNavigation)
                                   .ToList();
 
         foreach (Producto producto in productosEvento)
-        {
-            publicacion = _context.Publicacions
-                                  .Where(publicacion => publicacion.IdProducto == producto.Id)
-                                  .MinBy(publicacion => publicacion.Precio);
-
-
-            productoBarato.NombreProducto = producto.Nombre;
-            productoBarato.Imagen = producto.Imagen;
-            productoBarato.Marca = producto.Marca;
-            productoBarato.NombreComercio = publicacion.IdComercioNavigation.RazonSocial;
-            productoBarato.Precio = publicacion.Precio;
+        {   
+            OfertaDTO productoBarato = _context.Publicacions
+                                               .Where(p => p.IdProducto == producto.Id)
+                                               .OrderBy(p => p.Precio)
+                                               .Select(o => new OfertaDTO
+                                               {
+                                                NombreProducto = o.IdProductoNavigation.Nombre,
+                                                Imagen = o.IdProductoNavigation.Imagen,
+                                                Marca = o.IdProductoNavigation.Marca,
+                                                NombreComercio = o.IdComercioNavigation.RazonSocial,
+                                                Precio = o.Precio,
+                                               }).First();
 
             listaCompraEconomica.Add(productoBarato);
         }
