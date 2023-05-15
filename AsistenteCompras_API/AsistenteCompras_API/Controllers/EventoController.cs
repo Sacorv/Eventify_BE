@@ -22,9 +22,9 @@ namespace AsistenteCompras_API.Controllers
         [HttpGet("eventos")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public List<Evento> ObtenerEventos()
+        public IActionResult ObtenerEventos()
         {
-            return _service.ObtenerEventos();
+            return Ok(_service.ObtenerEventos());
         }
 
         //public Evento BuscarEventoPorId()
