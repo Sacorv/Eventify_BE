@@ -1,11 +1,4 @@
-﻿using AsistenteCompras_Entities.DTOs;
-using AsistenteCompras_Entities.Entities;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AsistenteCompras_Entities.Entities;
 
 namespace AsistenteCompras_Services
 {

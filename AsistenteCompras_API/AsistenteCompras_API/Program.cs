@@ -1,7 +1,5 @@
 using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
