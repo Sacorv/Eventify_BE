@@ -11,7 +11,13 @@ public partial class Comercio
 
     public string Direccion { get; set; } = null!;
 
-    public string Localidad { get; set; } = null!;
+    public decimal Latitud { get; set; }
+
+    public decimal Longitud { get; set; }
+
+    public int IdLocalidad { get; set; }
+
+    public virtual Localidad IdLocalidadNavigation { get; set; } = null!;
 
     public virtual ICollection<Publicacion> Publicacions { get; set; } = new List<Publicacion>();
 }

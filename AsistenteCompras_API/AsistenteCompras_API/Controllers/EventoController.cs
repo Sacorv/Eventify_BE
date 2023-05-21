@@ -1,4 +1,4 @@
-﻿using AsistenteCompras_Entities.DTOs;
+﻿using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +17,7 @@ namespace AsistenteCompras_API.Controllers
         }
         
         [HttpGet("eventos")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Evento>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         public IActionResult ObtenerEventos()
         {
