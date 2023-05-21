@@ -37,7 +37,7 @@ public class EventoController : ControllerBase
     }
 
     [HttpGet("bebidas")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Evento>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Bebidum>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
     public IActionResult ObtenerBebidasDelEvento(int idEvento)
     {

@@ -1,4 +1,5 @@
-﻿using AsistenteCompras_Entities.Entities;
+﻿using AsistenteCompras_Entities.DTOs;
+using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ public class UbicacionController : ControllerBase
 	}
 
 	[HttpGet("localidades")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Localidad>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LocalidadDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
 
 	public IActionResult obtenerLocalidades()
