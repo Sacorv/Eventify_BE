@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IEventoService,EventoService>();
 builder.Services.AddScoped<IOfertaService, OfertaService>();
+builder.Services.AddScoped<IUbicacionService, UbicacionService>();
 builder.Services.AddScoped<AsistenteComprasContext>();
 
 
