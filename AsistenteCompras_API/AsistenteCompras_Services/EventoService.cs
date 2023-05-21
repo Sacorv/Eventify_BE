@@ -17,7 +17,21 @@ namespace AsistenteCompras_Services
             return this._context.Eventos.ToList();
         }
 
-        
+        public List<Comidum> ObtenerComidas(int idEvento)
+        {
+            List<Comidum> comidas = new List<Comidum>();
+
+            var comidaEvento = _context.EventoComida
+                                        .Where(ev => ev.IdEventoNavigation.Id == idEvento)
+                                        .Select(ev => ev.IdComidaNavigation).ToList();
+
+            foreach (Comidum comida in comidaEvento)
+            {
+                comidas.Add(comida);
+            }
+
+            return comidas;
+        }
 
        
     }
