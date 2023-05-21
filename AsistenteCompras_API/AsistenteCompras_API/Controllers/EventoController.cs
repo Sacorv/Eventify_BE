@@ -30,7 +30,12 @@ namespace AsistenteCompras_API.Controllers
         //}
 
 
-
+        [HttpGet("comidas")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type =typeof(List<Comidum>))]
+        public IActionResult ObtenerComidasPorEvento(int idEvento)
+        {
+            return Ok(_service.ObtenerComidas(idEvento));
+        }
 
     }
 }
