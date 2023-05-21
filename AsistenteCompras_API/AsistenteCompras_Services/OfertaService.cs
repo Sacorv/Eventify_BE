@@ -1,6 +1,5 @@
 ﻿using AsistenteCompras_Entities.DTOs;
 using AsistenteCompras_Entities.Entities;
-using System.Data.Common;
 
 namespace AsistenteCompras_Services;
 

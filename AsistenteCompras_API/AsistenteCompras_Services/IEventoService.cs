@@ -8,6 +8,6 @@ namespace AsistenteCompras_Services
 
         List<Comidum> ObtenerComidas(int idEvento);
 
-
+        List<Bebidum> ObtenerBebidasPosibles(int idEvento);
     }
 }

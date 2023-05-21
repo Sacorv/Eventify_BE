@@ -1,29 +1,39 @@
 ﻿using AsistenteCompras_Entities.Entities;
 
-namespace AsistenteCompras_Services
+namespace AsistenteCompras_Services;
+
+public class EventoService : IEventoService
 {
-    public class EventoService : IEventoService
+
+    private AsistenteComprasContext _context;
+
+    public EventoService(AsistenteComprasContext context)
     {
+        _context = context;
+    }
 
-        private AsistenteComprasContext _context;
+    public List<Bebidum> ObtenerBebidasPosibles(int idEvento)
+    {
+        return _context.EventoBebida.Where(e => e.IdEvento.Equals(idEvento))
+                                    .Select(b => new Bebidum
+                                    {
+                                        Id = b.IdBebida,
+                                        TipoBebida = b.IdBebidaNavigation.TipoBebida
+                                    }).ToList();
+    }
 
-        public EventoService(AsistenteComprasContext context)
-        {
-            this._context = context;
-        }
+    public List<Evento> ObtenerEventos()
+    {
+        return _context.Eventos.ToList();
+    }
 
-        public List<Evento> ObtenerEventos()
-        {
-            return this._context.Eventos.ToList();
-        }
-
-        public List<Comidum> ObtenerComidas(int idEvento)
-        {
-            List<Comidum> comidas = new List<Comidum>();
-
-            var comidaEvento = _context.EventoComida
-                                        .Where(ev => ev.IdEventoNavigation.Id == idEvento)
-                                        .Select(ev => ev.IdComidaNavigation).ToList();
+    public List<Comidum> ObtenerComidas(int idEvento)
+    {
+        List<Comidum> comidas = new List<Comidum>();
+        
+        var comidaEvento = _context.EventoComida
+                                   .Where(ev => ev.IdEventoNavigation.Id == idEvento)
+                                   .Select(ev => ev.IdComidaNavigation).ToList();
 
             foreach (Comidum comida in comidaEvento)
             {
@@ -32,7 +42,4 @@ namespace AsistenteCompras_Services
 
             return comidas;
         }
-
-       
-    }
 }
