@@ -29,6 +29,13 @@ public class EventoController : ControllerBase
     //    return null;
     //}
 
+    [HttpGet("comidas")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type =typeof(List<Comidum>))]
+    public IActionResult ObtenerComidasPorEvento(int idEvento)
+    {
+        return Ok(_service.ObtenerComidas(idEvento));
+    }
+
     [HttpGet("bebidas")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Evento>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
@@ -36,6 +43,4 @@ public class EventoController : ControllerBase
     {
         return Ok(_service.ObtenerBebidasPosibles(idEvento));
     }
-
-
 }

@@ -6,6 +6,8 @@ namespace AsistenteCompras_Services
     {
         List<Evento> ObtenerEventos();
 
+        List<Comidum> ObtenerComidas(int idEvento);
+
         List<Bebidum> ObtenerBebidasPosibles(int idEvento);
     }
 }
