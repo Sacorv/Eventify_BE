@@ -5,7 +5,7 @@ namespace AsistenteCompras_Services
 {
     public interface IOfertaService
     {
-        List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> idLocalidades);
+        List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> idLocalidades, int idBebida);
  
         List<OfertaDTO> BuscarOfertasPorLocalidadYEvento(int idEvento, string localidad);
     }

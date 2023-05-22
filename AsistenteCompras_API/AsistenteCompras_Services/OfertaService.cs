@@ -13,15 +13,24 @@ public class OfertaService : IOfertaService
         _context = context;
     }
 
-    public List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> localidades)
+    public List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> localidades, int idBebida)
     {
         List<OfertaDTO> listaCompraEconomica = new List<OfertaDTO>();
+        List<int> idTiposProducto = new List<int>();
 
         //ObtengoLosProductoParaLaComida
-        var tiposProductos = _context.ComidaTipoProductos.Where(c => c.IdComida == idComida)
+        var productosComida = _context.ComidaTipoProductos.Where(c => c.IdComida == idComida)
                                                       .Select(c => c.IdTipoProducto).ToList();
+
+        var productosBebida = _context.BebidaTipoProductos.Where(b => b.IdBebida == idBebida)
+                                                          .Select(b => b.IdTipoProducto).ToList();
+
+        idTiposProducto.AddRange(productosComida);
+        idTiposProducto.AddRange(productosBebida);
+
+
         //Recorrer cada producto que se necesita
-        foreach(var idTipoProducto in tiposProductos)
+        foreach(var idTipoProducto in idTiposProducto)
         {
             OfertaDTO recomendacion = new OfertaDTO();
 

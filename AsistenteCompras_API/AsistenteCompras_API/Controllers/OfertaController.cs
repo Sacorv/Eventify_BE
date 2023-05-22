@@ -43,11 +43,11 @@ public class OfertaController : ControllerBase
     [HttpPost("ofertasMasEconomicas/{idComida}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult ObtenerOfertasMasEconomicas(int idComida, List<int> idLocalidades)
+    public IActionResult ObtenerOfertasMasEconomicas(int idComida, List<int> idLocalidades, int idBebida)
     {
         try
         {
-            List<OfertaDTO> ofertasParaEvento = _service.ObtenerListaProductosEconomicosPorEvento(idComida,idLocalidades);
+            List<OfertaDTO> ofertasParaEvento = _service.ObtenerListaProductosEconomicosPorEvento(idComida,idLocalidades,idBebida);
             if (ofertasParaEvento.Count != 0)
             {
                 return Ok(ofertasParaEvento);
