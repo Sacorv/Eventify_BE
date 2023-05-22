@@ -13,33 +13,72 @@ public class OfertaService : IOfertaService
         _context = context;
     }
 
-    public List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idEvento)
+    public List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> localidades)
     {
-        List<Producto> productosEvento;
         List<OfertaDTO> listaCompraEconomica = new List<OfertaDTO>();
-        
-        //productosEvento = _context.EventoProductos
-        //                          .Where(evento => evento.IdEvento == idEvento)
-        //                          .Select(evento => evento.IdProductoNavigation)
-        //                          .ToList();
 
-        //foreach (Producto producto in productosEvento)
-        //{   
-        //    OfertaDTO productoBarato = _context.Publicacions
-        //                                       .Where(p => p.IdProducto == producto.Id)
-        //                                       .OrderBy(p => p.Precio)
-        //                                       .Select(o => new OfertaDTO
-        //                                       {
-        //                                        NombreProducto = o.IdProductoNavigation.Nombre,
-        //                                        Imagen = o.IdProductoNavigation.Imagen,
-        //                                        Marca = o.IdProductoNavigation.Marca,
-        //                                        NombreComercio = o.IdComercioNavigation.RazonSocial,
-        //                                        Precio = o.Precio,
-        //                                       }).First();
+        //ObtengoLosProductoParaLaComida
+        var tiposProductos = _context.ComidaTipoProductos.Where(c => c.IdComida == idComida)
+                                                      .Select(c => c.IdTipoProducto).ToList();
+        //Recorrer cada producto que se necesita
+        foreach(var idTipoProducto in tiposProductos)
+        {
+            OfertaDTO recomendacion = new OfertaDTO();
 
-        //    listaCompraEconomica.Add(productoBarato);
-        //}
+            try
+            {
+                //ObtenerPrecioMinimo
+                var precioMinimo = _context.Publicacions.Where(p => p.IdProductoNavigation.IdTipoProducto == idTipoProducto).Min(p => p.Precio);
 
+                //
+                 List<OfertaDTO> ofertas = _context.Publicacions.Where(p => p.IdProductoNavigation.IdTipoProducto == idTipoProducto && p.Precio == precioMinimo)
+                                  .Select(o => new OfertaDTO
+                                  {
+                                      NombreProducto = o.IdProductoNavigation.Nombre,
+                                      Marca = o.IdProductoNavigation.Marca,
+                                      Imagen = o.IdProductoNavigation.Imagen,
+                                      Precio = o.Precio,
+                                      NombreComercio = o.IdComercioNavigation.RazonSocial
+                                  })
+                                  .ToList();
+
+                //ElegirUnaOferta
+                if(ofertas.Count() > 1)
+                {
+                    //ElegirPorLocalidadPreferencia
+                    int buscando = 0;
+                    foreach(int idLocalidad in localidades)
+                    {
+                        foreach(OfertaDTO oferta in ofertas)
+                        {
+                             buscando = _context.Publicacions
+                                .Where(p => p.IdComercioNavigation.RazonSocial == oferta.NombreComercio &&
+                                p.IdProductoNavigation.Nombre == oferta.NombreProducto &&
+                                p.IdComercioNavigation.IdLocalidad == idLocalidad).Count();
+
+                            if(buscando > 0)
+                            {
+                                recomendacion = oferta;
+                                break;
+                            }
+                        }
+
+                        if (buscando > 0) break;
+                    }
+                }
+                else
+                {
+                    recomendacion = ofertas.First();
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            listaCompraEconomica.Add(recomendacion);
+        }
         return listaCompraEconomica;
     }
     
@@ -74,4 +113,5 @@ public class OfertaService : IOfertaService
         //}
         return ofertas;
     }
+
 }
