@@ -1,4 +1,5 @@
-﻿using AsistenteCompras_Entities.Entities;
+﻿using AsistenteCompras_Entities.DTOs;
+using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,5 +43,13 @@ public class EventoController : ControllerBase
     public IActionResult ObtenerBebidasDelEvento(int idEvento)
     {
         return Ok(_service.ObtenerBebidasPosibles(idEvento));
+    }
+
+    [HttpGet("listado")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type= typeof(List<TipoProductoDTO>))]
+    public IActionResult ObtenerListaParaEvento(int idEvento, int idComida, int idBebida)
+    {
+
+        return Ok(_service.ObtenerListadoParaEvento(idEvento, idComida, idBebida));
     }
 }
