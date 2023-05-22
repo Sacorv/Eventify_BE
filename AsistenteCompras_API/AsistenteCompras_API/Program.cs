@@ -1,4 +1,5 @@
 using AsistenteCompras_Entities.Entities;
+using AsistenteCompras_Service;
 using AsistenteCompras_Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IEventoService,EventoService>();
 builder.Services.AddScoped<IOfertaService, OfertaService>();
 builder.Services.AddScoped<IUbicacionService, UbicacionService>();
+builder.Services.AddScoped<IOfertaServicio, OfertaServicio>();
 builder.Services.AddScoped<AsistenteComprasContext>();
 
 

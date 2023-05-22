@@ -1,4 +1,5 @@
 ﻿using AsistenteCompras_Entities.DTOs;
+using AsistenteCompras_Service;
 using AsistenteCompras_Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,19 +12,22 @@ public class OfertaController : ControllerBase
 
     private IOfertaService _service;
 
-    public OfertaController(IOfertaService service)
+    private IOfertaServicio _servicio;
+
+    public OfertaController(IOfertaService service, IOfertaServicio servicio)
     {
         _service = service;
+        _servicio = servicio;
     }
 
-    [HttpGet("ofertasPorLocalidad/{idEvento}/{localidad}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
+    [HttpGet("ofertasPorLocalidad/{idLocalidad}/{idComida}/{idBebida}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTOPrueba>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult FiltrarOfertasParaEventoPorLocalidad(int idEvento, String localidad)
+    public IActionResult FiltrarOfertasParaEventoPorLocalidad(int idLocalidad, int idComida, int idBebida)
     {
         try
         {
-            List<OfertaDTO> ofertasParaEvento = _service.BuscarOfertasPorLocalidadYEvento(idEvento, localidad);
+            List<OfertaDTOPrueba> ofertasParaEvento = _servicio.ObtenerOfertasMenorPrecioPorLocalidadPreferida(idLocalidad, idComida, idBebida);
             if (ofertasParaEvento.Count != 0)
             {
                 return Ok(ofertasParaEvento);

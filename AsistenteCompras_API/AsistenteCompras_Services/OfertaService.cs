@@ -1,5 +1,7 @@
 ﻿using AsistenteCompras_Entities.DTOs;
 using AsistenteCompras_Entities.Entities;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace AsistenteCompras_Services;
 
@@ -42,36 +44,31 @@ public class OfertaService : IOfertaService
 
         return listaCompraEconomica;
     }
-    
-    public List<OfertaDTO> BuscarOfertasPorLocalidadYEvento(int idEvento, string localidad)
-    {
-        List<OfertaDTO> ofertas = new List<OfertaDTO>();
-        //try
-        //{
-        //    var result = from EventoProducto ep in _context.EventoProductos
-        //                 join Evento e in _context.Eventos on ep.IdEvento equals e.Id
-        //                 join Producto p in _context.Productos on ep.IdProducto equals p.Id
-        //                 join Publicacion pub in _context.Publicacions on p.Id equals pub.IdProducto
-        //                 join Comercio c in _context.Comercios on pub.IdComercio equals c.Id
-        //                 where c.Localidad == localidad && e.Id == idEvento
-        //                 select new OfertaDTO
-        //                 {
-        //                     NombreProducto = p.Nombre,
-        //                     Marca = p.Marca,
-        //                     Imagen = p.Imagen,
-        //                     Precio = pub.Precio,
-        //                     NombreComercio = c.RazonSocial
-        //                 };
 
-        //    foreach (OfertaDTO item in result)
-        //    {
-        //        ofertas.Add(item);
-        //    }
-        //}
-        //catch (DbException e)
-        //{
-        //    throw new Exception(e.Message);
-        //}
-        return ofertas;
+
+    public List<OfertaDTOPrueba> OfertasParaEventoPorLocalidad(int idLocalidad, int idComida, int idBebida)
+    {
+        List<OfertaDTOPrueba> publicaciones = new List<OfertaDTOPrueba>();
+
+        var idProductosParaComida = _context.ComidaTipoProductos
+                                    .Where(ctp => ctp.IdComida == idComida)
+                                    .Select(ctp => ctp.IdTipoProductoNavigation.Id);
+
+        var idProductosParaBebida = _context.BebidaTipoProductos
+                                    .Where(btp => btp.IdBebida == idBebida)
+                                    .Select(btp => btp.IdTipoProductoNavigation.Id);
+
+
+        foreach(int idProducto in idProductosParaComida)
+        {
+
+            publicaciones = _context.Publicacions.Where(pub => pub.IdComercioNavigation.IdLocalidadNavigation.Id == idLocalidad)
+                                .Join(_context.Productos, pub => pub.IdProducto, p => p.Id, (pub, p)
+                                 => new OfertaDTOPrueba { IdPublicacion=pub.Id, IdTipoProducto = p.IdTipoProducto, NombreProducto = p.Nombre, 
+                                                          Marca = p.Marca, Imagen = p.Imagen, Precio = pub.Precio, NombreComercio=pub.IdComercioNavigation.RazonSocial })
+                                .Where(oferta => idProductosParaComida.Contains(oferta.IdTipoProducto) || idProductosParaBebida.Contains(oferta.IdTipoProducto)).ToList();
+        }
+
+        return publicaciones;
     }
 }
