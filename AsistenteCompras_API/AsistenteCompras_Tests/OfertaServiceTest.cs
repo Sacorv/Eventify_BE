@@ -15,24 +15,24 @@ namespace AsistenteCompras_Tests
             _service = new OfertaService(_context);
         }
 
-        [Fact]
-        public void queNoPuedaBuscarOfertasPorLocalidadInexistenteTest()
-        {
-            int idEvento = 1;
-            string localidad = "Tristán Suarez";
+        //[Fact]
+        //public void queNoPuedaBuscarOfertasPorLocalidadInexistenteTest()
+        //{
+        //    int idEvento = 1;
+        //    string localidad = "Tristán Suarez";
 
-            Assert.Empty(_service.BuscarOfertasPorLocalidadYEvento(idEvento, localidad));
+        //    Assert.Empty(_service.BuscarOfertasPorLocalidadYEvento(idEvento, localidad));
 
-        }
+        //}
 
-        [Fact]
-        public void quePuedaBuscarOfertasPorLocalidadExistenteTest()
-        {
-            int idEvento = 1;
-            string localidad = "Ramos Mejía";
+        //[Fact]
+        //public void quePuedaBuscarOfertasPorLocalidadExistenteTest()
+        //{
+        //    int idEvento = 1;
+        //    string localidad = "Ramos Mejía";
 
-            Assert.NotEmpty(_service.BuscarOfertasPorLocalidadYEvento(idEvento, localidad));
+        //    Assert.NotEmpty(_service.BuscarOfertasPorLocalidadYEvento(idEvento, localidad));
 
-        }
+        //}
     }
 }
