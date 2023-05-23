@@ -44,7 +44,7 @@ public class OfertaController : ControllerBase
         }
     }
 
-    [HttpPost("ofertasMasEconomicas/{idComida}")]
+    [HttpPost("ofertasMasEconomicas/{idComida}/{idBebida}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
     public IActionResult ObtenerOfertasMasEconomicas(int idComida, List<int> idLocalidades, int idBebida)

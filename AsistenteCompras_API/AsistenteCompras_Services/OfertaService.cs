@@ -39,7 +39,8 @@ public class OfertaService : IOfertaService
                 OfertaDTO recomendacion = new OfertaDTO();
 
                 //ObtenerPrecioMinimo
-                Decimal precioMinimo = _context.Publicacions.Where(p => p.IdProductoNavigation.IdTipoProducto == idTipoProducto).Min(p => p.Precio);
+                Decimal precioMinimo = _context.Publicacions.Where(p => p.IdProductoNavigation.IdTipoProducto == idTipoProducto && localidades.Contains(p.IdComercioNavigation.IdLocalidad))
+                                                            .Min(p => p.Precio);
 
                 //
                  List<OfertaDTO> ofertas = _context.Publicacions.Where(p => p.IdProductoNavigation.IdTipoProducto == idTipoProducto && p.Precio == precioMinimo)
