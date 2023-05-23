@@ -49,7 +49,10 @@ public class OfertaService : IOfertaService
                                       Marca = o.IdProductoNavigation.Marca,
                                       Imagen = o.IdProductoNavigation.Imagen,
                                       Precio = o.Precio,
-                                      NombreComercio = o.IdComercioNavigation.RazonSocial
+                                      NombreComercio = o.IdComercioNavigation.RazonSocial,
+                                      Latitud = o.IdComercioNavigation.Latitud,
+                                      Longitud = o.IdComercioNavigation.Longitud,
+                                      Localidad = o.IdComercioNavigation.IdLocalidadNavigation.Nombre
                                   })
                                   .ToList();
 
