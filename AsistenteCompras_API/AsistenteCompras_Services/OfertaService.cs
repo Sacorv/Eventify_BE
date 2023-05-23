@@ -23,7 +23,7 @@ public class OfertaService : IOfertaService
         //ObtengoLosProductoParaLaComida
         var productosComida = _context.ComidaTipoProductos.Where(c => c.IdComida == idComida)
                                                       .Select(c => c.IdTipoProducto).ToList();
-
+        //Bebida
         var productosBebida = _context.BebidaTipoProductos.Where(b => b.IdBebida == idBebida)
                                                           .Select(b => b.IdTipoProducto).ToList();
 
@@ -34,12 +34,12 @@ public class OfertaService : IOfertaService
         //Recorrer cada producto que se necesita
         foreach(var idTipoProducto in idTiposProducto)
         {
-            OfertaDTO recomendacion = new OfertaDTO();
-
             try
             {
+                OfertaDTO recomendacion = new OfertaDTO();
+
                 //ObtenerPrecioMinimo
-                var precioMinimo = _context.Publicacions.Where(p => p.IdProductoNavigation.IdTipoProducto == idTipoProducto).Min(p => p.Precio);
+                Decimal precioMinimo = _context.Publicacions.Where(p => p.IdProductoNavigation.IdTipoProducto == idTipoProducto).Min(p => p.Precio);
 
                 //
                  List<OfertaDTO> ofertas = _context.Publicacions.Where(p => p.IdProductoNavigation.IdTipoProducto == idTipoProducto && p.Precio == precioMinimo)
@@ -54,7 +54,7 @@ public class OfertaService : IOfertaService
                                   .ToList();
 
                 //ElegirUnaOferta
-                if(ofertas.Count() > 1)
+                if(ofertas.Count > 1)
                 {
                     //ElegirPorLocalidadPreferencia
                     int buscando = 0;
@@ -81,14 +81,13 @@ public class OfertaService : IOfertaService
                 {
                     recomendacion = ofertas.First();
                 }
-
+                
+                listaCompraEconomica.Add(recomendacion);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-
-            listaCompraEconomica.Add(recomendacion);
         }
         return listaCompraEconomica;
     }

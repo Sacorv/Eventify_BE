@@ -34,7 +34,7 @@ public class OfertaController : ControllerBase
             }
             else
             {
-                return NotFound();
+                return NoContent();
             }
 
         }
@@ -58,7 +58,7 @@ public class OfertaController : ControllerBase
             }
             else
             {
-                return NotFound();
+                return NoContent();
             }
 
         }
