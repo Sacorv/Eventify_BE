@@ -10,7 +10,7 @@ namespace AsistenteCompras_Service
     public interface IOfertaServicio
     {
 
-        List<OfertaDTOPrueba> ObtenerOfertasMenorPrecioPorLocalidadPreferida(int idLocalidad, int idComida, int idBebida);
+        List<OfertasDTO> ObtenerOfertasMenorPrecioPorLocalidadPreferida(int idLocalidad, int idComida, int idBebida);
 
 
     }

@@ -21,23 +21,23 @@ namespace AsistenteCompras_Service
         }
 
 
-        public List<OfertaDTOPrueba> ObtenerOfertasMenorPrecioPorLocalidadPreferida(int idLocalidad, int idComida, int idBebida)
+        public List<OfertasDTO> ObtenerOfertasMenorPrecioPorLocalidadPreferida(int idLocalidad, int idComida, int idBebida)
         {
-            List<OfertaDTOPrueba> ofertas = _repository.OfertasParaEventoPorLocalidad(idLocalidad, idComida, idBebida);
+            List<OfertasDTO> ofertas = _repository.OfertasParaEventoPorLocalidad(idLocalidad, idComida, idBebida);
            
             return ListarOfertasBaratas(ofertas);
         }
 
 
-        private List<OfertaDTOPrueba> ListarOfertasBaratas(List<OfertaDTOPrueba> ofertas)
+        private List<OfertasDTO> ListarOfertasBaratas(List<OfertasDTO> ofertas)
         {
-            List<OfertaDTOPrueba> ofertasBaratas = new List<OfertaDTOPrueba>();
+            List<OfertasDTO> ofertasBaratas = new List<OfertasDTO>();
 
             int idMaximo = IdProductoMaximo(ofertas);
 
             do
             {
-                OfertaDTOPrueba masBarata = new OfertaDTOPrueba();
+                OfertasDTO masBarata = new OfertasDTO();
                 masBarata.Precio = 999999999999999999;
 
                 for (int i = 0; i < ofertas.Count() - 1; i++)
@@ -59,7 +59,7 @@ namespace AsistenteCompras_Service
             return ofertasBaratas;
         }
 
-        private int IdProductoMaximo(List<OfertaDTOPrueba> ofertas)
+        private int IdProductoMaximo(List<OfertasDTO> ofertas)
         {
             int idProdMáximo = 0;
 

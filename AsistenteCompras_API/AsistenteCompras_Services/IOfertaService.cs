@@ -7,7 +7,7 @@ namespace AsistenteCompras_Services
     {
         List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> localidades, int idBebida);
 
-        List<OfertaDTOPrueba> OfertasParaEventoPorLocalidad(int idLocalidad, int idComida, int idBebida);
+        List<OfertasDTO> OfertasParaEventoPorLocalidad(int idLocalidad, int idComida, int idBebida);
 
 
     }

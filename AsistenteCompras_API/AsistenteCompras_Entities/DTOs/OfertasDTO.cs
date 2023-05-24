@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AsistenteCompras_Entities.DTOs
 {
-    public class OfertaDTOPrueba
+    public class OfertasDTO
     {
         public int IdPublicacion { get; set; }
 
@@ -22,8 +22,9 @@ namespace AsistenteCompras_Entities.DTOs
 
         public string NombreComercio { get; set; } = null!;
 
-        
+        public decimal Latitud { get; set; }
 
+        public decimal Longitud { get; set; }
     }
 }
 

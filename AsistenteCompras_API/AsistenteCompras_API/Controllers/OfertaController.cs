@@ -21,13 +21,13 @@ public class OfertaController : ControllerBase
     }
 
     [HttpGet("ofertasPorLocalidad/{idLocalidad}/{idComida}/{idBebida}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTOPrueba>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertasDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
     public IActionResult FiltrarOfertasParaEventoPorLocalidad(int idLocalidad, int idComida, int idBebida)
     {
         try
         {
-            List<OfertaDTOPrueba> ofertasParaEvento = _servicio.ObtenerOfertasMenorPrecioPorLocalidadPreferida(idLocalidad, idComida, idBebida);
+            List<OfertasDTO> ofertasParaEvento = _servicio.ObtenerOfertasMenorPrecioPorLocalidadPreferida(idLocalidad, idComida, idBebida);
             if (ofertasParaEvento.Count != 0)
             {
                 return Ok(ofertasParaEvento);
