@@ -110,16 +110,14 @@ public class OfertaService : IOfertaService
                                     .Select(btp => btp.IdTipoProductoNavigation.Id);
 
 
-        foreach(int idProducto in idProductosParaComida)
-        {
 
-            publicaciones = _context.Publicacions.Where(pub => pub.IdComercioNavigation.IdLocalidadNavigation.Id == idLocalidad)
-                                .Join(_context.Productos, pub => pub.IdProducto, p => p.Id, (pub, p)
-                                 => new OfertasDTO { IdPublicacion=pub.Id, IdTipoProducto=p.IdTipoProducto, NombreProducto=p.Nombre, 
-                                                     Marca=p.Marca, Imagen=p.Imagen, Precio=pub.Precio, NombreComercio=pub.IdComercioNavigation.RazonSocial,
-                                                     Latitud=pub.IdComercioNavigation.Latitud, Longitud=pub.IdComercioNavigation.Longitud})
-                                .Where(oferta => idProductosParaComida.Contains(oferta.IdTipoProducto) || idProductosParaBebida.Contains(oferta.IdTipoProducto)).ToList();
-        }
+        publicaciones = _context.Publicacions.Where(pub => pub.IdComercioNavigation.IdLocalidadNavigation.Id == idLocalidad)
+                            .Join(_context.Productos, pub => pub.IdProducto, p => p.Id, (pub, p)
+                                => new OfertasDTO { IdPublicacion=pub.Id, IdTipoProducto=p.IdTipoProducto, NombreProducto=p.Nombre, 
+                                                    Marca=p.Marca, Imagen=p.Imagen, Precio=pub.Precio, NombreComercio=pub.IdComercioNavigation.RazonSocial,
+                                                    Latitud=pub.IdComercioNavigation.Latitud, Longitud=pub.IdComercioNavigation.Longitud})
+                            .Where(oferta => idProductosParaComida.Contains(oferta.IdTipoProducto) || idProductosParaBebida.Contains(oferta.IdTipoProducto)).ToList();
+        
 
         return publicaciones;
     }
