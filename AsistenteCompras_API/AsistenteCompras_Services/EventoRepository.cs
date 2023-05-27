@@ -1,16 +1,14 @@
 ﻿using AsistenteCompras_Entities.DTOs;
 using AsistenteCompras_Entities.Entities;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks.Dataflow;
 
-namespace AsistenteCompras_Services;
+namespace AsistenteCompras_Repository;
 
-public class EventoService : IEventoService
+public class EventoRepository : IEventoRepository
 {
 
     private AsistenteComprasContext _context;
 
-    public EventoService(AsistenteComprasContext context)
+    public EventoRepository(AsistenteComprasContext context)
     {
         _context = context;
     }
