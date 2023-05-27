@@ -35,7 +35,7 @@ public class OfertaService : IOfertaService
             OfertaDTO masBarata = new OfertaDTO();
             masBarata.Precio = 999999999999999999;
 
-            for (int i = 0; i < ofertas.Count() - 1; i++)
+            for (int i = 0; i <= ofertas.Count() - 1; i++)
             {
                 if (ofertas[i].IdTipoProducto == idMaximo && ofertas[i].Precio < masBarata.Precio)
                 {
