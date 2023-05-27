@@ -9,7 +9,7 @@ namespace AsistenteCompras_Services
     {
         List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> localidades, int idBebida);
         List<OfertasDTO> OfertasParaEventoPorLocalidad(int idLocalidad, int idComida, int idBebida);
-        List<Comercio> ComerciosDentroDelRadio(decimal latitud, decimal longitud, float distancia);
+        List<Comercio> ComerciosDentroDelRadio(double latitud, double longitud, float distancia);
         List<OfertasDTO> OfertasDentroDelRadio(int idComida, int idBebida, ArrayList idComercios);
     }
 }

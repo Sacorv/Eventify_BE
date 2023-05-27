@@ -72,7 +72,7 @@ public class OfertaController : ControllerBase
     [HttpGet("ofertasMenorPrecioPorZona/{latitud}/{longitud}/{distancia}/{idComida}/{idBebida}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertasDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult ofertasMenorPrecioDentroDelRadio(decimal latitud, decimal longitud, float distancia, int idComida, int idBebida)
+    public IActionResult ofertasMenorPrecioDentroDelRadio(double latitud, double longitud, float distancia, int idComida, int idBebida)
     {
         try
         {

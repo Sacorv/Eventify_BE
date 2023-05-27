@@ -14,6 +14,6 @@ namespace AsistenteCompras_Service
 
         List<OfertasDTO> ObtenerOfertasMenorPrecioPorLocalidadPreferida(int idLocalidad, int idComida, int idBebida);
 
-        List<OfertasDTO> ObtenerOfertasPorZonaGeografica(decimal latitud, decimal longitud, float distancia, int idComida, int idBebida);
+        List<OfertasDTO> ObtenerOfertasPorZonaGeografica(double latitud, double longitud, float distancia, int idComida, int idBebida);
     }
 }

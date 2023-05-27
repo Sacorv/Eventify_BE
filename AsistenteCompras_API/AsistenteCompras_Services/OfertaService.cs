@@ -147,13 +147,8 @@ public class OfertaService : IOfertaService
     }   
 
     
-    public List<Comercio> ComerciosDentroDelRadio(decimal latitud, decimal longitud, float distancia)
+    public List<Comercio> ComerciosDentroDelRadio(double latitud, double longitud, float distancia)
     {
-
-        //var milatitud = -34.69180420714848;
-        //var milongitud = -58.572354315470506;
-        //var midistancia = 4.60;
-
 
         var comercios = _context.Comercios
             .FromSqlInterpolated($"EXEC BuscarComerciosPorRadio {latitud}, {longitud}, {distancia}")

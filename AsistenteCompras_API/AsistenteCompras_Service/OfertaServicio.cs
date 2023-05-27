@@ -32,7 +32,7 @@ namespace AsistenteCompras_Service
             return ListarOfertasBaratas(ofertas);
         }
 
-        public List<OfertasDTO> ObtenerOfertasPorZonaGeografica(decimal latitud, decimal longitud, float distancia, int idComida, int idBebida)
+        public List<OfertasDTO> ObtenerOfertasPorZonaGeografica(double latitud, double longitud, float distancia, int idComida, int idBebida)
         {
             ArrayList idComercios = new ArrayList();
 
