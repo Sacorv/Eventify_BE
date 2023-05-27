@@ -1,4 +1,5 @@
 ﻿using AsistenteCompras_Entities.DTOs;
+using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Service;
 using AsistenteCompras_Services;
 using Microsoft.AspNetCore.Mvc;
@@ -51,10 +52,34 @@ public class OfertaController : ControllerBase
     {
         try
         {
-            List<OfertaDTO> ofertasParaEvento = _service.ObtenerListaProductosEconomicosPorEvento(idComida,idLocalidades,idBebida);
+            List<OfertaDTO> ofertasParaEvento = _service.ObtenerListaProductosEconomicosPorEvento(idComida, idLocalidades, idBebida);
             if (ofertasParaEvento.Count != 0)
             {
                 return Ok(ofertasParaEvento);
+            }
+            else
+            {
+                return NoContent();
+            }
+
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpGet("ofertasMenorPrecioPorZona/{latitud}/{longitud}/{distancia}/{idComida}/{idBebida}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertasDTO>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+    public IActionResult ofertasMenorPrecioDentroDelRadio(decimal latitud, decimal longitud, float distancia, int idComida, int idBebida)
+    {
+        try
+        {
+            List<OfertasDTO> comercios = _servicio.ObtenerOfertasPorZonaGeografica(latitud, longitud, distancia, idComida, idBebida);
+            if (comercios.Count != 0)
+            {
+                return Ok(comercios);
             }
             else
             {

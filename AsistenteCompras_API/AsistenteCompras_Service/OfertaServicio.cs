@@ -1,6 +1,10 @@
 ﻿using AsistenteCompras_Entities.DTOs;
+using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Services;
+using Microsoft.Spatial;
+using NetTopologySuite.Operation.Valid;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +31,24 @@ namespace AsistenteCompras_Service
            
             return ListarOfertasBaratas(ofertas);
         }
+
+        public List<OfertasDTO> ObtenerOfertasPorZonaGeografica(decimal latitud, decimal longitud, float distancia, int idComida, int idBebida)
+        {
+            ArrayList idComercios = new ArrayList();
+
+            var comercios = _repository.ComerciosDentroDelRadio(latitud, longitud, distancia);
+
+            foreach (var item in comercios)
+            {
+                idComercios.Add(item.Id);
+            }
+
+            var ofertas = _repository.OfertasDentroDelRadio(idComida, idBebida, idComercios);
+
+
+            return ListarOfertasBaratas(ofertas);
+        }
+
 
 
         private List<OfertasDTO> ListarOfertasBaratas(List<OfertasDTO> ofertas)
@@ -72,5 +94,7 @@ namespace AsistenteCompras_Service
             }
             return idProdMáximo;
         }
+
+       
     }
 }

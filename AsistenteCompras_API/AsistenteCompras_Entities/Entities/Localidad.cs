@@ -1,4 +1,7 @@
-﻿namespace AsistenteCompras_Entities.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace AsistenteCompras_Entities.Entities;
 
 public partial class Localidad
 {
