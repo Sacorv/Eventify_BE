@@ -56,7 +56,7 @@ public class OfertaRepository : IOfertaRepository
                                                        {
                                                            IdPublicacion = pub.Id,
                                                            IdTipoProducto = p.IdTipoProducto,
-                                                           IdLocalidad = pub.IdComercioNavigation.IdLocalidad
+                                                           IdLocalidad = pub.IdComercioNavigation.IdLocalidad,
                                                            NombreProducto = p.Nombre,
                                                            Marca = p.Marca,
                                                            Imagen = p.Imagen,
@@ -64,7 +64,7 @@ public class OfertaRepository : IOfertaRepository
                                                            NombreComercio = pub.IdComercioNavigation.RazonSocial,
                                                            Latitud = pub.IdComercioNavigation.Latitud,
                                                            Longitud = pub.IdComercioNavigation.Longitud,
-                                                           Localidad = pub.IdComercioNavigation.IdLocalidadNavigation.Nombre
+                                                           Localidad = pub.IdComercioNavigation.IdLocalidadNavigation.Nombre,
                                                        })
                                                  .Where(oferta => idProductosParaComida.Contains(oferta.IdTipoProducto) || idProductosParaBebida.Contains(oferta.IdTipoProducto)).ToList();
         return publicaciones;
