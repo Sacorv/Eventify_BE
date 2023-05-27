@@ -1,13 +1,13 @@
 ﻿using AsistenteCompras_Entities.DTOs;
 using AsistenteCompras_Entities.Entities;
 
-namespace AsistenteCompras_Services;
+namespace AsistenteCompras_Repository;
 
-public class UbicacionService : IUbicacionService
+public class UbicacionRepository : IUbicacionRepository
 {
     private readonly AsistenteComprasContext _context;
 
-    public UbicacionService(AsistenteComprasContext context)
+    public UbicacionRepository(AsistenteComprasContext context)
     {
         _context = context;
     }
