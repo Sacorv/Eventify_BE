@@ -1,5 +1,5 @@
 using AsistenteCompras_Entities.Entities;
-using AsistenteCompras_Service;
+using AsistenteCompras_Repository;
 using AsistenteCompras_Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,10 +11,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IEventoRepository, EventoRepository>();
+builder.Services.AddScoped<IUbicacionRepository,UbicacionRepository>();
+builder.Services.AddScoped<IOfertaRepository, OfertaRepository>();
+builder.Services.AddScoped<ITipoProductoRepository, TipoProductoRepository>();
 builder.Services.AddScoped<IEventoService,EventoService>();
-builder.Services.AddScoped<IOfertaService, OfertaService>();
 builder.Services.AddScoped<IUbicacionService, UbicacionService>();
-builder.Services.AddScoped<IOfertaServicio, OfertaServicio>();
+builder.Services.AddScoped<IOfertaService, OfertaService>();
 builder.Services.AddScoped<AsistenteComprasContext>();
 
 

@@ -1,4 +1,4 @@
-using AsistenteCompras_Entities.Entities;
+/*using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Services;
 using System.Runtime.CompilerServices;
 
@@ -35,4 +35,4 @@ namespace AsistenteCompras_Tests
 
         //}
     }
-}
+}*/

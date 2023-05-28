@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AsistenteCompras_Entities\AsistenteCompras_Entities.csproj" />
-    <ProjectReference Include="..\AsistenteCompras_Services\AsistenteCompras_Services.csproj" />
+    <ProjectReference Include="..\AsistenteCompras_Services\AsistenteCompras_Repository.csproj" />
   </ItemGroup>
 
 </Project>
