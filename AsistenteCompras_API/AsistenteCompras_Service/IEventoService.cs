@@ -9,7 +9,7 @@ public interface IEventoService
 
     List<Comidum> ObtenerComidas(int idEvento);
 
-    List<Bebidum> ObtenerBebidasPosibles(int idEvento);
+    List<Bebidum> ObtenerBebidas(int idEvento);
 
     List<TipoProductoDTO> ObtenerListadoParaEvento(int idEvento, int idComida, int idBebida);
 }

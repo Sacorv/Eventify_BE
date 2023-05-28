@@ -10,11 +10,11 @@ namespace AsistenteCompras_API.Controllers;
 public class EventoController : ControllerBase
 {
 
-    private IEventoService _service;
+    private IEventoService _eventoService;
 
-    public EventoController(IEventoService service)
+    public EventoController(IEventoService eventoService)
     {
-        _service = service;
+        _eventoService = eventoService;
     }
     
     [HttpGet("eventos")]
@@ -22,34 +22,34 @@ public class EventoController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
     public IActionResult ObtenerEventos()
     {
-        return Ok(_service.ObtenerEventos());
+        return Ok(_eventoService.ObtenerEventos());
     }
 
-    //public Evento BuscarEventoPorId()
-    //{
-    //    return null;
-    //}
 
     [HttpGet("comidas")]
     [ProducesResponseType(StatusCodes.Status200OK, Type =typeof(List<Comidum>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
     public IActionResult ObtenerComidasPorEvento(int idEvento)
     {
-        return Ok(_service.ObtenerComidas(idEvento));
+        return Ok(_eventoService.ObtenerComidas(idEvento));
     }
+
 
     [HttpGet("bebidas")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Bebidum>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
     public IActionResult ObtenerBebidasDelEvento(int idEvento)
     {
-        return Ok(_service.ObtenerBebidasPosibles(idEvento));
+        return Ok(_eventoService.ObtenerBebidas(idEvento));
     }
+
 
     [HttpGet("listado")]
     [ProducesResponseType(StatusCodes.Status200OK, Type= typeof(List<TipoProductoDTO>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
     public IActionResult ObtenerListaParaEvento(int idEvento, int idComida, int idBebida)
     {
 
-        return Ok(_service.ObtenerListadoParaEvento(idEvento, idComida, idBebida));
+        return Ok(_eventoService.ObtenerListadoParaEvento(idEvento, idComida, idBebida));
     }
 }

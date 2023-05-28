@@ -15,6 +15,7 @@ builder.Services.AddScoped<IEventoRepository, EventoRepository>();
 builder.Services.AddScoped<IUbicacionRepository,UbicacionRepository>();
 builder.Services.AddScoped<IOfertaRepository, OfertaRepository>();
 builder.Services.AddScoped<ITipoProductoRepository, TipoProductoRepository>();
+builder.Services.AddScoped<IComercioRepository, ComercioRepository>();
 builder.Services.AddScoped<IEventoService,EventoService>();
 builder.Services.AddScoped<IUbicacionService, UbicacionService>();
 builder.Services.AddScoped<IOfertaService, OfertaService>();

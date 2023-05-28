@@ -12,9 +12,10 @@ public class EventoService : IEventoService
     {
         _eventoRepository = eventoRepository;
     }
-    public List<Bebidum> ObtenerBebidasPosibles(int idEvento)
+
+    public List<Bebidum> ObtenerBebidas(int idEvento)
     {
-        return _eventoRepository.ObtenerBebidasPosibles(idEvento);
+        return _eventoRepository.ObtenerBebidas(idEvento);
     }
 
     public List<Comidum> ObtenerComidas(int idEvento)

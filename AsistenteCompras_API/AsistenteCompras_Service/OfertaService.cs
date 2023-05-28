@@ -1,4 +1,5 @@
 ﻿using AsistenteCompras_Entities.DTOs;
+using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Repository;
 using System.Collections;
 
@@ -6,51 +7,132 @@ namespace AsistenteCompras_Services;
 
 public class OfertaService : IOfertaService
 {
-    private IOfertaRepository _repositoryOferta;
+    private IOfertaRepository _ofertaRepository;
 
-    private ITipoProductoRepository _repositoryTipoProducto;
+    private ITipoProductoRepository _productoRepository;
 
-    public OfertaService(IOfertaRepository repositoryOferta, ITipoProductoRepository repositoryTipoProducto)
+    private IComercioRepository _comercioRepository;
+
+    public OfertaService(IOfertaRepository ofertaRepository, ITipoProductoRepository productoRepository, IComercioRepository comercioRepository)
     {
-        _repositoryOferta = repositoryOferta;
-        _repositoryTipoProducto = repositoryTipoProducto;
+        _ofertaRepository = ofertaRepository;
+        _productoRepository = productoRepository;
+        _comercioRepository = comercioRepository;
     }
 
-    private List<OfertaDTO> ListarOfertasBaratas(List<OfertaDTO> ofertas)
+    public List<OfertaDTO> ObtenerOfertasEconomicasPorLocalidadPreferida(int idLocalidad, int idComida, int idBebida)
     {
-        List<OfertaDTO> ofertasBaratas = new List<OfertaDTO>();
+        List<int> idProductos = ObtenerIdsTipoProductos(idBebida, idComida);
+
+        List<OfertaDTO> ofertas = _ofertaRepository.OfertasPorLocalidad(idLocalidad, idProductos);
+
+        return FiltrarOfertasEconomicasPorProducto(ofertas);
+    }
+
+    public List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> localidades, int idBebida)
+    {
+        List<OfertaDTO> listaCompraEconomica = new List<OfertaDTO>();
+
+        List<int> idTiposProducto = ObtenerIdsTipoProductos(idBebida, idComida);
+
+        //Recorrer cada producto que se necesita
+        foreach (var idTipoProducto in idTiposProducto)
+        {
+            try
+            {
+                Decimal precioMinimo = _ofertaRepository.ObtenerPrecioMinimoDelProductoPorLocalidad(localidades, idTipoProducto);
+
+                List<OfertaDTO> ofertas = _ofertaRepository.ObtenerOfertasPorPrecio(idTipoProducto, precioMinimo);
+
+                if(ofertas.Count > 1)
+                {
+                    listaCompraEconomica.Add(SeleccionarOferta(localidades, ofertas));
+                }
+                else
+                {
+                    listaCompraEconomica.Add(ofertas.First());
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        return listaCompraEconomica;
+    }
+
+    public List<OfertaDTO> ObtenerOfertasEconomicasPorRadioGeografico(double latitud, double longitud, float distancia, int idComida, int idBebida)
+    {
+        List <int> idComercios = ObtenerIdsComerciosDentroDelRadio(latitud, longitud, distancia);
+
+        List<int> idProductos = ObtenerIdsTipoProductos(idBebida, idComida);
+
+        List<OfertaDTO> ofertas = _ofertaRepository.OfertasDentroDelRadio(idProductos, idComercios);
+
+        return FiltrarOfertasEconomicasPorProducto(ofertas);
+    }
+
+
+    private List<int> ObtenerIdsTipoProductos(int idBebida, int idComida)
+    {
+        List<int> idProductos = new List<int>();
+        List<int> idBebidas = _productoRepository.ObtenerIdTipoProductosBebida(idBebida);
+        List<int> idComidas = _productoRepository.ObtenerIdTipoProductosComida(idComida);
+
+        idProductos.AddRange(idBebidas);
+        idProductos.AddRange(idComidas);
+
+        return idProductos;
+    }
+
+    private List<int> ObtenerIdsComerciosDentroDelRadio(double latitud, double longitud, float distancia)
+    {
+        List<int> idComercios = new List<int>();
+
+        List<Comercio> comercios = _comercioRepository.ObtenerComerciosPorRadio(latitud, longitud, distancia);
+
+        foreach (var item in comercios)
+        {
+            idComercios.Add(item.Id);
+        }
+        return idComercios;
+    }
+
+    private List<OfertaDTO> FiltrarOfertasEconomicasPorProducto(List<OfertaDTO> ofertas)
+    {
+        List<OfertaDTO> ofertasMasEconomicas = new List<OfertaDTO>();
 
         int idMaximo = IdProductoMaximo(ofertas);
 
         do
         {
-            OfertaDTO masBarata = new OfertaDTO();
-            masBarata.Precio = 999999999999999999;
+            OfertaDTO masEconomica = new OfertaDTO();
+            masEconomica.Precio = 999999999999999999;
 
             for (int i = 0; i <= ofertas.Count() - 1; i++)
             {
-                if (ofertas[i].IdTipoProducto == idMaximo && ofertas[i].Precio < masBarata.Precio)
+                if (ofertas[i].IdTipoProducto == idMaximo && ofertas[i].Precio < masEconomica.Precio)
                 {
-                    masBarata = ofertas[i];
+                    masEconomica = ofertas[i];
                 }
             }
             idMaximo--;
 
-            if (masBarata.IdTipoProducto != 0)
+            if (masEconomica.IdTipoProducto != 0)
             {
-                ofertasBaratas.Add(masBarata);
+                ofertasMasEconomicas.Add(masEconomica);
             }
 
         } while (idMaximo > 0);
 
-        return ofertasBaratas;
+        return ofertasMasEconomicas;
     }
 
     private int IdProductoMaximo(List<OfertaDTO> ofertas)
     {
         int idProdMáximo = 0;
 
-        foreach (var item in ofertas)
+        foreach (OfertaDTO item in ofertas)
         {
             if (item.IdTipoProducto > idProdMáximo)
             {
@@ -76,64 +158,4 @@ public class OfertaService : IOfertaService
         return recomendacion;
     }
 
-    public List<OfertaDTO> ObtenerOfertasMenorPrecioPorLocalidadPreferida(int idLocalidad, int idComida, int idBebida)
-    {
-        List<OfertaDTO> ofertas = _repositoryOferta.OfertasParaEventoPorLocalidad(idLocalidad, idComida, idBebida);
-
-        return ListarOfertasBaratas(ofertas);
-    }
-
-    public List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> localidades, int idBebida)
-    {
-        List<OfertaDTO> listaCompraEconomica = new List<OfertaDTO>();
-        List<int> idTiposProducto = new List<int>();
-
-        List<int> productosComida = _repositoryTipoProducto.ObtenerIdTipoProductosComida(idComida);
-        List<int> productosBebida = _repositoryTipoProducto.ObtenerIdTipoProductosBebida(idBebida);
-
-        idTiposProducto.AddRange(productosComida);
-        idTiposProducto.AddRange(productosBebida);
-
-        //Recorrer cada producto que se necesita
-        foreach (var idTipoProducto in idTiposProducto)
-        {
-            try
-            {
-                Decimal precioMinimo = _repositoryOferta.ObtenerPrecioMinimoDelProductoPorLocalidad(localidades, idTipoProducto);
-
-                List<OfertaDTO> ofertas = _repositoryOferta.ObtenerOfertasPorPrecio(idTipoProducto, precioMinimo);
-
-                if(ofertas.Count > 1)
-                {
-                    listaCompraEconomica.Add(SeleccionarOferta(localidades, ofertas));
-                }
-                else
-                {
-                    listaCompraEconomica.Add(ofertas.First());
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-        return listaCompraEconomica;
-    }
-
-    public List<OfertaDTO> ObtenerOfertasPorZonaGeografica(double latitud, double longitud, float distancia, int idComida, int idBebida)
-    {
-        ArrayList idComercios = new ArrayList();
-
-        var comercios = _repositoryOferta.ComerciosDentroDelRadio(latitud, longitud, distancia);
-
-        foreach (var item in comercios)
-        {
-            idComercios.Add(item.Id);
-        }
-
-        var ofertas = _repositoryOferta.OfertasDentroDelRadio(idComida, idBebida, idComercios);
-
-
-        return ListarOfertasBaratas(ofertas);
-    }
 }

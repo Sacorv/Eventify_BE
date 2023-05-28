@@ -8,21 +8,21 @@ namespace AsistenteCompras_API.Controllers;
 [ApiController]
 public class OfertaController : ControllerBase
 {
-    private readonly IOfertaService _service;
+    private readonly IOfertaService _ofertaService;
 
-    public OfertaController(IOfertaService service)
+    public OfertaController(IOfertaService ofertaService)
     {
-        _service = service;
+        _ofertaService = ofertaService;
     }
 
     [HttpGet("ofertasPorLocalidad/{idLocalidad}/{idComida}/{idBebida}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult FiltrarOfertasParaEventoPorLocalidad(int idLocalidad, int idComida, int idBebida)
+    public IActionResult ObtenerOfertasMenorRecorrido(int idLocalidad, int idComida, int idBebida)
     {
         try
         {
-            List<OfertaDTO> ofertasParaEvento = _service.ObtenerOfertasMenorPrecioPorLocalidadPreferida(idLocalidad, idComida, idBebida);
+            List<OfertaDTO> ofertasParaEvento = _ofertaService.ObtenerOfertasEconomicasPorLocalidadPreferida(idLocalidad, idComida, idBebida);
             if (ofertasParaEvento.Count != 0)
             {
                 return Ok(ofertasParaEvento);
@@ -46,7 +46,7 @@ public class OfertaController : ControllerBase
     {
         try
         {
-            List<OfertaDTO> ofertasParaEvento = _service.ObtenerListaProductosEconomicosPorEvento(idComida, idLocalidades, idBebida);
+            List<OfertaDTO> ofertasParaEvento = _ofertaService.ObtenerListaProductosEconomicosPorEvento(idComida, idLocalidades, idBebida);
             if (ofertasParaEvento.Count != 0)
             {
                 return Ok(ofertasParaEvento);
@@ -63,14 +63,14 @@ public class OfertaController : ControllerBase
         }
     }
 
-    [HttpGet("ofertasMenorPrecioPorZona/{latitud}/{longitud}/{distancia}/{idComida}/{idBebida}")]
+    [HttpGet("ofertasEconomicasPorRadio/{latitud}/{longitud}/{distancia}/{idComida}/{idBebida}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult OfertasMenorPrecioDentroDelRadio(double latitud, double longitud, float distancia, int idComida, int idBebida)
+    public IActionResult ObtenerOfertasMasEconomicasPorRadio(double latitud, double longitud, float distancia, int idComida, int idBebida)
     {
         try
         {
-            List<OfertaDTO> comercios = _service.ObtenerOfertasPorZonaGeografica(latitud, longitud, distancia, idComida, idBebida);
+            List<OfertaDTO> comercios = _ofertaService.ObtenerOfertasEconomicasPorRadioGeografico(latitud, longitud, distancia, idComida, idBebida);
             if (comercios.Count != 0)
             {
                 return Ok(comercios);
