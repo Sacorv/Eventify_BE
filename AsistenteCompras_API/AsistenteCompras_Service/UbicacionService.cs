@@ -1,5 +1,5 @@
 ﻿using AsistenteCompras_Entities.DTOs;
-using AsistenteCompras_Repository;
+using AsistenteCompras_Infraestructure.Repositories;
 
 namespace AsistenteCompras_Services;
 

@@ -1,9 +1,9 @@
 ﻿using AsistenteCompras_Entities.DTOs;
 using AsistenteCompras_Entities.Entities;
+using AsistenteCompras_Infraestructure.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
 
-namespace AsistenteCompras_Repository;
+namespace AsistenteCompras_Infraestructure.Repositories;
 
 public class OfertaRepository : IOfertaRepository
 {
@@ -43,7 +43,7 @@ public class OfertaRepository : IOfertaRepository
     public List<OfertaDTO> OfertasPorLocalidad(int idLocalidad, List<int> idProductos)
     {
         return _context.Publicacions.Where(pub => pub.IdComercioNavigation.IdLocalidadNavigation.Id == idLocalidad)
-                                                .Join(_context.Productos, pub => pub.IdProducto, p => p.Id, 
+                                                .Join(_context.Productos, pub => pub.IdProducto, p => p.Id,
                                                     (pub, p) => new OfertaDTO
                                                     {
                                                         IdPublicacion = pub.Id,
@@ -58,7 +58,7 @@ public class OfertaRepository : IOfertaRepository
                                                         Longitud = pub.IdComercioNavigation.Longitud,
                                                         Localidad = pub.IdComercioNavigation.IdLocalidadNavigation.Nombre
                                                     })
-                                                .Where(oferta=> idProductos.Contains(oferta.IdTipoProducto)).ToList();
+                                                .Where(oferta => idProductos.Contains(oferta.IdTipoProducto)).ToList();
     }
 
     public List<Comercio> ComerciosDentroDelRadio(double latitud, double longitud, float distancia)
@@ -72,7 +72,7 @@ public class OfertaRepository : IOfertaRepository
     public List<OfertaDTO> OfertasDentroDelRadio(List<int> idProductos, List<int> idComercios)
     {
         return _context.Publicacions.Where(pub => idComercios.Contains(pub.IdComercio))
-                            .Join(_context.Productos, pub => pub.IdProducto, p => p.Id, 
+                            .Join(_context.Productos, pub => pub.IdProducto, p => p.Id,
                                   (pub, p) => new OfertaDTO
                                   {
                                       IdPublicacion = pub.Id,

@@ -1,6 +1,6 @@
-﻿using AsistenteCompras_Entities.Entities;
+﻿using AsistenteCompras_Infraestructure.Contexts;
 
-namespace AsistenteCompras_Repository;
+namespace AsistenteCompras_Infraestructure.Repositories;
 
 public class TipoProductoRepository : ITipoProductoRepository
 {

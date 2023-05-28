@@ -2,15 +2,15 @@
 using AsistenteCompras_Entities.Entities;
 using System.Collections;
 
-namespace AsistenteCompras_Repository;
+namespace AsistenteCompras_Infraestructure.Repositories;
 
 public interface IOfertaRepository
 {
     List<OfertaDTO> OfertasPorLocalidad(int idLocalidad, List<int> idProductos);
 
-    Decimal ObtenerPrecioMinimoDelProductoPorLocalidad(List<int> localidades, int idTipoProducto);
+    decimal ObtenerPrecioMinimoDelProductoPorLocalidad(List<int> localidades, int idTipoProducto);
 
-    List<OfertaDTO> ObtenerOfertasPorPrecio(int idTipoProducto, Decimal precio);
+    List<OfertaDTO> ObtenerOfertasPorPrecio(int idTipoProducto, decimal precio);
 
     List<Comercio> ComerciosDentroDelRadio(double latitud, double longitud, float distancia);
 

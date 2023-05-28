@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AsistenteCompras_Repository
+namespace AsistenteCompras_Infraestructure.Repositories
 {
     public interface IComercioRepository
     {

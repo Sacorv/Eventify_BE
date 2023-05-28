@@ -1,7 +1,8 @@
 ﻿using AsistenteCompras_Entities.DTOs;
 using AsistenteCompras_Entities.Entities;
+using AsistenteCompras_Infraestructure.Contexts;
 
-namespace AsistenteCompras_Repository;
+namespace AsistenteCompras_Infraestructure.Repositories;
 
 public class EventoRepository : IEventoRepository
 {
@@ -39,15 +40,21 @@ public class EventoRepository : IEventoRepository
     {
         List<TipoProductoDTO> listado = new List<TipoProductoDTO>();
 
-        List<TipoProductoDTO> productosParaComida = _context.EventoComida.Where(ec => ec.IdEventoNavigation.Id == idEvento && ec.IdComida==idComida)
+        List<TipoProductoDTO> productosParaComida = _context.EventoComida.Where(ec => ec.IdEventoNavigation.Id == idEvento && ec.IdComida == idComida)
                                                                          .Join(_context.ComidaTipoProductos, ctp => ctp.IdComida, ec => ec.IdComida, (ec, ctp)
-                                                                          => new TipoProductoDTO { Id = ctp.IdTipoProductoNavigation.Id, 
-                                                                                                   Nombre = ctp.IdTipoProductoNavigation.Nombre }).ToList();
+                                                                          => new TipoProductoDTO
+                                                                          {
+                                                                              Id = ctp.IdTipoProductoNavigation.Id,
+                                                                              Nombre = ctp.IdTipoProductoNavigation.Nombre
+                                                                          }).ToList();
 
         List<TipoProductoDTO> productosParaBebida = _context.EventoBebida.Where(eb => eb.IdEventoNavigation.Id == idEvento && eb.IdBebida == idBebida)
                                                                          .Join(_context.BebidaTipoProductos, btp => btp.IdBebida, eb => eb.IdBebida, (eb, btp)
-                                                                          => new TipoProductoDTO { Id = btp.IdTipoProductoNavigation.Id, 
-                                                                                                   Nombre = btp.IdTipoProductoNavigation.Nombre }).ToList();
+                                                                          => new TipoProductoDTO
+                                                                          {
+                                                                              Id = btp.IdTipoProductoNavigation.Id,
+                                                                              Nombre = btp.IdTipoProductoNavigation.Nombre
+                                                                          }).ToList();
 
         listado.AddRange(productosParaComida);
         listado.AddRange(productosParaBebida);

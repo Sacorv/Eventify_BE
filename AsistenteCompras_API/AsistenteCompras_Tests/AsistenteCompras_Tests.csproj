@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AsistenteCompras_Services\AsistenteCompras_Repository.csproj" />
     <ProjectReference Include="..\AsistenteCompras_Service\AsistenteCompras_Services.csproj" />
   </ItemGroup>
 

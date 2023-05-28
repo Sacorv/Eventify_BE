@@ -1,4 +1,5 @@
 ﻿using AsistenteCompras_Entities.Entities;
+using AsistenteCompras_Infraestructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AsistenteCompras_Repository
+namespace AsistenteCompras_Infraestructure.Repositories
 {
     public class ComercioRepository : IComercioRepository
     {

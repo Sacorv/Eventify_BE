@@ -1,6 +1,6 @@
 ﻿using AsistenteCompras_Entities.DTOs;
 
-namespace AsistenteCompras_Repository;
+namespace AsistenteCompras_Infraestructure.Repositories;
 
 public interface IUbicacionRepository
 {

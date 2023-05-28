@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Spatial" Version="7.16.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AsistenteCompras_Domain\AsistenteCompras_Domain.csproj" />
     <ProjectReference Include="..\AsistenteCompras_Entities\AsistenteCompras_Entities.csproj" />
-    <ProjectReference Include="..\AsistenteCompras_Infraestructure\AsistenteCompras_Infraestructure.csproj" />
   </ItemGroup>
 
 </Project>
