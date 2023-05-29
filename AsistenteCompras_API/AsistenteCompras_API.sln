@@ -13,9 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsistenteCompras_Services",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dominio", "Dominio", "{003B5A31-F981-48D0-8756-85C953A04B2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsistenteCompras_Infraestructure", "AsistenteCompras_Infraestructure\AsistenteCompras_Infraestructure.csproj", "{E9CA4876-A813-4CEE-80C8-A50C4664B07A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsistenteCompras_Domain", "AsistenteCompras_Domain\AsistenteCompras_Domain.csproj", "{632ADE3B-9E1E-45CC-8B57-8292C14904B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsistenteCompras_Infraestructure", "AsistenteCompras_Infraestructure\AsistenteCompras_Infraestructure.csproj", "{E9CA4876-A813-4CEE-80C8-A50C4664B07A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +41,6 @@ Global
 		{E9CA4876-A813-4CEE-80C8-A50C4664B07A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9CA4876-A813-4CEE-80C8-A50C4664B07A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9CA4876-A813-4CEE-80C8-A50C4664B07A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{632ADE3B-9E1E-45CC-8B57-8292C14904B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{632ADE3B-9E1E-45CC-8B57-8292C14904B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{632ADE3B-9E1E-45CC-8B57-8292C14904B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{632ADE3B-9E1E-45CC-8B57-8292C14904B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
