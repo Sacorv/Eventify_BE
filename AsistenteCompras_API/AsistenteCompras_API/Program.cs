@@ -1,5 +1,5 @@
-using AsistenteCompras_Entities.Entities;
-using AsistenteCompras_Repository;
+using AsistenteCompras_Infraestructure.Contexts;
+using AsistenteCompras_Infraestructure.Repositories;
 using AsistenteCompras_Services;
 
 var builder = WebApplication.CreateBuilder(args);

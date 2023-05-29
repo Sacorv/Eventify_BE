@@ -1,4 +1,4 @@
-﻿namespace AsistenteCompras_Repository;
+﻿namespace AsistenteCompras_Infraestructure.Repositories;
 
 public interface ITipoProductoRepository
 {
