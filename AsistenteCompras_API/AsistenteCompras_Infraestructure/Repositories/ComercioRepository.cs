@@ -1,11 +1,8 @@
 ﻿using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Infraestructure.Contexts;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 
 namespace AsistenteCompras_Infraestructure.Repositories
 {
@@ -24,5 +21,6 @@ namespace AsistenteCompras_Infraestructure.Repositories
                                 .FromSqlInterpolated($"EXEC BuscarComerciosPorRadio {latitud}, {longitud}, {distancia}")
                                 .ToList();
         }
+
     }
 }

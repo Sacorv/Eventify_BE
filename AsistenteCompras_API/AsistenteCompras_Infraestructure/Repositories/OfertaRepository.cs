@@ -28,8 +28,8 @@ public class OfertaRepository : IOfertaRepository
                                         Imagen = o.IdProductoNavigation.Imagen,
                                         Precio = o.Precio,
                                         NombreComercio = o.IdComercioNavigation.RazonSocial,
-                                        Latitud = o.IdComercioNavigation.Latitud,
-                                        Longitud = o.IdComercioNavigation.Longitud,
+                                        Latitud = (double)o.IdComercioNavigation.Latitud,
+                                        Longitud = (double)o.IdComercioNavigation.Longitud,
                                         Localidad = o.IdComercioNavigation.IdLocalidadNavigation.Nombre
                                     }).ToList();
     }
@@ -54,8 +54,8 @@ public class OfertaRepository : IOfertaRepository
                                                         Imagen = p.Imagen,
                                                         Precio = pub.Precio,
                                                         NombreComercio = pub.IdComercioNavigation.RazonSocial,
-                                                        Latitud = pub.IdComercioNavigation.Latitud,
-                                                        Longitud = pub.IdComercioNavigation.Longitud,
+                                                        Latitud = (double)pub.IdComercioNavigation.Latitud,
+                                                        Longitud = (double)pub.IdComercioNavigation.Longitud,
                                                         Localidad = pub.IdComercioNavigation.IdLocalidadNavigation.Nombre
                                                     })
                                                 .Where(oferta => idProductos.Contains(oferta.IdTipoProducto)).ToList();
@@ -83,8 +83,8 @@ public class OfertaRepository : IOfertaRepository
                                       Imagen = p.Imagen,
                                       Precio = pub.Precio,
                                       NombreComercio = pub.IdComercioNavigation.RazonSocial,
-                                      Latitud = pub.IdComercioNavigation.Latitud,
-                                      Longitud = pub.IdComercioNavigation.Longitud,
+                                      Latitud = (double)pub.IdComercioNavigation.Latitud,
+                                      Longitud = (double)pub.IdComercioNavigation.Longitud,
                                       Localidad = pub.IdComercioNavigation.IdLocalidadNavigation.Nombre
                                   })
                             .Where(oferta => idProductos.Contains(oferta.IdTipoProducto)).ToList();

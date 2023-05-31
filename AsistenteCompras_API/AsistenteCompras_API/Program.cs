@@ -19,6 +19,8 @@ builder.Services.AddScoped<IComercioRepository, ComercioRepository>();
 builder.Services.AddScoped<IEventoService,EventoService>();
 builder.Services.AddScoped<IUbicacionService, UbicacionService>();
 builder.Services.AddScoped<IOfertaService, OfertaService>();
+builder.Services.AddScoped<IComercioService, ComercioService>();
+builder.Services.AddScoped<ITipoProductoService, TipoProductoService>();
 builder.Services.AddScoped<AsistenteComprasContext>();
 
 

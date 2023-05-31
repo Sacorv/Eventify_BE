@@ -18,9 +18,9 @@ public class OfertaDTO
 
     public string NombreComercio { get; set; } = null!;
 
-    public decimal Latitud { get; set; }
+    public double Latitud { get; set; }
 
-    public decimal Longitud { get; set; }
+    public double Longitud { get; set; }
     
     public string Localidad { get; set; } = null!;
 }
