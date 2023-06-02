@@ -26,8 +26,6 @@ public class OfertaService : IOfertaService
         List<OfertaDTO> ofertas = _ofertaRepository.OfertasPorLocalidad(idLocalidad, idProductos);
 
         return FiltrarOfertasEconomicasPorProducto(ofertas);
-
-        //return null;
     }
 
     public List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> localidades, int idBebida)
@@ -71,6 +69,34 @@ public class OfertaService : IOfertaService
         List<OfertaDTO> ofertas = _ofertaRepository.OfertasDentroDelRadio(idProductos, idComercios);
 
         return FiltrarOfertasEconomicasPorProducto(ofertas, latitudUbicacion, longitudUbicacion);
+    }
+
+    public List<OfertaDTO> GenerarListaPersonalizada(FiltroDTO filtro)
+    {
+        List<int> idComercios = ObtenerIdsComerciosDentroDelRadio(filtro.latitudUbicacion, filtro.longitudUbicacion, filtro.distancia);
+
+        List<int> idProductos = ObtenerIdsTipoProductosV2(filtro.bebidas, filtro.comidas, filtro.marcasBebida, filtro.marcasComida);
+
+        List<String> marcasElegidas = new List<string>();
+
+        marcasElegidas.AddRange(filtro.marcasBebida);
+        marcasElegidas.AddRange(filtro.marcasComida);
+
+        List<OfertaDTO> ofertas = _ofertaRepository.OfertasDentroDelRadioV2(idProductos, idComercios, marcasElegidas);
+
+        return FiltrarOfertasEconomicasPorProducto(ofertas, filtro.latitudUbicacion, filtro.longitudUbicacion);
+    }
+
+    private List<int> ObtenerIdsTipoProductosV2(List<int> idBebida, List<int> idComida, List<String> marcasBebida, List<String> marcasComida)
+    {
+        List<int> idProductos = new List<int>();
+        List<int> idBebidas = _tipoProductoService.ObtenerIdTipoProductosBebidaV2(idBebida);
+        List<int> idComidas = _tipoProductoService.ObtenerIdTipoProductosComidaV2(idComida);
+
+        idProductos.AddRange(idBebidas);
+        idProductos.AddRange(idComidas);
+
+        return idProductos;
     }
 
 

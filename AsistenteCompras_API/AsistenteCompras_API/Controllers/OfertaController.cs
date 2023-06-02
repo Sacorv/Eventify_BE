@@ -70,10 +70,35 @@ public class OfertaController : ControllerBase
     {
         try
         {
-            List<OfertaDTO> comercios = _ofertaService.ObtenerOfertasEconomicasPorRadioGeografico(latitud, longitud, distancia, idComida, idBebida);
-            if (comercios.Count != 0)
+            List<OfertaDTO> ofertas = _ofertaService.ObtenerOfertasEconomicasPorRadioGeografico(latitud, longitud, distancia, idComida, idBebida);
+            if (ofertas.Count != 0)
             {
-                return Ok(comercios);
+                return Ok(ofertas);
+            }
+            else
+            {
+                return NoContent();
+            }
+
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.ToString());
+        }
+    }
+
+
+    [HttpPost("listaPersonalizada")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+    public IActionResult ObtenerOfertasMasEconomicasPorRadioV2([FromBody]FiltroDTO filtro)
+    {
+        try
+        {
+            List<OfertaDTO> ofertas = _ofertaService.GenerarListaPersonalizada(filtro);
+            if (ofertas.Count != 0)
+            {
+                return Ok(ofertas);
             }
             else
             {
