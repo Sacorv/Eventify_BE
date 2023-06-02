@@ -363,4 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Appsettings
-./AsistenteCompras_API/AsistenteCompras_API/appsettings.json
+appsettings.json
+
+
