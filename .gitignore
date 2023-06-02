@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Appsettings
+./AsistenteCompras_API/AsistenteCompras_API/appsettings.json
