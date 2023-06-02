@@ -106,4 +106,12 @@ public class OfertaRepository : IOfertaRepository
 
     }
 
+
+    public List<String> ObtenerMarcasDisponibles(List<int> idProductos)
+    {
+        return _context.Publicacions.Where(p=> idProductos.Contains(p.IdProductoNavigation.IdTipoProducto))
+                                    .Select(p=>p.IdProductoNavigation.Marca) 
+                                    .ToList();
+    }
+
 }

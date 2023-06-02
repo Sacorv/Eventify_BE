@@ -1,6 +1,7 @@
 ﻿using AsistenteCompras_Entities.DTOs;
 using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Infraestructure.Repositories;
+using Nest;
 
 namespace AsistenteCompras_Services;
 
@@ -75,19 +76,49 @@ public class OfertaService : IOfertaService
     {
         List<int> idComercios = ObtenerIdsComerciosDentroDelRadio(filtro.latitudUbicacion, filtro.longitudUbicacion, filtro.distancia);
 
-        List<int> idProductos = ObtenerIdsTipoProductosV2(filtro.bebidas, filtro.comidas, filtro.marcasBebida, filtro.marcasComida);
+        List<int> idProductos = ObtenerIdsTipoProductosV2(filtro.bebidas, filtro.comidas);
 
-        List<String> marcasElegidas = new List<string>();
+        List<String> marcas = VerificarMarcasABuscar(filtro.marcasBebida, filtro.marcasComida, filtro.bebidas, filtro.comidas);
 
-        marcasElegidas.AddRange(filtro.marcasBebida);
-        marcasElegidas.AddRange(filtro.marcasComida);
-
-        List<OfertaDTO> ofertas = _ofertaRepository.OfertasDentroDelRadioV2(idProductos, idComercios, marcasElegidas);
+        List<OfertaDTO> ofertas = _ofertaRepository.OfertasDentroDelRadioV2(idProductos, idComercios, marcas);
 
         return FiltrarOfertasEconomicasPorProducto(ofertas, filtro.latitudUbicacion, filtro.longitudUbicacion);
     }
 
-    private List<int> ObtenerIdsTipoProductosV2(List<int> idBebida, List<int> idComida, List<String> marcasBebida, List<String> marcasComida)
+   
+
+    private List<String> VerificarMarcasABuscar(List<String> marcasBebida, List<String> marcasComida, List<int> idBebidas, List<int> idComidas)
+    {
+        List<String> marcas = new List<string>();
+
+        if (marcasBebida.Count != 0)
+        {
+            marcas.AddRange(marcasBebida);
+        }
+        else
+        {
+            marcas.AddRange(ObtenerMarcasDisponibles(ObtenerIdsTipoProductosBebidaV2(idBebidas)));
+        }
+        if (marcasComida.Count != 0)
+        {
+            marcas.AddRange(marcasComida);
+        }
+        else
+        {
+            marcas.AddRange(ObtenerMarcasDisponibles(ObtenerIdsTipoProductosComidaV2(idComidas)));
+        }
+
+        return marcas;
+    }
+
+    private List<string> ObtenerMarcasDisponibles(List<int> idProductos)
+    {
+        List<String> marcas = _ofertaRepository.ObtenerMarcasDisponibles(idProductos);
+
+        return marcas;
+    }
+
+    private List<int> ObtenerIdsTipoProductosV2(List<int> idBebida, List<int> idComida)
     {
         List<int> idProductos = new List<int>();
         List<int> idBebidas = _tipoProductoService.ObtenerIdTipoProductosBebidaV2(idBebida);
@@ -95,6 +126,27 @@ public class OfertaService : IOfertaService
 
         idProductos.AddRange(idBebidas);
         idProductos.AddRange(idComidas);
+
+        return idProductos;
+    }
+
+    private List<int> ObtenerIdsTipoProductosComidaV2(List<int> idComida)
+    {
+        List<int> idProductos = new List<int>();
+  
+        List<int> idComidas = _tipoProductoService.ObtenerIdTipoProductosComidaV2(idComida);
+
+        idProductos.AddRange(idComidas);
+
+        return idProductos;
+    }
+
+    private List<int> ObtenerIdsTipoProductosBebidaV2(List<int> idBebida)
+    {
+        List<int> idProductos = new List<int>();
+        List<int> idBebidas = _tipoProductoService.ObtenerIdTipoProductosBebidaV2(idBebida);
+
+        idProductos.AddRange(idBebidas);
 
         return idProductos;
     }
