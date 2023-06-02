@@ -12,6 +12,7 @@ public partial class Publicacion
 
     public bool Estado { get; set; }
 
+    public DateTime FechaFin { get; set; }
     public virtual Comercio IdComercioNavigation { get; set; } = null!;
 
     public virtual Producto IdProductoNavigation { get; set; } = null!;
