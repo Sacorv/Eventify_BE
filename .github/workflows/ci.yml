@@ -28,7 +28,7 @@ jobs:
     - name: Build
       run: dotnet build AsistenteCompras_API --configuration Release -restore  
     
-     - name: Test
-       run: dotnet test AsistenteCompras.API -restore --verbosity normal
+    - name: Test
+      run: dotnet test AsistenteCompras_API -restore --verbosity normal
 
     - run: dotnet build AsistenteCompras_API
