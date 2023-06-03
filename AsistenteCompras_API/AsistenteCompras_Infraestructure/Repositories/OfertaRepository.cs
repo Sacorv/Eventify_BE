@@ -61,14 +61,6 @@ public class OfertaRepository : IOfertaRepository
                                                 .Where(oferta => idProductos.Contains(oferta.IdTipoProducto)).ToList();
     }
 
-    public List<Comercio> ComerciosDentroDelRadio(double latitud, double longitud, float distancia)
-    {
-        var comercios = _context.Comercios
-                                .FromSqlInterpolated($"EXEC BuscarComerciosPorRadio {latitud}, {longitud}, {distancia}")
-                                .ToList();
-        return comercios;
-    }
-
     public List<OfertaDTO> OfertasDentroDelRadio(List<int> idProductos, List<int> idComercios)
     {
         return _context.Publicacions.Where(pub => idComercios.Contains(pub.IdComercio))
@@ -90,4 +82,36 @@ public class OfertaRepository : IOfertaRepository
                             .Where(oferta => idProductos.Contains(oferta.IdTipoProducto)).ToList();
 
     }
+
+    public List<OfertaDTO> OfertasDentroDelRadioV2(List<int> idProductos, List<int> idComercios, List<String> marcasElegidas)
+    {
+        return _context.Publicacions.Where(pub => idComercios.Contains(pub.IdComercio))
+                            .Join(_context.Productos, pub => pub.IdProducto, p => p.Id,
+                                  (pub, p) => new OfertaDTO
+                                  {
+                                      IdPublicacion = pub.Id,
+                                      IdTipoProducto = p.IdTipoProducto,
+                                      IdLocalidad = pub.IdComercioNavigation.IdLocalidad,
+                                      NombreProducto = p.Nombre,
+                                      Marca = p.Marca,
+                                      Imagen = p.Imagen,
+                                      Precio = pub.Precio,
+                                      NombreComercio = pub.IdComercioNavigation.RazonSocial,
+                                      Latitud = (double)pub.IdComercioNavigation.Latitud,
+                                      Longitud = (double)pub.IdComercioNavigation.Longitud,
+                                      Localidad = pub.IdComercioNavigation.IdLocalidadNavigation.Nombre
+                                  })
+                            .Where(oferta => idProductos.Contains(oferta.IdTipoProducto) && marcasElegidas.Contains(oferta.Marca))
+                            .ToList();
+
+    }
+
+
+    public List<String> ObtenerMarcasDisponibles(List<int> idProductos)
+    {
+        return _context.Publicacions.Where(p=> idProductos.Contains(p.IdProductoNavigation.IdTipoProducto))
+                                    .Select(p=>p.IdProductoNavigation.Marca) 
+                                    .ToList();
+    }
+
 }

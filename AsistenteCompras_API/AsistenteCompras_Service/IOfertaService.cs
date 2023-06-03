@@ -10,4 +10,6 @@ public interface IOfertaService
 
     List<OfertaDTO> ObtenerOfertasEconomicasPorRadioGeografico(double latitud, double longitud, float distancia, int idComida, int idBebida);
 
+    List<OfertaDTO> GenerarListaPersonalizada(FiltroDTO filtro);
+
 }

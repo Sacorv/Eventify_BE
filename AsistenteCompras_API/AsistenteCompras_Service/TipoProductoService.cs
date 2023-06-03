@@ -1,9 +1,4 @@
 ﻿using AsistenteCompras_Infraestructure.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AsistenteCompras_Services
 {
@@ -25,5 +20,16 @@ namespace AsistenteCompras_Services
         {
             return _tipoProductoRepository.ObtenerIdTipoProductosComida(idComida);
         }
+
+        public List<int> ObtenerIdTipoProductosBebidaV2(List<int> idBebida)
+        {
+            return _tipoProductoRepository.ObtenerIdTipoProductosBebidaV2(idBebida);
+        }
+
+        public List<int> ObtenerIdTipoProductosComidaV2(List<int> idComida)
+        {
+            return _tipoProductoRepository.ObtenerIdTipoProductosComidaV2(idComida);
+        }
+
     }
 }
