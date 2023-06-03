@@ -9,9 +9,7 @@ namespace AsistenteCompras_Infraestructure.Contexts.Configurations
     {
         public void Configure(EntityTypeBuilder<FormaPagoComercio> builder)
         {
-            builder
-                .HasNoKey()
-                .ToTable("FormaPagoComercio");
+            builder.ToTable("FormaPagoComercio");
 
             builder.HasOne(d => d.IdComercioNavigation).WithMany()
                 .HasForeignKey(d => d.IdComercio)

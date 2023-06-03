@@ -8,7 +8,7 @@ namespace AsistenteCompras_Infraestructure.Contexts.Configurations
     {
         public void Configure(EntityTypeBuilder<EventoComidum> builder)
         {
-            builder.HasNoKey();
+            builder.ToTable("EventoComida");
 
             builder.HasOne(d => d.IdComidaNavigation).WithMany()
                 .HasForeignKey(d => d.IdComida)

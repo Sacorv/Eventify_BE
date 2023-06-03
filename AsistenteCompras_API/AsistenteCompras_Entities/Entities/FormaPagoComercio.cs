@@ -2,6 +2,7 @@
 
 public partial class FormaPagoComercio
 {
+    public int Id { get; set; }
     public int IdComercio { get; set; }
 
     public int IdFormaPago { get; set; }

@@ -1,8 +1,6 @@
 ﻿using AsistenteCompras_Entities.DTOs;
 using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Infraestructure.Repositories;
-using Microsoft.Spatial;
-using Nest;
 
 namespace AsistenteCompras_Services
 {

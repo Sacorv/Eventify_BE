@@ -2,6 +2,7 @@
 
 public partial class ComidaTipoProducto
 {
+    public int Id { get; set; }
     public int IdComida { get; set; }
 
     public int IdTipoProducto { get; set; }
