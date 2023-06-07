@@ -1,4 +1,6 @@
-﻿namespace AsistenteCompras_Infraestructure.Repositories;
+﻿using AsistenteCompras_Entities.Entities;
+
+namespace AsistenteCompras_Infraestructure.Repositories;
 
 public interface ITipoProductoRepository
 {

@@ -52,4 +52,28 @@ public class EventoController : ControllerBase
 
         return Ok(_eventoService.ObtenerListadoParaEvento(idEvento, idComida, idBebida));
     }
+
+    [HttpPost("listadoConCantidades/{invitados}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<TipoProductoDTO>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+    public IActionResult ListadoCantidades(List<int> idComidas,int invitados)
+    {
+        try
+        {
+            List<TipoProductoDTO> listaCompras = _eventoService.ObtenerListadoParaEvento(idComidas,invitados);
+            if (listaCompras.Count != 0)
+            {
+                return Ok(listaCompras);
+            }
+            else
+            {
+                return NoContent();
+            }
+
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }

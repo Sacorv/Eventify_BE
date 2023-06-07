@@ -1,6 +1,7 @@
 ﻿using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Infraestructure.Contexts;
 using AsistenteCompras_Infraestructure.Repositories;
+using Nest;
 
 namespace AsistenteCompras_Tests.Repository;
 
@@ -76,4 +77,23 @@ public class EventoRepositoryTest
         Assert.Equal(bebidasEvento.Last().TipoBebida,bebida.TipoBebida);
         Assert.Equal(bebidasEvento.First().TipoBebida,bebida2.TipoBebida);
     }
+
+	[Fact]
+	public void CalculoTest()
+	{
+		int platoPara = 3;
+		int invitados = 4;
+
+		Decimal resultado = (Decimal) invitados / (Decimal) platoPara;
+        var parteDecimal = (resultado - ((int)resultado)) * 100;
+        
+		int multiplicarPor = ((int)resultado);
+
+        if (parteDecimal > 0)
+		{
+			multiplicarPor = ((int)resultado) + 1;
+		}
+
+		Assert.Equal(1, multiplicarPor);
+	}
 }
