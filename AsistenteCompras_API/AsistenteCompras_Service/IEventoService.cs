@@ -12,5 +12,7 @@ public interface IEventoService
     List<Bebidum> ObtenerBebidas(int idEvento);
 
     List<TipoProductoDTO> ObtenerListadoParaEvento(int idEvento, int idComida, int idBebida);
+
+    List<TipoProductoDTO> ObtenerListadoParaEvento(ProductosABuscarDTO productosABuscar, int invitados);
 }
 

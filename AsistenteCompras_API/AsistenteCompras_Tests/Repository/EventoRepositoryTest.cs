@@ -1,6 +1,7 @@
 ﻿using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Infraestructure.Contexts;
 using AsistenteCompras_Infraestructure.Repositories;
+using Nest;
 
 namespace AsistenteCompras_Tests.Repository;
 
@@ -76,4 +77,5 @@ public class EventoRepositoryTest
         Assert.Equal(bebidasEvento.Last().TipoBebida,bebida.TipoBebida);
         Assert.Equal(bebidasEvento.First().TipoBebida,bebida2.TipoBebida);
     }
+
 }

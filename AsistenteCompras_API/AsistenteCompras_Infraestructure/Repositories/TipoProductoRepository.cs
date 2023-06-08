@@ -1,4 +1,5 @@
 ﻿using AsistenteCompras_Entities.DTOs;
+using AsistenteCompras_Entities.Entities;
 using AsistenteCompras_Infraestructure.Contexts;
 
 namespace AsistenteCompras_Infraestructure.Repositories;
