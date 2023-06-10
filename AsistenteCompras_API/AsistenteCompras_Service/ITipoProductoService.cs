@@ -10,7 +10,7 @@ namespace AsistenteCompras_Services
     {
         List<int> ObtenerIdTipoProductosBebida(int idBebida);
         List<int>  ObtenerIdTipoProductosComida(int idComida);
-        List<int> ObtenerIdTipoProductosBebidaV2(List<int> idBebida);
-        List<int> ObtenerIdTipoProductosComidaV2(List<int> idComida);
+        List<int> ObtenerTiposDeBebida(List<int> idBebida);
+        List<int> ObtenerTiposDeComida(List<int> idComida);
     }
 }

@@ -16,6 +16,10 @@ public partial class Producto
 
     public string Imagen { get; set; } = null!;
 
+    public double Peso { get; set; }
+
+    public int Unidades { get; set; }
+
     public virtual Categorium IdCategoriaNavigation { get; set; } = null!;
 
     public virtual TipoProducto IdTipoProductoNavigation { get; set; } = null!;
