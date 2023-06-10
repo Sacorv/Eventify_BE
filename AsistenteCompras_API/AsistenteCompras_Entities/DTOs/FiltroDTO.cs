@@ -16,7 +16,7 @@ namespace AsistenteCompras_Entities.DTOs
         public List<String>? marcasComida { get; set; }
         public List<String>? marcasBebida { get; set; }
         public int cantidadInvitados { get; set; }
-        public double presupuesto { get; set; }
+        public Dictionary<string, double>? cantidadProductos { get; set; }
 
     }
 }

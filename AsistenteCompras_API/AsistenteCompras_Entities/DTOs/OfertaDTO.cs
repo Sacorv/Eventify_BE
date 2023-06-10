@@ -6,7 +6,7 @@ public class OfertaDTO
 
     public int IdTipoProducto { get; set; }
 
-    public int IdLocalidad { get; set; }
+    public string TipoProducto { get; set; }
 
     public string NombreProducto { get; set; } = null!;
 
@@ -14,14 +14,20 @@ public class OfertaDTO
 
     public string Imagen { get; set; } = null!;
 
-    public decimal Precio { get; set; }
+    public double Precio { get; set; }
+
+    public double Peso { get; set; }
+
+    public int Unidades { get; set; }
 
     public string NombreComercio { get; set; } = null!;
+
+    public string Localidad { get; set; } = null!;
+
+    public int IdLocalidad { get; set; }
 
     public double Latitud { get; set; }
 
     public double Longitud { get; set; }
-    
-    public string Localidad { get; set; } = null!;
 }
 

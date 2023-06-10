@@ -21,12 +21,12 @@ namespace AsistenteCompras_Services
             return _tipoProductoRepository.ObtenerIdTipoProductosComida(idComida);
         }
 
-        public List<int> ObtenerIdTipoProductosBebidaV2(List<int> idBebida)
+        public List<int> ObtenerTiposDeBebida(List<int> idBebida)
         {
             return _tipoProductoRepository.ObtenerIdTipoProductosBebidaV2(idBebida);
         }
 
-        public List<int> ObtenerIdTipoProductosComidaV2(List<int> idComida)
+        public List<int> ObtenerTiposDeComida(List<int> idComida)
         {
             return _tipoProductoRepository.ObtenerIdTipoProductosComidaV2(idComida);
         }

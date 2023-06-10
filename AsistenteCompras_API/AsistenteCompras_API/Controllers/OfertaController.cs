@@ -15,30 +15,6 @@ public class OfertaController : ControllerBase
         _ofertaService = ofertaService;
     }
 
-    [HttpGet("ofertasPorLocalidad/{idLocalidad}/{idComida}/{idBebida}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult ObtenerOfertasMenorRecorrido(int idLocalidad, int idComida, int idBebida)
-    {
-        try
-        {
-            List<OfertaDTO> ofertasParaEvento = _ofertaService.ObtenerOfertasEconomicasPorLocalidadPreferida(idLocalidad, idComida, idBebida);
-            if (ofertasParaEvento.Count != 0)
-            {
-                return Ok(ofertasParaEvento);
-            }
-            else
-            {
-                return NoContent();
-            }
-
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-
     [HttpPost("ofertasMasEconomicas/{idComida}/{idBebida}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
@@ -63,39 +39,14 @@ public class OfertaController : ControllerBase
         }
     }
 
-    [HttpGet("ofertasEconomicasPorRadio/{latitud}/{longitud}/{distancia}/{idComida}/{idBebida}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult ObtenerOfertasMasEconomicasPorRadio(double latitud, double longitud, float distancia, int idComida, int idBebida)
-    {
-        try
-        {
-            List<OfertaDTO> ofertas = _ofertaService.ObtenerOfertasEconomicasPorRadioGeografico(latitud, longitud, distancia, idComida, idBebida);
-            if (ofertas.Count != 0)
-            {
-                return Ok(ofertas);
-            }
-            else
-            {
-                return NoContent();
-            }
-
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.ToString());
-        }
-    }
-
-
     [HttpPost("listaPersonalizada")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaCantidadDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult ObtenerOfertasMasEconomicasPorRadioV2([FromBody]FiltroDTO filtro)
+    public IActionResult ObtenerOfertasMasEconomicasSegunFiltros([FromBody]FiltroDTO filtro)
     {
         try
         {
-            List<OfertaDTO> ofertas = _ofertaService.GenerarListaPersonalizada(filtro);
+            List<OfertaCantidadDTO> ofertas = _ofertaService.GenerarListaPersonalizada(filtro);
             if (ofertas.Count != 0)
             {
                 return Ok(ofertas);
@@ -111,4 +62,34 @@ public class OfertaController : ControllerBase
             return BadRequest(e.ToString());
         }
     }
+
+
+
+
+
+    //[HttpGet("ofertasPorLocalidad/{idLocalidad}/{idComida}/{idBebida}")]
+    //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaDTO>))]
+    //[ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+    //public IActionResult ObtenerOfertasMenorRecorrido(int idLocalidad, int idComida, int idBebida)
+    //{
+    //    try
+    //    {
+    //        List<OfertaDTO> ofertasParaEvento = _ofertaService.ObtenerOfertasEconomicasPorLocalidadPreferida(idLocalidad, idComida, idBebida);
+    //        if (ofertasParaEvento.Count != 0)
+    //        {
+    //            return Ok(ofertasParaEvento);
+    //        }
+    //        else
+    //        {
+    //            return NoContent();
+    //        }
+
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        return BadRequest(e.Message);
+    //    }
+    //}
+
+
 }

@@ -13,9 +13,15 @@ namespace AsistenteCompras_Services
             _comercioRepository = comercioRepository;
         }
 
-        public List<Comercio> ObtenerComerciosPorRadio(double latitud, double longitud, float distancia)
+        public List<int> ObtenerComerciosPorRadio(double latitud, double longitud, float distancia)
         {
-            return _comercioRepository.ObtenerComerciosPorRadio(latitud, longitud, distancia);
+            List<int> idComercios = new List<int>();
+
+            List<Comercio> comercios = _comercioRepository.ObtenerComerciosPorRadio(latitud, longitud, distancia);
+
+            comercios.ForEach(c => idComercios.Add(c.Id));
+
+            return idComercios;
         }
 
         public OfertaDTO CompararDistanciaEntreComercios(double latitudUbicacion, double longitudUbicacion, OfertaDTO ofertaComercioUno, OfertaDTO ofertaComercioDos)
