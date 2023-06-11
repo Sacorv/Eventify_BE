@@ -2,6 +2,7 @@
 
 public partial class EventoComidum
 {
+    public int Id { get; set; }
     public int IdComida { get; set; }
 
     public int IdEvento { get; set; }

@@ -61,4 +61,24 @@ public class EventoRepository : IEventoRepository
 
         return listado;
     }
+
+    public List<TipoProductoDTO> ObtenerBebidaTipoProductos(int idBebida)
+    {
+        return _context.BebidaTipoProductos.Where(b => b.IdBebida == idBebida)
+                                           .Select(b => new TipoProductoDTO
+                                           {
+                                               Id = b.IdTipoProducto,
+                                               Nombre = b.IdTipoProductoNavigation.Nombre,
+                                               Ingrediente = false,
+                                               Peso = b.Mililitros,
+                                               Unidades = b.Unidades
+                                           })
+                                           .ToList();
+    }
+
+    public int ObtenerCantidadMinimaBebidaPorInvitados(int idTipoProducto)
+    {
+        return _context.BebidaTipoProductos.Where(b => b.IdTipoProducto.Equals(idTipoProducto))
+                                           .Select(b => b.Beben).First();
+    }
 }

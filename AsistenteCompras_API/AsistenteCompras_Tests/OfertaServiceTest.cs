@@ -1,37 +1,37 @@
-/*using AsistenteCompras_Entities.Entities;
-using AsistenteCompras_Services;
-using System.Runtime.CompilerServices;
+/*using asistentecompras_entities.entities;
+using asistentecompras_services;
+using system.runtime.compilerservices;
 
-namespace AsistenteCompras_Tests
+namespace asistentecompras_tests
 {
-    public class OfertaServiceTest
+    public class ofertaservicetest
     {
-        private readonly OfertaService _service;
-        private readonly AsistenteComprasContext _context;
+        private readonly ofertaservice _service;
+        private readonly asistentecomprascontext _context;
 
-        public OfertaServiceTest()
+        public ofertaservicetest()
         {
-            _context = new AsistenteComprasContext();
-            _service = new OfertaService(_context);
+            _context = new asistentecomprascontext();
+            _service = new ofertaservice(_context);
         }
 
-        //[Fact]
-        //public void queNoPuedaBuscarOfertasPorLocalidadInexistenteTest()
+        //[fact]
+        //public void quenopuedabuscarofertasporlocalidadinexistentetest()
         //{
-        //    int idEvento = 1;
-        //    string localidad = "Tristán Suarez";
+        //    int idevento = 1;
+        //    string localidad = "tristán suarez";
 
-        //    Assert.Empty(_service.BuscarOfertasPorLocalidadYEvento(idEvento, localidad));
+        //    assert.empty(_service.buscarofertasporlocalidadyevento(idevento, localidad));
 
         //}
 
-        //[Fact]
-        //public void quePuedaBuscarOfertasPorLocalidadExistenteTest()
+        //[fact]
+        //public void quepuedabuscarofertasporlocalidadexistentetest()
         //{
-        //    int idEvento = 1;
-        //    string localidad = "Ramos Mejía";
+        //    int idevento = 1;
+        //    string localidad = "ramos mejía";
 
-        //    Assert.NotEmpty(_service.BuscarOfertasPorLocalidadYEvento(idEvento, localidad));
+        //    assert.notempty(_service.buscarofertasporlocalidadyevento(idevento, localidad));
 
         //}
     }

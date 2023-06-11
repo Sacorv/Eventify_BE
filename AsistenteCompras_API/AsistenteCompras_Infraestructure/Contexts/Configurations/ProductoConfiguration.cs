@@ -19,6 +19,8 @@ namespace AsistenteCompras_Infraestructure.Contexts.Configurations
             builder.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            builder.Property(e => e.Peso).HasColumnType("decimal(9, 2)");
+            builder.Property(e => e.Unidades).HasColumnType("int");
 
             builder.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Productos)
                 .HasForeignKey(d => d.IdCategoria)

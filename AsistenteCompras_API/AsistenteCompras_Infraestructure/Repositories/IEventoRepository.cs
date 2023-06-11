@@ -12,4 +12,8 @@ public interface IEventoRepository
     List<Bebidum> ObtenerBebidas(int idEvento);
 
     List<TipoProductoDTO> ObtenerListadoParaEvento(int idEvento, int idComida, int idBebida);
+
+    List<TipoProductoDTO> ObtenerBebidaTipoProductos(int idBebida);
+
+    int ObtenerCantidadMinimaBebidaPorInvitados(int idTipoProducto);
 }

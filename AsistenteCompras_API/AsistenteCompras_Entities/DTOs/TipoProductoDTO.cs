@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace AsistenteCompras_Entities.DTOs;
 
-namespace AsistenteCompras_Entities.DTOs
+public class TipoProductoDTO
 {
-    public class TipoProductoDTO
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public string Nombre { get; set; } = null!;
-    }
+    public string Nombre { get; set; } = null!;
+
+    public bool Ingrediente { get; set; } = true;
+
+    public int Peso { get; set; } = 0;
+
+    public int Unidades { get; set; } = 0;
 }

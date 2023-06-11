@@ -10,6 +10,7 @@ namespace AsistenteCompras_Infraestructure.Contexts.Configurations
         {
             builder.ToTable("Publicacion");
 
+            builder.Property(e => e.FechaFin).HasColumnType("date");
             builder.Property(e => e.Precio).HasColumnType("decimal(7, 2)");
 
             builder.HasOne(d => d.IdComercioNavigation).WithMany(p => p.Publicacions)
