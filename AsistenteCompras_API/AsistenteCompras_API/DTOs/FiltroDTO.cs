@@ -9,7 +9,6 @@ public class FiltroDTO
     public List<int>? Bebidas { get; set; }
     public List<String>? MarcasComida { get; set; }
     public List<String>? MarcasBebida { get; set; }
-    public int CantidadInvitados { get; set; }
     public Dictionary<string, double>? CantidadProductos { get; set; }
 
 }

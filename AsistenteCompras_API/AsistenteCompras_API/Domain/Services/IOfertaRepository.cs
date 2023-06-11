@@ -8,6 +8,8 @@ public interface IOfertaRepository
     decimal ObtenerPrecioMinimoDelProductoPorLocalidad(List<int> localidades, int idTipoProducto);
     List<OfertaDTO> ObtenerOfertasPorPrecio(int idTipoProducto, decimal precio);
     List<OfertaDTO> OfertasDentroDelRadio(List<int> idProductos, List<int> idComercios);
-    List<OfertaDTO> OfertasDentroDelRadioV2(List<int> idProductos, List<int> idComercios, List<string> marcasElegidas);
-    List<string> ObtenerMarcasDisponibles(List<int> idProductos);
+    List<OfertaDTO> OfertasDentroDelRadioV2(List<int> idProductos, List<int> idComercios, List<String> marcasElegidas);
+    List<String> ObtenerMarcasComidasDisponibles(List<int> idProductos);
+    List<String> ObtenerMarcasBebidasDisponibles(List<int> idProductos);
+
 }

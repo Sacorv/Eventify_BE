@@ -10,4 +10,6 @@ public interface IOfertaService
 
     List<OfertaCantidadDTO> GenerarListaPersonalizada(FiltroDTO filtro);
 
+    List<OfertasPorProductoDTO> GenerarListaDeOfertas(FiltroDTO filtro);
+
 }

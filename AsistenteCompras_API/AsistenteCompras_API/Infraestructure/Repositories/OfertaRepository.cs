@@ -1,9 +1,7 @@
-﻿using AsistenteCompras_API.DTOs;
-using AsistenteCompras_API.Domain.Entities;
-using AsistenteCompras_API.Infraestructure.Contexts;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Domain.Services;
+using AsistenteCompras_API.DTOs;
+using AsistenteCompras_API.Infraestructure.Contexts;
 
 namespace AsistenteCompras_API.Infraestructure.Repositories;
 
@@ -119,11 +117,41 @@ public class OfertaRepository : IOfertaRepository
     }
 
 
-    public List<String> ObtenerMarcasDisponibles(List<int> idProductos)
+    public List<String> ObtenerMarcasComidasDisponibles(List<int> idProductos)
     {
-        return _context.Publicacions.Where(p=> idProductos.Contains(p.IdProductoNavigation.IdTipoProducto))
-                                    .Select(p=>p.IdProductoNavigation.Marca) 
-                                    .ToList();
+        List<string> marcasEncontradas = new List<string>();
+
+        var marcas = (from Publicacion pub in _context.Publicacions
+                       join Producto p in _context.Productos on pub.IdProducto equals p.Id
+                       join TipoProducto tp in _context.TipoProductos on p.IdTipoProducto equals tp.Id
+                       join ComidaTipoProducto ctp in _context.ComidaTipoProductos on tp.Id equals ctp.IdTipoProducto
+                       where idProductos.Contains(ctp.IdComida)
+                       select p.Marca).Distinct();
+                               
+        foreach(var item in marcas)
+        {
+            marcasEncontradas.Add(item);
+        }
+        return marcasEncontradas; 
+    }
+
+
+    public List<String> ObtenerMarcasBebidasDisponibles(List<int> idProductos)
+    {
+        List<string> marcasEncontradas = new List<string>();
+
+        var marcas = (from Publicacion pub in _context.Publicacions
+                       join Producto p in _context.Productos on pub.IdProducto equals p.Id
+                       join TipoProducto tp in _context.TipoProductos on p.IdTipoProducto equals tp.Id
+                       join BebidaTipoProducto btp in _context.BebidaTipoProductos on tp.Id equals btp.IdTipoProducto
+                       where idProductos.Contains(btp.IdBebida)
+                       select p.Marca).Distinct();
+
+        foreach (var item in marcas)
+        {
+            marcasEncontradas.Add(item);
+        }
+        return marcasEncontradas;
     }
 
 }

@@ -22,8 +22,8 @@ namespace AsistenteCompras_Tests.Repository
             _ofertaRepository = new OfertaRepository(_context);
         }
 
-/*
-        [Fact]
+
+        //[Fact]
         public void quePuedaObtenerLasOfertasDeProductosSegunLocalidadYIdsTipoProductosDeBebidaYComida()
         {
             givenExistenOfertasDeComerciosQuePertenecenAUnaLocalidad(SanJusto, 3);
@@ -81,11 +81,11 @@ namespace AsistenteCompras_Tests.Repository
 
 
 
-        [Fact]
+        //[Fact]
         public void quePuedaObtenerOfertasDeProductosSegunRadioDeDistanciaYMarcasDeBebidaYComidaElegidas()
         {
             
         }
-*/
+
     }
 }

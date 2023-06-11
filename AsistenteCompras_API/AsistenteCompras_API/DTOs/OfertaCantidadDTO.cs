@@ -2,6 +2,8 @@
 
 public class OfertaCantidadDTO
 {
-    public double cantidad { get; set; }
-    public OfertaDTO ofertaDTO { get; set; }
+    public double Cantidad { get; set; }
+    public OfertaDTO Oferta { get; set; }
+
+    public double Subtotal { get; set; }
 }
