@@ -11,5 +11,7 @@ public interface IOfertaRepository
     List<OfertaDTO> ObtenerOfertasPorPrecio(int idTipoProducto, decimal precio);
     List<OfertaDTO> OfertasDentroDelRadio(List<int> idProductos, List<int> idComercios);
     List<OfertaDTO> OfertasDentroDelRadioV2(List<int> idProductos, List<int> idComercios, List<String> marcasElegidas);
-    List<String> ObtenerMarcasDisponibles(List<int> idProductos);
+    List<String> ObtenerMarcasComidasDisponibles(List<int> idProductos);
+    List<String> ObtenerMarcasBebidasDisponibles(List<int> idProductos);
+
 }

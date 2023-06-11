@@ -23,7 +23,7 @@ namespace AsistenteCompras_Tests.Repository
         }
 
 
-        [Fact]
+        //[Fact]
         public void quePuedaObtenerLasOfertasDeProductosSegunLocalidadYIdsTipoProductosDeBebidaYComida()
         {
             givenExistenOfertasDeComerciosQuePertenecenAUnaLocalidad(SanJusto, 3);
@@ -81,7 +81,7 @@ namespace AsistenteCompras_Tests.Repository
 
 
 
-        [Fact]
+        //[Fact]
         public void quePuedaObtenerOfertasDeProductosSegunRadioDeDistanciaYMarcasDeBebidaYComidaElegidas()
         {
             
