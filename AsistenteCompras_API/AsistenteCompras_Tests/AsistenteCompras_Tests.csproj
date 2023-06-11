@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -23,11 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AsistenteCompras_Service\AsistenteCompras_Services.csproj" />
+    <Folder Include="Service\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Service\" />
+    <ProjectReference Include="..\AsistenteCompras_API\AsistenteCompras_API.csproj" />
   </ItemGroup>
 
 </Project>

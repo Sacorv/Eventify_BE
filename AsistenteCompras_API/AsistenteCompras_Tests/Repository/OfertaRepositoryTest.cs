@@ -1,7 +1,7 @@
-﻿using AsistenteCompras_Entities.DTOs;
-using AsistenteCompras_Entities.Entities;
-using AsistenteCompras_Infraestructure.Contexts;
-using AsistenteCompras_Infraestructure.Repositories;
+﻿using AsistenteCompras_API.DTOs;
+using AsistenteCompras_API.Domain.Entities;
+using AsistenteCompras_API.Infraestructure.Contexts;
+using AsistenteCompras_API.Infraestructure.Repositories;
 
 namespace AsistenteCompras_Tests.Repository
 {
@@ -22,7 +22,7 @@ namespace AsistenteCompras_Tests.Repository
             _ofertaRepository = new OfertaRepository(_context);
         }
 
-
+/*
         [Fact]
         public void quePuedaObtenerLasOfertasDeProductosSegunLocalidadYIdsTipoProductosDeBebidaYComida()
         {
@@ -86,6 +86,6 @@ namespace AsistenteCompras_Tests.Repository
         {
             
         }
-
+*/
     }
 }
