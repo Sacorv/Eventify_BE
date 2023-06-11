@@ -16,7 +16,7 @@ public partial class Producto
 
     public string Imagen { get; set; } = null!;
 
-    public double Peso { get; set; }
+    public int Peso { get; set; }
 
     public int Unidades { get; set; }
 

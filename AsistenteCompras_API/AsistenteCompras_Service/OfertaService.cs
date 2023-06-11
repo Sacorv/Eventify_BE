@@ -56,17 +56,57 @@ public class OfertaService : IOfertaService
 
     public List<OfertaCantidadDTO> GenerarListaPersonalizada(FiltroDTO filtro)
     {
-        List<OfertaCantidadDTO> listadoPersonalizado = new List<OfertaCantidadDTO>();
-
         List<OfertaDTO> ofertasDisponibles = BuscarOfertasDentroDelRadio(filtro);
 
         List<OfertaDTO> ofertasEconomicasSegunCantidadNecesaria = ExtaerMejoresOfertas(ofertasDisponibles, filtro.latitudUbicacion, filtro.longitudUbicacion, filtro.cantidadProductos);
 
-        ofertasEconomicasSegunCantidadNecesaria.Sort((x, y) => x.TipoProducto.CompareTo(y.TipoProducto));
+        return CalcularCantidadYSubtotalPorOferta(ofertasEconomicasSegunCantidadNecesaria, filtro.cantidadProductos);
+    }
 
-        ofertasEconomicasSegunCantidadNecesaria.ForEach(l => listadoPersonalizado.Add(new OfertaCantidadDTO() { cantidad = l.Peso != 0 ? Math.Ceiling(filtro.cantidadProductos[l.TipoProducto] / l.Peso) : Math.Ceiling(filtro.cantidadProductos[l.TipoProducto] / l.Unidades), ofertaDTO = l }));
+    public List<OfertasPorProductoDTO> GenerarListaDeOfertas(FiltroDTO filtro)
+    {
+        List<OfertaDTO> ofertasDisponibles = BuscarOfertasDentroDelRadio(filtro);
 
-        return listadoPersonalizado;
+        ofertasDisponibles.Sort((x, y) => x.IdTipoProducto.CompareTo(y.IdTipoProducto));
+
+        List<OfertaCantidadDTO> ofertasCantidad = CalcularCantidadYSubtotalPorOferta(ofertasDisponibles, filtro.cantidadProductos);
+
+        return GenerarListadoPorProducto(ofertasCantidad);
+    }
+
+
+    private List<OfertasPorProductoDTO> GenerarListadoPorProducto(List<OfertaCantidadDTO> ofertasCantidad)
+    {
+        List<OfertasPorProductoDTO> ofertasDisponiblesAgrupadasPorProducto = new List<OfertasPorProductoDTO>();
+
+        List<OfertaCantidadDTO> ofertasProducto = new List<OfertaCantidadDTO>();
+
+        ofertasCantidad.Sort((x, y) => x.oferta.IdTipoProducto.CompareTo(y.oferta.IdTipoProducto));
+
+
+        int idTipoProducto = ofertasCantidad[0].oferta.IdTipoProducto;
+        OfertaCantidadDTO actual = null;
+
+        foreach (OfertaCantidadDTO oferta in ofertasCantidad)
+        {
+            if (oferta.oferta.IdTipoProducto == idTipoProducto)
+            {
+                actual = oferta;
+                ofertasProducto.Add(oferta);
+            }
+            else
+            {
+                ofertasDisponiblesAgrupadasPorProducto.Add(new OfertasPorProductoDTO() { nombreProducto = actual.oferta.TipoProducto, ofertas = ofertasProducto });
+                ofertasProducto = new List<OfertaCantidadDTO>();
+                idTipoProducto = oferta.oferta.IdTipoProducto;
+                actual = oferta;
+                ofertasProducto.Add(oferta);
+            }
+        }
+
+        ofertasDisponiblesAgrupadasPorProducto.Add(new OfertasPorProductoDTO() { nombreProducto = actual.oferta.TipoProducto, ofertas = ofertasProducto });
+
+        return ofertasDisponiblesAgrupadasPorProducto;
     }
 
     private List<OfertaDTO> BuscarOfertasDentroDelRadio(FiltroDTO filtro)
@@ -111,6 +151,20 @@ public class OfertaService : IOfertaService
         ofertasMasEconomicas.Add(ofertaMasEconomica);
 
         return ofertasMasEconomicas;
+    }
+
+    private List<OfertaCantidadDTO> CalcularCantidadYSubtotalPorOferta(List<OfertaDTO> ofertasEconomicas, Dictionary<string, double> cantidadProductos)
+    {
+        List<OfertaCantidadDTO> listadoPersonalizado = new List<OfertaCantidadDTO>();
+
+        ofertasEconomicas.Sort((x, y) => x.TipoProducto.CompareTo(y.TipoProducto));
+
+        ofertasEconomicas.ForEach(oferta => listadoPersonalizado.Add(new OfertaCantidadDTO() 
+                                                                                { cantidad = oferta.Peso != 0 ? Math.Ceiling(cantidadProductos[oferta.TipoProducto] / oferta.Peso) : Math.Ceiling(cantidadProductos[oferta.TipoProducto] / oferta.Unidades), 
+                                                                                  oferta = oferta, 
+                                                                                  subtotal = oferta.Peso != 0 ? Math.Ceiling(cantidadProductos[oferta.TipoProducto] / oferta.Peso) * oferta.Precio : Math.Ceiling(cantidadProductos[oferta.TipoProducto] / oferta.Unidades) * oferta.Precio }));
+
+        return listadoPersonalizado;
     }
 
     private OfertaDTO CompararPreciosPorPesoNeto(OfertaDTO ofertaAComparar, OfertaDTO ofertaMasBarata, double latitudUbicacion, double longitudUbicacion, Dictionary<string, double> cantidadNecesaria)
@@ -180,19 +234,11 @@ public class OfertaService : IOfertaService
     {
         List<String> marcasDeProductos = new List<string>();
 
-        marcasDeProductos.AddRange(filtro.marcasBebida.Count!=0 ? filtro.marcasBebida : ObtenerMarcasDisponibles(filtro.bebidas));
+        marcasDeProductos.AddRange(filtro.marcasBebida==null || filtro.marcasBebida.Count==0 ? ObtenerMarcasBebidasDisponibles(filtro.bebidas) : filtro.marcasBebida);
 
-        marcasDeProductos.AddRange(filtro.marcasComida.Count!=0 ? filtro.marcasComida : ObtenerMarcasDisponibles(filtro.comidas));
+        marcasDeProductos.AddRange(filtro.marcasComida == null || filtro.marcasComida.Count==0 ? ObtenerMarcasComidasDisponibles(filtro.comidas) : filtro.marcasComida);
 
         return marcasDeProductos;
-    }
-
-
-    private List<string> ObtenerMarcasDisponibles(List<int> idProductos)
-    {
-        List<String> marcas = _ofertaRepository.ObtenerMarcasDisponibles(idProductos);
-
-        return marcas;
     }
 
     private List<int> ObtenerIdsTipoProductos(int idBebida, int idComida)
@@ -205,6 +251,21 @@ public class OfertaService : IOfertaService
         idProductos.AddRange(idComidas);
 
         return idProductos;
+    }
+
+    private List<string> ObtenerMarcasBebidasDisponibles(List<int> idProductos)
+    {
+        List<String> marcas = _ofertaRepository.ObtenerMarcasBebidasDisponibles(idProductos);
+
+        return marcas;
+    }
+
+
+    private List<string> ObtenerMarcasComidasDisponibles(List<int> idProductos)
+    {
+        List<String> marcas = _ofertaRepository.ObtenerMarcasComidasDisponibles(idProductos);
+
+        return marcas;
     }
 
 
