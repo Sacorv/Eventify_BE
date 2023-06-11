@@ -5,15 +5,9 @@ VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsistenteCompras_API", "AsistenteCompras_API\AsistenteCompras_API.csproj", "{5A813EB7-4748-483D-BA7F-2B6F95DD40F7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsistenteCompras_Entities", "AsistenteCompras_Entities\AsistenteCompras_Entities.csproj", "{3239601C-C818-489C-8482-5BE1EEBC80F8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsistenteCompras_Tests", "AsistenteCompras_Tests\AsistenteCompras_Tests.csproj", "{A1E89E24-F241-4BA7-AADD-9F16BBE215F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsistenteCompras_Services", "AsistenteCompras_Service\AsistenteCompras_Services.csproj", "{FB9E7BCC-812A-4DE6-8F8B-342FB6BE28CA}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dominio", "Dominio", "{003B5A31-F981-48D0-8756-85C953A04B2D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsistenteCompras_Infraestructure", "AsistenteCompras_Infraestructure\AsistenteCompras_Infraestructure.csproj", "{E9CA4876-A813-4CEE-80C8-A50C4664B07A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{28ADBF9E-CAA7-4738-8DAE-D8A66030D675}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,29 +19,17 @@ Global
 		{5A813EB7-4748-483D-BA7F-2B6F95DD40F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A813EB7-4748-483D-BA7F-2B6F95DD40F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A813EB7-4748-483D-BA7F-2B6F95DD40F7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3239601C-C818-489C-8482-5BE1EEBC80F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3239601C-C818-489C-8482-5BE1EEBC80F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3239601C-C818-489C-8482-5BE1EEBC80F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3239601C-C818-489C-8482-5BE1EEBC80F8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A1E89E24-F241-4BA7-AADD-9F16BBE215F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A1E89E24-F241-4BA7-AADD-9F16BBE215F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1E89E24-F241-4BA7-AADD-9F16BBE215F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1E89E24-F241-4BA7-AADD-9F16BBE215F5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB9E7BCC-812A-4DE6-8F8B-342FB6BE28CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB9E7BCC-812A-4DE6-8F8B-342FB6BE28CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB9E7BCC-812A-4DE6-8F8B-342FB6BE28CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB9E7BCC-812A-4DE6-8F8B-342FB6BE28CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9CA4876-A813-4CEE-80C8-A50C4664B07A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9CA4876-A813-4CEE-80C8-A50C4664B07A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9CA4876-A813-4CEE-80C8-A50C4664B07A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9CA4876-A813-4CEE-80C8-A50C4664B07A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{3239601C-C818-489C-8482-5BE1EEBC80F8} = {003B5A31-F981-48D0-8756-85C953A04B2D}
-		{FB9E7BCC-812A-4DE6-8F8B-342FB6BE28CA} = {003B5A31-F981-48D0-8756-85C953A04B2D}
+		{5A813EB7-4748-483D-BA7F-2B6F95DD40F7} = {28ADBF9E-CAA7-4738-8DAE-D8A66030D675}
+		{A1E89E24-F241-4BA7-AADD-9F16BBE215F5} = {28ADBF9E-CAA7-4738-8DAE-D8A66030D675}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BE8220BC-B029-44E5-AC2A-AC6283E68E9A}

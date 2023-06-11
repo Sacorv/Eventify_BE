@@ -1,6 +1,6 @@
-using AsistenteCompras_Infraestructure.Contexts;
-using AsistenteCompras_Infraestructure.Repositories;
-using AsistenteCompras_Services;
+using AsistenteCompras_API.Domain.Services;
+using AsistenteCompras_API.Infraestructure.Contexts;
+using AsistenteCompras_API.Infraestructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
