@@ -23,4 +23,10 @@ public class ComercioRepository : IComercioRepository
                             .ToList();
     }
 
+    public string ObtenerImagenComercio(int idComercio)
+    {
+        return _context.Comercios.Where(c => c.Id == idComercio)
+                                 .Select(c => c.Imagen)
+                                 .First();
+    }
 }
