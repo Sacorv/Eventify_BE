@@ -70,7 +70,7 @@ public class OfertaService : IOfertaService
 
         List<OfertaCantidadDTO> ofertasCantidad = CalcularCantidadYSubtotalPorOferta(ofertasDisponibles, filtro.CantidadProductos);
 
-        return GenerarListadoPorProducto(ofertasCantidad);
+        return GenerarListadoPorProductoYMarca(ofertasCantidad, filtro.LatitudUbicacion, filtro.LongitudUbicacion);
     }
 
     public List<OfertasPorComercioDTO> ListaRecorrerMenos(FiltroDTO filtro)
@@ -175,7 +175,7 @@ public class OfertaService : IOfertaService
         return ofertasEncontradas;
     }
 
-    private List<OfertasPorProductoDTO> GenerarListadoPorProducto(List<OfertaCantidadDTO> ofertasCantidad)
+    private List<OfertasPorProductoDTO> GenerarListadoPorProductoYMarca(List<OfertaCantidadDTO> ofertasCantidad, double latitudUbicacion, double longitudUbicacion)
     {
         List<OfertasPorProductoDTO> ofertasDisponiblesAgrupadasPorProducto = new List<OfertasPorProductoDTO>();
 
@@ -196,17 +196,52 @@ public class OfertaService : IOfertaService
             }
             else
             {
-                ofertasDisponiblesAgrupadasPorProducto.Add(new OfertasPorProductoDTO() { NombreProducto = actual.Oferta.TipoProducto, Ofertas = ofertasProducto });
+                ofertasDisponiblesAgrupadasPorProducto.Add(new OfertasPorProductoDTO() { NombreProducto = actual.Oferta.TipoProducto, Ofertas = MenorPrecioPorProductoYMarca(ofertasProducto, latitudUbicacion, longitudUbicacion) });
                 ofertasProducto = new List<OfertaCantidadDTO>();
                 idTipoProducto = oferta.Oferta.IdTipoProducto;
                 actual = oferta;
                 ofertasProducto.Add(oferta);
             }
         }
-
-        ofertasDisponiblesAgrupadasPorProducto.Add(new OfertasPorProductoDTO() { NombreProducto = actual.Oferta.TipoProducto, Ofertas = ofertasProducto });
+        ofertasDisponiblesAgrupadasPorProducto.Add(new OfertasPorProductoDTO() { NombreProducto = actual.Oferta.TipoProducto, Ofertas = MenorPrecioPorProductoYMarca(ofertasProducto, latitudUbicacion, longitudUbicacion) });
 
         return ofertasDisponiblesAgrupadasPorProducto;
+    }
+
+    private List<OfertaCantidadDTO> MenorPrecioPorProductoYMarca(List<OfertaCantidadDTO> ofertas, double latitudUbicacion, double longitudUbicacion)
+    {
+        OfertaDTO ofertaDTO = new OfertaDTO();
+        List<OfertaCantidadDTO> ofertasFiltradas = new List<OfertaCantidadDTO>();
+        ofertas.Sort((x, y) => x.Oferta.Marca.CompareTo(y.Oferta.Marca));
+
+        String marcaActual = ofertas[0].Oferta.Marca;
+        OfertaCantidadDTO ofertaMasEconomica = ofertas[0];
+
+        foreach (OfertaCantidadDTO ofertaActual in ofertas)
+        {
+            if (ofertaActual.Oferta.Marca.Equals(marcaActual))
+            {
+                if(ofertaActual.Subtotal < ofertaMasEconomica.Subtotal)
+                {
+                    ofertaMasEconomica = ofertaActual;
+                }
+                else if(ofertaActual.Subtotal==ofertaMasEconomica.Subtotal)
+                {
+                    ofertaDTO = _comercioService.CompararDistanciaEntreComercios(latitudUbicacion, longitudUbicacion, ofertaActual.Oferta, ofertaMasEconomica.Oferta);
+                    ofertaMasEconomica = ofertaActual.Oferta.IdPublicacion == ofertaDTO.IdPublicacion ? ofertaActual : ofertaMasEconomica;
+                }
+            }
+            else
+            {
+                ofertasFiltradas.Add(ofertaMasEconomica);
+                marcaActual = ofertaActual.Oferta.Marca;
+                ofertaMasEconomica = ofertaActual;
+            }
+        }
+
+        ofertasFiltradas.Add(ofertaMasEconomica);
+
+        return ofertasFiltradas;
     }
 
     private List<OfertaDTO> BuscarOfertasDentroDelRadio(FiltroDTO filtro)
