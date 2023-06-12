@@ -10,11 +10,14 @@ public class OfertaService : IOfertaService
 
     private ITipoProductoService _tipoProductoService;
 
-    public OfertaService(IOfertaRepository ofertaRepository, IComercioService comercioService, ITipoProductoService tipoProductoService)
+    private IUbicacionService _ubicacionService;
+
+    public OfertaService(IOfertaRepository ofertaRepository, IComercioService comercioService, ITipoProductoService tipoProductoService, IUbicacionService ubicacionService)
     {
         _ofertaRepository = ofertaRepository;
         _comercioService = comercioService;
         _tipoProductoService = tipoProductoService;
+        _ubicacionService = ubicacionService;
     }
 
     public List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> localidades, int idBebida)
@@ -74,6 +77,109 @@ public class OfertaService : IOfertaService
 
         return GenerarListadoPorProductoYMarca(ofertasCantidad, filtro.LatitudUbicacion, filtro.LongitudUbicacion);
     }
+
+    public List<OfertasPorComercioDTO> ListaRecorrerMenos(FiltroDTO filtro)
+    {
+        List<OfertasPorComercioDTO> comercios = new List<OfertasPorComercioDTO>();
+        OfertasPorComercioDTO ofertaComercio = new OfertasPorComercioDTO();
+        List<OfertaDTO> ofertas;
+        List<OfertasPorComercioDTO> comerciosConLaMayorCantidadDeProductos = new List<OfertasPorComercioDTO>();
+        int cantidadAComprar = filtro.CantidadProductos.Count;
+
+        List<int> idComercios = _comercioService.ObtenerComerciosPorRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia);
+
+        if (idComercios.Count == 0) return comercios;
+
+        foreach (int idComercio in idComercios)
+        {
+            ofertas = _ofertaRepository.OfertasPorComercio(idComercio);
+            ofertas = ProductosAComprarEnElComercio(filtro, ofertas);
+            if (ofertas.Count > 0)
+            {
+                List<OfertaCantidadDTO> ofertasConCantidades = CalcularCantidadYSubtotalPorOferta(ofertas, filtro.CantidadProductos);
+                ofertaComercio.Ofertas = ofertasConCantidades;
+                ofertaComercio.NombreComercio = ofertasConCantidades.First().Oferta.NombreComercio;
+                ofertaComercio.ImagenComercio = _comercioService.ObtenerImagenDelComercio(idComercio);
+                comercios.Add(ofertaComercio);
+            }
+        }
+
+        BuscarComerciosConLaMayorCantidadDeProductos(comercios, comerciosConLaMayorCantidadDeProductos);
+
+        if (TieneTodosLosProductos(comerciosConLaMayorCantidadDeProductos, cantidadAComprar))
+        {
+            RecomendarComercio(comerciosConLaMayorCantidadDeProductos, comercios, filtro.LatitudUbicacion, filtro.LongitudUbicacion);
+        }
+        
+        return comercios;
+    }
+
+    private void RecomendarComercio(List<OfertasPorComercioDTO>aRecomendar,List<OfertasPorComercioDTO> actual, double latitudOrigen, double longitudOrigen)
+    {
+        double longitudDestino = aRecomendar.Select(a => a.Ofertas.First().Oferta.Longitud).First();
+        double latitudDestino = aRecomendar.Select(a => a.Ofertas.First().Oferta.Latitud).First();
+        actual.Clear();
+        actual.Add(aRecomendar.First());
+        double menorDistanciaActual = _ubicacionService.CalcularDistanciaPorHaversine(latitudOrigen,longitudOrigen,latitudDestino,longitudDestino);
+        double menorDistanciaEncontrada;
+        if(aRecomendar.Count > 1)
+        {
+            for(int i = 1; i > aRecomendar.Count; i++)
+            {
+                longitudDestino = aRecomendar[i].Ofertas.First().Oferta.Longitud;
+                latitudDestino = aRecomendar[i].Ofertas.First().Oferta.Longitud;
+                menorDistanciaEncontrada = _ubicacionService.CalcularDistanciaPorHaversine(latitudOrigen, longitudOrigen, latitudDestino, longitudDestino);
+                if(menorDistanciaEncontrada < menorDistanciaActual)
+                {
+                    menorDistanciaActual = menorDistanciaEncontrada;
+                    actual.Clear();
+                    actual.Add(aRecomendar[i]);
+                }
+            }
+        }
+
+    }
+
+    private static bool TieneTodosLosProductos(List<OfertasPorComercioDTO> comerciosConLaMayorCantidadDeProductos, int cantidadAComprar)
+    {
+        if(comerciosConLaMayorCantidadDeProductos.DistinctBy(c => c.Ofertas.First().Oferta.NombreProducto).Count() == cantidadAComprar)
+            return true;
+        return false;
+    }
+
+    private static List<OfertasPorComercioDTO> BuscarComerciosConLaMayorCantidadDeProductos(List<OfertasPorComercioDTO> comercios, List<OfertasPorComercioDTO> comerciosConLaMayorCantidadDeProductos)
+    {
+        int cantidadProductosDelComercioActual = 0;
+        int cantidadProductosDelComercioMaxima = 0;
+
+        foreach (var comercio in comercios)
+        {
+            cantidadProductosDelComercioActual = comercio.Ofertas.DistinctBy(c => c.Oferta.TipoProducto).Count();
+            if(cantidadProductosDelComercioActual > cantidadProductosDelComercioMaxima)
+            {
+                comerciosConLaMayorCantidadDeProductos.Clear();
+                comerciosConLaMayorCantidadDeProductos.Add(comercio);
+            }else if(cantidadProductosDelComercioActual == cantidadProductosDelComercioMaxima)
+            {
+                comerciosConLaMayorCantidadDeProductos.Add(comercio);
+            }
+        }
+
+        return comerciosConLaMayorCantidadDeProductos;
+    }
+
+    private static List<OfertaDTO> ProductosAComprarEnElComercio(FiltroDTO filtro, List<OfertaDTO> ofertas)
+    {
+        List<OfertaDTO> ofertasEncontradas = new List<OfertaDTO>();
+        List<OfertaDTO>? encontrados;
+        foreach (var productoAcomprar in filtro.CantidadProductos)
+        {
+            encontrados = ofertas.Where(o => o.TipoProducto == productoAcomprar.Key).ToList();
+            if(encontrados != null) ofertasEncontradas.AddRange(encontrados);
+        }
+        return ofertasEncontradas;
+    }
+
     private List<OfertasPorProductoDTO> GenerarListadoPorProductoYMarca(List<OfertaCantidadDTO> ofertasCantidad, double latitudUbicacion, double longitudUbicacion)
     {
         List<OfertasPorProductoDTO> ofertasDisponiblesAgrupadasPorProducto = new List<OfertasPorProductoDTO>();
@@ -318,6 +424,8 @@ public class OfertaService : IOfertaService
         }
         return recomendacion;
     }
+
+
 
 
 

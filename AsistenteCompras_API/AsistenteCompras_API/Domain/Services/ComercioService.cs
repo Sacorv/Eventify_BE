@@ -41,6 +41,11 @@ public class ComercioService : IComercioService
 
     }
 
+    public string ObtenerImagenDelComercio(int idComercio)
+    {
+        return _comercioRepository.ObtenerImagenComercio(idComercio);
+    }
+
     private static double CalcularDistanciaHaversine(double latitudUno, double longitudUno, double latitudDos, double longitudDos)
     {
         const double radioTierraKilometros = 6371;

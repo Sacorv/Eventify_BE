@@ -14,6 +14,8 @@ public partial class Comercio
 
     public int IdLocalidad { get; set; }
 
+    public string Imagen { get; set; } = null!;
+
     public virtual Localidad IdLocalidadNavigation { get; set; } = null!;
 
     public virtual ICollection<Publicacion> Publicacions { get; set; } = new List<Publicacion>();

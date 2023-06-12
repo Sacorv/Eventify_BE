@@ -65,6 +65,30 @@ public class OfertaController : ControllerBase
         }
     }
 
+    [HttpPost("recorrerMenos")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertasPorComercioDTO>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+    public IActionResult ObtenerOfertasEnMenorRecorrido([FromBody] FiltroDTO filtro)
+    {
+        try
+        {
+            List<OfertasPorComercioDTO> ofertas = _ofertaService.ListaRecorrerMenos(filtro);
+            if (ofertas.Count != 0)
+            {
+                return Ok(ofertas);
+            }
+            else
+            {
+                return NoContent();
+            }
+
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.ToString());
+        }
+    }
+
 
 
 
