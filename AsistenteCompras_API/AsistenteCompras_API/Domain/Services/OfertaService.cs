@@ -83,6 +83,8 @@ public class OfertaService : IOfertaService
 
         List<int> idComercios = _comercioService.ObtenerComerciosPorRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia);
 
+        if (idComercios.Count == 0) return comercios;
+
         foreach (int idComercio in idComercios)
         {
             ofertas = _ofertaRepository.OfertasPorComercio(idComercio);
@@ -103,8 +105,8 @@ public class OfertaService : IOfertaService
         {
             RecomendarComercio(comerciosConLaMayorCantidadDeProductos, comercios, filtro.LatitudUbicacion, filtro.LongitudUbicacion);
         }
-
-            return comercios;
+        
+        return comercios;
     }
 
     private void RecomendarComercio(List<OfertasPorComercioDTO>aRecomendar,List<OfertasPorComercioDTO> actual, double latitudOrigen, double longitudOrigen)
