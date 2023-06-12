@@ -108,10 +108,11 @@ public class OfertaService : IOfertaService
 
         if (TieneTodosLosProductos(comerciosConLaMayorCantidadDeProductos, cantidadAComprar))
         {
-            RecomendarComercio(comerciosConLaMayorCantidadDeProductos, comercios, filtro.LatitudUbicacion, filtro.LongitudUbicacion);
+            AgregarDistanciaAComercios(comerciosConLaMayorCantidadDeProductos, filtro.LatitudUbicacion, filtro.LongitudUbicacion);
+            comerciosConLaMayorCantidadDeProductos.OrderBy(c => c.Distancia);
         }
         
-        return comercios;
+        return comerciosConLaMayorCantidadDeProductos;
     }
 
     private void RecomendarComercio(List<OfertasPorComercioDTO>aRecomendar,List<OfertasPorComercioDTO> actual, double latitudOrigen, double longitudOrigen)
@@ -138,6 +139,16 @@ public class OfertaService : IOfertaService
             }
         }
 
+    }
+
+    private void AgregarDistanciaAComercios(List<OfertasPorComercioDTO> aRecomendar, double latitudOrigen, double longitudOrigen)
+    {
+        foreach(OfertasPorComercioDTO comercio in aRecomendar)
+        {
+            double longitudDestino = comercio.Ofertas.First().Oferta.Longitud;
+            double latitudDestino = comercio.Ofertas.First().Oferta.Latitud;
+            comercio.Distancia = _ubicacionService.CalcularDistanciaPorHaversine(latitudOrigen, longitudOrigen, latitudDestino, longitudDestino);
+        }
     }
 
     private static bool TieneTodosLosProductos(List<OfertasPorComercioDTO> comerciosConLaMayorCantidadDeProductos, int cantidadAComprar)
