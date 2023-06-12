@@ -12,4 +12,6 @@ public interface IOfertaService
 
     List<OfertasPorProductoDTO> GenerarListaDeOfertas(FiltroDTO filtro);
 
+    List<OfertasPorComercioDTO> ListaRecorrerMenos(FiltroDTO filtro); 
+
 }

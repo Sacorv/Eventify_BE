@@ -6,4 +6,6 @@ public interface IComercioRepository
 {
     List<Comercio> ObtenerComerciosPorRadio(double latitud, double longitud, float distancia);
 
+    string ObtenerImagenComercio(int idComercio);
+
 }

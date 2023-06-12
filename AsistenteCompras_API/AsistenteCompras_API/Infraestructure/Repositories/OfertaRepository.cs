@@ -2,6 +2,8 @@
 using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
 using AsistenteCompras_API.Infraestructure.Contexts;
+using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AsistenteCompras_API.Infraestructure.Repositories;
 
@@ -154,4 +156,25 @@ public class OfertaRepository : IOfertaRepository
         return marcasEncontradas;
     }
 
+    public List<OfertaDTO> OfertasPorComercio(int idComercio)
+    {
+        return _context.Publicacions.Where(p => p.IdComercio == idComercio)
+                                    .Select(o => new OfertaDTO
+                                    {
+                                        IdPublicacion = o.Id,
+                                        IdTipoProducto = o.IdProductoNavigation.IdTipoProducto,
+                                        TipoProducto = o.IdProductoNavigation.IdTipoProductoNavigation.Nombre,
+                                        NombreProducto = o.IdProductoNavigation.Nombre,
+                                        Marca = o.IdProductoNavigation.Marca,
+                                        Imagen = o.IdProductoNavigation.Imagen,
+                                        Precio = ((double)o.Precio),
+                                        Peso = o.IdProductoNavigation.Peso,
+                                        Unidades = o.IdProductoNavigation.Unidades,
+                                        NombreComercio = o.IdComercioNavigation.RazonSocial,
+                                        Localidad = o.IdComercioNavigation.IdLocalidadNavigation.Nombre,
+                                        IdLocalidad = o.IdComercioNavigation.IdLocalidad,
+                                        Latitud = (double) o.IdComercioNavigation.Latitud,
+                                        Longitud = (double) o.IdComercioNavigation.Longitud
+                                    }).ToList();
+    }
 }
