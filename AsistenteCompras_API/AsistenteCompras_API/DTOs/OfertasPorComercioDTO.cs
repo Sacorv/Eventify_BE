@@ -6,5 +6,7 @@ public class OfertasPorComercioDTO
 
     public string ImagenComercio { get; set; } = String.Empty;
 
+    public double Distancia { get; set; }  
+
     public List<OfertaCantidadDTO> Ofertas { get; set; } = new List<OfertaCantidadDTO>();
 }
