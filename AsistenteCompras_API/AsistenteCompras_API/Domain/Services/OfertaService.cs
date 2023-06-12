@@ -63,6 +63,11 @@ public class OfertaService : IOfertaService
     {
         List<OfertaDTO> ofertasDisponibles = BuscarOfertasDentroDelRadio(filtro);
 
+        if (ofertasDisponibles.Count == 0)
+        {
+            return new List<OfertasPorProductoDTO>();
+        }
+
         ofertasDisponibles.Sort((x, y) => x.IdTipoProducto.CompareTo(y.IdTipoProducto));
 
         List<OfertaCantidadDTO> ofertasCantidad = CalcularCantidadYSubtotalPorOferta(ofertasDisponibles, filtro.CantidadProductos);
