@@ -1,4 +1,4 @@
-﻿using AsistenteCompras_Infraestructure.Contexts;
+﻿using AsistenteCompras_API.Infraestructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace AsistenteCompras_Tests;

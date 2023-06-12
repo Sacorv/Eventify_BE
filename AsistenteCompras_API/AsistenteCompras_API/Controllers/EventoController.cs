@@ -1,6 +1,6 @@
-﻿using AsistenteCompras_Entities.DTOs;
-using AsistenteCompras_Entities.Entities;
-using AsistenteCompras_Services;
+﻿using AsistenteCompras_API.DTOs;
+using AsistenteCompras_API.Domain.Entities;
+using AsistenteCompras_API.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AsistenteCompras_API.Controllers;
