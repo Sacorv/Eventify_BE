@@ -40,6 +40,7 @@ public partial class AsistenteComprasContext : DbContext
     public virtual DbSet<Publicacion> Publicacions { get; set; }
 
     public virtual DbSet<TipoProducto> TipoProductos { get; set; }
+    public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
