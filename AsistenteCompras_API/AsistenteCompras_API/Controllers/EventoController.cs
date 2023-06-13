@@ -2,6 +2,7 @@
 using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AsistenteCompras_API.Controllers;
 
@@ -16,7 +17,7 @@ public class EventoController : ControllerBase
     {
         _eventoService = eventoService;
     }
-    
+
     [HttpGet("eventos")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Evento>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
@@ -24,7 +25,6 @@ public class EventoController : ControllerBase
     {
         return Ok(_eventoService.ObtenerEventos());
     }
-
 
     [HttpGet("comidas")]
     [ProducesResponseType(StatusCodes.Status200OK, Type =typeof(List<Comidum>))]
