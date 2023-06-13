@@ -1,6 +1,7 @@
 ﻿using AsistenteCompras_API.DTOs;
 using AsistenteCompras_API.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AsistenteCompras_API.Controllers;
 
@@ -14,7 +15,6 @@ public class OfertaController : ControllerBase
     {
         _ofertaService = ofertaService;
     }
-
 
     [HttpPost("listaPersonalizada")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaCantidadDTO>))]
