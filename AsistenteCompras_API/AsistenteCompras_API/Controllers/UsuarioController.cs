@@ -1,8 +1,6 @@
 ﻿using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AsistenteCompras_API.Controllers
@@ -30,7 +28,9 @@ namespace AsistenteCompras_API.Controllers
                 Usuario usuarioEncontrado = _usuarioService.IniciarSesion(usuario.Email, usuario.Clave);
                 if (usuarioEncontrado != null)
                 {
-                    return Ok( new { token = _tokenService.GenerateToken(usuarioEncontrado)});
+                    //return Ok( new { token = _tokenService.GenerateToken(usuarioEncontrado)});
+
+                    return Ok(usuarioEncontrado);
                 }
                 else
                 {
