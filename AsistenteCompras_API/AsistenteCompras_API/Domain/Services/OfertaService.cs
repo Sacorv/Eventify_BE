@@ -156,7 +156,7 @@ public class OfertaService : IOfertaService
     private static bool TieneTodosLosProductos(List<OfertasPorComercioDTO> comerciosConLaMayorCantidadDeProductos, int cantidadAComprar)
     {
         int cantidadDeProductosEnElComercio = comerciosConLaMayorCantidadDeProductos.First().Ofertas.DistinctBy(o => o.Oferta.TipoProducto).Count();
-        if (cantidadDeProductosEnElComercio == (cantidadAComprar - 1))
+        if (cantidadDeProductosEnElComercio == cantidadAComprar)
             return true;
         return false;
     }
