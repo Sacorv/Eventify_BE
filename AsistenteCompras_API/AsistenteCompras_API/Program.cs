@@ -42,15 +42,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-//builder.Services.AddAuthorization(options =>
-//    {
-//        options.AddPolicy("BearerPolicy", policy =>
-//        {
-//            policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
-//            policy.RequireAuthenticatedUser();
-//        });
-//    });
-
 var app = builder.Build();
 
 app.UseCors(builder =>
