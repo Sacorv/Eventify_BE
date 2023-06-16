@@ -30,7 +30,8 @@ namespace AsistenteCompras_API.Controllers
                 Usuario usuarioEncontrado = _usuarioService.IniciarSesion(usuario.Email, usuario.Clave);
                 if (usuarioEncontrado != null)
                 {
-                    return Ok( new { token = _tokenService.GenerateToken(usuarioEncontrado)});
+                    //return Ok( new { token = _tokenService.GenerateToken(usuarioEncontrado)});
+                    return Ok(new { message = "Sesión iniciada: " + usuarioEncontrado.Nombre + " " + usuarioEncontrado.Apellido });
                 }
                 else
                 {

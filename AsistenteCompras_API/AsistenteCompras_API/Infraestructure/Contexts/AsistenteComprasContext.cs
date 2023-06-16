@@ -41,6 +41,9 @@ public partial class AsistenteComprasContext : DbContext
 
     public virtual DbSet<TipoProducto> TipoProductos { get; set; }
     public virtual DbSet<Usuario> Usuarios { get; set; }
+    public virtual DbSet<ListadoDeOfertas> ListadoDeOfertas { get; set; }
+    public virtual DbSet<OfertaElegida> OfertaElegida { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
