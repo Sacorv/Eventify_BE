@@ -12,25 +12,41 @@ namespace AsistenteCompras_API.Domain.Services
             _listadoOfertasRepository = listadoOfertasRepository;
         }
 
-        public ListadoDeOfertas BuscarListado(int idListado)
+        public ListadoOfertasUsuario BuscarListado(int idListado, int idUsuario)
         {
-            return _listadoOfertasRepository.BuscarListado(idListado);
+            ListadoOfertasUsuario listadoAsociadoAlUsuario = _listadoOfertasRepository.BuscarListado(idListado, idUsuario);
+
+            List<OfertaCantidadDTO> ofertasAsociadasAListado = new List<OfertaCantidadDTO>();
+
+            if (listadoAsociadoAlUsuario!=null)
+            {
+                ofertasAsociadasAListado = _listadoOfertasRepository.BuscarOfertasAsociadas(listadoAsociadoAlUsuario.IdListado);
+            }
+
+            if (ofertasAsociadasAListado.Count != 0)
+            {
+                listadoAsociadoAlUsuario.Ofertas = ofertasAsociadasAListado;
+            }
+            return listadoAsociadoAlUsuario;
+        }
+
+        public int GuardarListadoConOfertas(ListadoOfertasDTO listadoOfertas)
+        {
+            //Inyecto a usuario un listado con sus ofertas asociadas y los tipos de comida y bebida que corresponden las ofertas
+            int idListado = GuardarListado(listadoOfertas);
+            GuardarOfertasEnListado(idListado, listadoOfertas);
+            GuardarComidasElegidas(listadoOfertas.IdComidas, idListado);
+            GuardarBebidasElegidas(listadoOfertas.IdBebidas, idListado);
+
+            //Verifico si quedó guardado OK
+            ListadoOfertasUsuario listadoGuardado = BuscarListado(idListado, listadoOfertas.IdUsuario);
+
+            return listadoGuardado!=null ? listadoGuardado.IdListado : 0;
         }
 
         public List<ListadoDeOfertas> ConsultarListados()
         {
             throw new NotImplementedException();
-        }
-
-        public int GuardarListadoConOfertas(ListadoOfertasDTO listadoOfertas)
-        {
-            int idListado = GuardarListado(listadoOfertas);
-
-            GuardarOfertasEnListado(idListado, listadoOfertas);
-
-            ListadoDeOfertas listadoGuardado = BuscarListado(idListado);
-
-            return listadoGuardado.Id;
         }
 
         public void ModificarListado(ListadoDeOfertas listado)
@@ -42,13 +58,16 @@ namespace AsistenteCompras_API.Domain.Services
         private int GuardarListado(ListadoOfertasDTO listado)
         {
             ListadoDeOfertas nuevoListado = new ListadoDeOfertas();
+
             double total = 0;
             listado.Ofertas.ForEach(lo => total += lo.Subtotal);
 
             nuevoListado.IdUsuario = listado.IdUsuario;
+            nuevoListado.IdEvento = listado.IdEvento;
             nuevoListado.CantidadOfertasElegidas = listado.Ofertas.Count();
             nuevoListado.Total = total;
             nuevoListado.Estado = true;
+            nuevoListado.FechaCreacion = DateTime.Now;
 
             int idListado = _listadoOfertasRepository.GuardarListado(nuevoListado);
 
@@ -70,6 +89,22 @@ namespace AsistenteCompras_API.Domain.Services
                 ofertaNueva.Estado = true;
 
                 _listadoOfertasRepository.GuardarOfertaEnListado(ofertaNueva);
+            }
+        }
+
+        private void GuardarComidasElegidas(List<int> idComidas, int idListado)
+        {
+            foreach (int idComida in idComidas)
+            {
+                _listadoOfertasRepository.GuardarComida(new ListadoOfertasComida() { IdComida = idComida, IdListadoDeOfertas = idListado });
+            }
+        }
+
+        private void GuardarBebidasElegidas(List<int> idBebidas, int idListado)
+        {
+            foreach (int idBebida in idBebidas)
+            {
+                _listadoOfertasRepository.GuardarBebida(new ListadoOfertasBebida() { IdBebida = idBebida, IdListadoDeOfertas = idListado });
             }
         }
     }

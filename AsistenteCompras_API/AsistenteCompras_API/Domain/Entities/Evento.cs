@@ -7,4 +7,6 @@ public partial class Evento
     public string Nombre { get; set; } = null!;
 
     public bool Estado { get; set; }
+
+    public virtual ICollection<ListadoDeOfertas> ListadoDeOfertas { get; set; } = new List<ListadoDeOfertas>();
 }

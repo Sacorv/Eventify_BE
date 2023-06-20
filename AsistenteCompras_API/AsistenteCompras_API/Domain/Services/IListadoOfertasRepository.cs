@@ -1,4 +1,5 @@
 ﻿using AsistenteCompras_API.Domain.Entities;
+using AsistenteCompras_API.DTOs;
 
 namespace AsistenteCompras_API.Domain.Services
 {
@@ -10,7 +11,13 @@ namespace AsistenteCompras_API.Domain.Services
 
         List<ListadoDeOfertas> ObtenerListados();
 
-        ListadoDeOfertas BuscarListado(int idListado);
+        ListadoOfertasUsuario BuscarListado(int idListado, int idUsuario);
+
+        void GuardarComida(ListadoOfertasComida listadoComidaTipo);
+
+        void GuardarBebida(ListadoOfertasBebida listadoBebidaTipo);
+
+        List<OfertaCantidadDTO> BuscarOfertasAsociadas(int idListado);
 
         void ModificarListado(ListadoDeOfertas listado);
     }

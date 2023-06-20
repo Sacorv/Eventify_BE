@@ -16,6 +16,11 @@ namespace AsistenteCompras_API.Infraestructure.Contexts.Configurations
                 .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ListadoDeOfertas_Usuario");
+
+            builder.HasOne(d => d.IdEventoNavigation).WithMany(p => p.ListadoDeOfertas)
+                .HasForeignKey(d => d.IdEvento)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ListadoDeOfertas_Evento");
         }
     }
 }

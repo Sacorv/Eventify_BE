@@ -1,15 +1,19 @@
-﻿using AsistenteCompras_API.Domain.Entities;
-
-namespace AsistenteCompras_API.DTOs
+﻿namespace AsistenteCompras_API.DTOs
 {
     public class ListadoOfertasDTO
     {
         public int IdUsuario { get; set; }
 
-        public int Cantidad { get; set; }
+        public int IdEvento { get; set; }
 
-        public decimal Total { get; set; }
+        public List<int> IdBebidas { get; set; } = null!;
+        
+        public List<int> IdComidas { get; set; } = null!;
 
-        public List<OfertaElegidaDTO> Ofertas { get; set; }
+        public int CantidadOfertas { get; set; }
+
+        public double Total { get; set; }
+
+        public List<OfertaElegidaDTO> Ofertas { get; set; } = null!;
     }
 }

@@ -1,4 +1,5 @@
-﻿using AsistenteCompras_API.Domain.Entities;
+﻿using AsistenteCompras_API.Domain;
+using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +36,22 @@ namespace AsistenteCompras_API.Controllers
                 }
             }
             catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+        [HttpGet("detalleListado")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ListadoOfertasUsuario))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+        public IActionResult VerDetalleListado(int idListado, int idUsuario)
+        {
+            try
+            {
+                ListadoOfertasUsuario listado = _listadoOfertasService.BuscarListado(idListado, idUsuario);
+                return listado!=null ? Ok(listado) : NoContent();
+            }
+            catch(Exception e)
             {
                 return BadRequest(e.ToString());
             }

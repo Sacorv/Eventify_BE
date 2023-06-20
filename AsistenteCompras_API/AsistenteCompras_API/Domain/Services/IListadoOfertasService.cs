@@ -9,7 +9,7 @@ namespace AsistenteCompras_API.Domain.Services
 
         List<ListadoDeOfertas> ConsultarListados();
 
-        ListadoDeOfertas BuscarListado(int idListado);
+        ListadoOfertasUsuario BuscarListado(int idListado, int idUsuario);
 
         void ModificarListado(ListadoDeOfertas listado);
 
