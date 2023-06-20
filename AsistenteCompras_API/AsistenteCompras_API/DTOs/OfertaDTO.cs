@@ -29,5 +29,6 @@ public class OfertaDTO
     public double Latitud { get; set; }
 
     public double Longitud { get; set; }
+    public DateTime FechaVencimiento { get; set; } 
 }
 

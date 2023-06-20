@@ -264,6 +264,8 @@ public class OfertaService : IOfertaService
 
         ofertasFiltradas.Add(ofertaMasEconomica);
 
+        ofertasFiltradas.Sort((x, y) => x.Subtotal.CompareTo(y.Subtotal));
+
         return ofertasFiltradas;
     }
 
