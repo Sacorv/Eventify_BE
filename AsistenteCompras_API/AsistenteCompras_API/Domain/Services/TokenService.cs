@@ -8,11 +8,11 @@ namespace AsistenteCompras_API.Domain.Services
 {
     public class TokenService : ITokenService
     {
-        private IConfiguration config;
+        private IConfiguration _config;
 
         public TokenService(IConfiguration config)
         {
-            this.config = config;
+            _config = config;
         }
 
         public string GenerateToken(Usuario usuario)
@@ -24,7 +24,7 @@ namespace AsistenteCompras_API.Domain.Services
                 new Claim(ClaimTypes.Email, usuario.Email)
             };
 
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetSection("JWT:Key").Value));
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetConnectionString("Key")));
             var creds = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha512Signature);
 
             var securityToken = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddMinutes(10), signingCredentials: creds);
