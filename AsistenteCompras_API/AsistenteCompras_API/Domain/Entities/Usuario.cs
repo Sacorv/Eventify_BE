@@ -11,5 +11,7 @@
         public string ?Email { get; set; } = null;
 
         public string Clave { get; set; } = null!;
+
+        public virtual ICollection<ListadoDeOfertas> ListadoDeOfertas { get; set; } = new List<ListadoDeOfertas>();
     }
 }

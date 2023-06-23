@@ -15,4 +15,7 @@ public partial class Publicacion
     public virtual Comercio IdComercioNavigation { get; set; } = null!;
 
     public virtual Producto IdProductoNavigation { get; set; } = null!;
+
+    public virtual ICollection<OfertaElegida> OfertasElegidas { get; set; } = new List<OfertaElegida>();
+
 }

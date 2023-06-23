@@ -6,13 +6,16 @@ namespace AsistenteCompras_API.Infraestructure.Contexts;
 
 public partial class AsistenteComprasContext : DbContext
 {
-    public AsistenteComprasContext()
+    private IConfiguration _config;
+    public AsistenteComprasContext(IConfiguration config)
     {
+        _config = config;
     }
 
-    public AsistenteComprasContext(DbContextOptions<AsistenteComprasContext> options)
+    public AsistenteComprasContext(DbContextOptions<AsistenteComprasContext> options, IConfiguration config)
         : base(options)
     {
+        _config = config;
     }
 
     public virtual DbSet<BebidaTipoProducto> BebidaTipoProductos { get; set; }
@@ -40,19 +43,20 @@ public partial class AsistenteComprasContext : DbContext
     public virtual DbSet<Publicacion> Publicacions { get; set; }
 
     public virtual DbSet<TipoProducto> TipoProductos { get; set; }
+
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
+    public virtual DbSet<ListadoDeOfertas> ListadoDeOfertas { get; set; }
+
+    public virtual DbSet<OfertaElegida> OfertaElegida { get; set; }
+
+    public virtual DbSet<ListadoOfertasBebida> ListadoOfertasBebida { get; set; }
+
+    public virtual DbSet<ListadoOfertasComida> ListadoOfertasComida { get; set; }
+
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
-            var configuration = builder.Build();
-            optionsBuilder.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]);
-        }
-    }
+        => optionsBuilder.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasAnnotation("Relational:Collation", "Modern_Spanish_CI_AS");
