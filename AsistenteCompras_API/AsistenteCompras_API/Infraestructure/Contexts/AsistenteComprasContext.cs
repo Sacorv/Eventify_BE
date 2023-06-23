@@ -6,16 +6,13 @@ namespace AsistenteCompras_API.Infraestructure.Contexts;
 
 public partial class AsistenteComprasContext : DbContext
 {
-    private IConfiguration _config;
-    public AsistenteComprasContext(IConfiguration config)
+    public AsistenteComprasContext()
     {
-        _config = config;
     }
 
-    public AsistenteComprasContext(DbContextOptions<AsistenteComprasContext> options, IConfiguration config)
+    public AsistenteComprasContext(DbContextOptions<AsistenteComprasContext> options)
         : base(options)
     {
-        _config = config;
     }
 
     public virtual DbSet<BebidaTipoProducto> BebidaTipoProductos { get; set; }
@@ -54,9 +51,18 @@ public partial class AsistenteComprasContext : DbContext
 
     public virtual DbSet<ListadoOfertasComida> ListadoOfertasComida { get; set; }
 
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .AddUserSecrets<Program>();
+            var configuration = builder.Build();
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+        }
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasAnnotation("Relational:Collation", "Modern_Spanish_CI_AS");
