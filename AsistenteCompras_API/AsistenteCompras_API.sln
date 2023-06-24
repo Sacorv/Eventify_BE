@@ -9,6 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsistenteCompras_Tests", "A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{28ADBF9E-CAA7-4738-8DAE-D8A66030D675}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{9E354111-3699-40F6-9DF0-A87E49AE1CF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts v2.0", "scripts v2.0", "{A1E8F4AE-34A8-4FE0-BAE7-09BD257E91E3}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Recursos AsistenteCompras TP-Final TPI 2023\Migraciones DB - SQL Server\DDL\DDL_EVENTIFY_v2.0.sql = ..\..\Recursos AsistenteCompras TP-Final TPI 2023\Migraciones DB - SQL Server\DDL\DDL_EVENTIFY_v2.0.sql
+		..\..\Recursos AsistenteCompras TP-Final TPI 2023\Migraciones DB - SQL Server\DML\DML_EVENTIFY_v2.0.sql = ..\..\Recursos AsistenteCompras TP-Final TPI 2023\Migraciones DB - SQL Server\DML\DML_EVENTIFY_v2.0.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5A813EB7-4748-483D-BA7F-2B6F95DD40F7} = {28ADBF9E-CAA7-4738-8DAE-D8A66030D675}
 		{A1E89E24-F241-4BA7-AADD-9F16BBE215F5} = {28ADBF9E-CAA7-4738-8DAE-D8A66030D675}
+		{A1E8F4AE-34A8-4FE0-BAE7-09BD257E91E3} = {9E354111-3699-40F6-9DF0-A87E49AE1CF5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BE8220BC-B029-44E5-AC2A-AC6283E68E9A}
