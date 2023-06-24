@@ -17,8 +17,8 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
 
         public ListadoOfertasUsuario BuscarListado(int idListado, int idUsuario)
         {
-            List<string> comidasElegidas = BuscarComidasElegidas(idListado);
-            List<string> bebidasElegidas = BuscarBebidasElegidas(idListado);
+            List<string> comidasElegidas = BuscarComidasElegidasPorIdListado(idListado);
+            List<string> bebidasElegidas = BuscarBebidasElegidasPorIdListado(idListado);
 
             ListadoOfertasUsuario ?listado = _context.ListadoDeOfertas.Where(lo => lo.Id == idListado).Join(_context.Usuarios, lo => lo.IdUsuario, u => u.Id, (lo, u)
                                                                         => new ListadoOfertasUsuario
@@ -99,23 +99,40 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
             throw new NotImplementedException();
         }
 
-        public List<ListadoDeOfertas> ObtenerListados()
+        public List<ListadosUsuario> ObtenerListados(int idUsuario)
         {
-            throw new NotImplementedException();
+            List<ListadosUsuario> listados = _context.ListadoDeOfertas.Where(lo => lo.IdUsuario == idUsuario).Join(_context.Usuarios, lo => lo.IdUsuario, u => u.Id, (lo, u)
+                                                                        => new ListadosUsuario
+                                                                        {
+                                                                            IdListado = lo.Id,
+                                                                            IdUsuario = u.Id,
+                                                                            FechaCreacion = lo.FechaCreacion,
+                                                                            Evento = lo.IdEventoNavigation.Nombre,
+                                                                            CantidadOfertas = lo.CantidadOfertasElegidas,
+                                                                            TotalListado = lo.Total
+                                                                        }).ToList();
+
+            foreach(ListadosUsuario listado in listados){
+                listado.ComidasElegidas = BuscarComidasElegidasPorIdListado(listado.IdListado);
+                listado.BebidasElegidas = BuscarBebidasElegidasPorIdListado(listado.IdListado);
+            }
+
+            return listados;
         }
 
-        private List<string> BuscarComidasElegidas(int idListado)
+        private List<string> BuscarComidasElegidasPorIdListado(int idListado)
         {
             return _context.ListadoOfertasComida.Where(loc => loc.IdListadoDeOfertas == idListado)
                                                 .Select(loc => loc.IdComidaNavigation.Nombre).ToList();
                     
         }
 
-        private List<string> BuscarBebidasElegidas(int idListado)
+        private List<string> BuscarBebidasElegidasPorIdListado(int idListado)
         {
             return _context.ListadoOfertasBebida.Where(loc => loc.IdListadoDeOfertas == idListado)
                                                 .Select(loc => loc.IdBebidaNavigation.TipoBebida).ToList();
 
         }
+
     }
 }

@@ -9,7 +9,7 @@ namespace AsistenteCompras_API.Domain.Services
 
         void GuardarOfertaEnListado(OfertaElegida oferta);
 
-        List<ListadoDeOfertas> ObtenerListados();
+        List<ListadosUsuario> ObtenerListados(int idUsuario);
 
         ListadoOfertasUsuario BuscarListado(int idListado, int idUsuario);
 

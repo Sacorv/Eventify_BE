@@ -7,7 +7,7 @@ namespace AsistenteCompras_API.Domain.Services
     {
         int GuardarListadoConOfertas(ListadoOfertasDTO listado);
 
-        List<ListadoDeOfertas> ConsultarListados();
+        List<ListadosUsuario> ConsultarListados(int idUsuario);
 
         ListadoOfertasUsuario BuscarListado(int idListado, int idUsuario);
 
