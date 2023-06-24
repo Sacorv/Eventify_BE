@@ -30,6 +30,8 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IListadoOfertasRepository, ListadoOfertasRepository>();
 builder.Services.AddScoped<IListadoOfertasService, ListadoOfertasService>();
+builder.Services.AddScoped<IRolService, RolService>();
+builder.Services.AddScoped<IRolRepository, RolRepository>();
 builder.Services.AddScoped<AsistenteComprasContext>();
 
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

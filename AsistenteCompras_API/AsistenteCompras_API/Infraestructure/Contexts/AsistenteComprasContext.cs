@@ -50,6 +50,7 @@ public partial class AsistenteComprasContext : DbContext
     public virtual DbSet<ListadoOfertasBebida> ListadoOfertasBebida { get; set; }
 
     public virtual DbSet<ListadoOfertasComida> ListadoOfertasComida { get; set; }
+    public virtual DbSet<Rol> Rol { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
