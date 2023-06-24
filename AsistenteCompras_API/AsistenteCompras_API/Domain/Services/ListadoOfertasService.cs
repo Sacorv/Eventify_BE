@@ -44,9 +44,9 @@ namespace AsistenteCompras_API.Domain.Services
             return listadoGuardado!=null ? listadoGuardado.IdListado : 0;
         }
 
-        public List<ListadoDeOfertas> ConsultarListados()
+        public List<ListadosUsuario> ConsultarListados(int idUsuario)
         {
-            throw new NotImplementedException();
+            return _listadoOfertasRepository.ObtenerListados(idUsuario);
         }
 
         public void ModificarListado(ListadoDeOfertas listado)

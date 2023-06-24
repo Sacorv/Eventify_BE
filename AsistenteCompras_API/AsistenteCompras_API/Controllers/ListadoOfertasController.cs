@@ -4,6 +4,7 @@ using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace AsistenteCompras_API.Controllers
 {
@@ -20,7 +21,7 @@ namespace AsistenteCompras_API.Controllers
         [HttpPost("guardarListado")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ListadoOfertasDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public IActionResult GuardarListado(ListadoOfertasDTO listado)
+        public IActionResult GuardarListado([FromBody]ListadoOfertasDTO listado)
         {
             try
             {
@@ -44,7 +45,7 @@ namespace AsistenteCompras_API.Controllers
         [HttpGet("detalleListado")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ListadoOfertasUsuario))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public IActionResult VerDetalleListado(int idListado, int idUsuario)
+        public IActionResult VerDetalleListado([Required]int idListado, [Required]int idUsuario)
         {
             try
             {
@@ -52,6 +53,22 @@ namespace AsistenteCompras_API.Controllers
                 return listado!=null ? Ok(listado) : NoContent();
             }
             catch(Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+        [HttpGet("misListados")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ListadosUsuario>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+        public IActionResult VerListados([Required]int idUsuario)
+        {
+            try
+            {
+                List<ListadosUsuario> listadosAsociados = _listadoOfertasService.ConsultarListados(idUsuario);
+                return listadosAsociados.Count!=0 ? Ok(listadosAsociados) : NoContent();
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.ToString());
             }
