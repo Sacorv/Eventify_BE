@@ -1,4 +1,5 @@
-﻿using AsistenteCompras_API.Domain.Services;
+﻿using AsistenteCompras_API.Domain.Entities;
+using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
 using AsistenteCompras_API.Infraestructure.Contexts;
 
@@ -20,5 +21,19 @@ public class UbicacionRepository : IUbicacionRepository
             Id = l.Id,
             Nombre = l.Nombre
         }).ToList();
+    }
+
+    public int BuscarLocalidadPorNombre(string localidad)
+    {
+        Localidad localidadBuscada = _context.Localidads.FirstOrDefault(l => l.Nombre.Equals(localidad));
+
+        if(localidadBuscada != null)
+        {
+            return localidadBuscada.Id;
+        }
+        else
+        {
+            return 0;
+        }
     }
 }

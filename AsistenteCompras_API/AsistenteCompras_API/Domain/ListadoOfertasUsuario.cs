@@ -1,5 +1,4 @@
 ﻿using AsistenteCompras_API.DTOs;
-using AsistenteCompras_API.Infraestructure.Contexts.Configurations;
 
 namespace AsistenteCompras_API.Domain
 {
@@ -15,5 +14,8 @@ namespace AsistenteCompras_API.Domain
         public List<OfertaCantidadDTO>? Ofertas { get; set; }
         public double TotalListado { get; set; }
         public DateTime FechaCreacion { get; set; }
+        public string UrlRecorrido { get; set; } = null!;
+        public string MensajeOfertas { get; set; } = null!;
+        public double DistanciaARecorrer { get; set; }
     }
 }
