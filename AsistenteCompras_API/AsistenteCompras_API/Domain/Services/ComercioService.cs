@@ -1,5 +1,6 @@
 ﻿using AsistenteCompras_API.DTOs;
 using AsistenteCompras_API.Domain.Entities;
+using AsistenteCompras_API.Infraestructure.Repositories;
 
 
 namespace AsistenteCompras_API.Domain.Services;
@@ -11,6 +12,38 @@ public class ComercioService : IComercioService
     public ComercioService(IComercioRepository comercioRepository)
     {
         _comercioRepository = comercioRepository;
+    }
+
+
+    public Login IniciarSesion(string email, string clave)
+    {
+        Login comercio = _comercioRepository.VerificarComercio(email, clave);
+        if (comercio != null)
+        {
+            return comercio;
+        }
+        else
+        {
+            return null!;
+        }
+    }
+
+    public string RegistrarComercio(Comercio comercio)
+    {
+        Comercio comercioNuevo = _comercioRepository.RegistrarComercio(comercio);
+        if (comercioNuevo != null)
+        {
+            return comercioNuevo.RazonSocial + " - " + comercioNuevo.CUIT;
+        }
+        else
+        {
+            return "El email o CUIT ingresado ya se encuentra registrado";
+        }
+    }
+
+    public bool ValidarClaves(string clave, string claveAComparar)
+    {
+        return clave.Equals(claveAComparar) ? true : false;
     }
 
     public List<int> ObtenerComerciosPorRadio(double latitud, double longitud, float distancia)

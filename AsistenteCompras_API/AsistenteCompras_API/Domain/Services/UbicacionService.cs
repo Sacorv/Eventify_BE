@@ -35,6 +35,11 @@ public class UbicacionService : IUbicacionService
         return _ubicacionRepository.ObtenerTodasLasLocalidades();
     }
 
+    public int BuscarLocalidadPorNombre(string localidad)
+    {
+        return _ubicacionRepository.BuscarLocalidadPorNombre(localidad);
+    }
+
     private static double ConvertirARadianes(double grados)
     {
         return grados * Math.PI / 180;

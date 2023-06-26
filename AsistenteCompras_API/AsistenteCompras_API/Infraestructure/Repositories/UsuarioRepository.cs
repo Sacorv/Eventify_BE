@@ -14,22 +14,23 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
         }
 
 
-        public UsuarioLogin VerificarUsuario(string email, string clave)
+        public Login VerificarUsuario(string email, string clave)
         {
             return _context.Usuarios.Where(u => u.Email
                                     .Equals(email) && u.Clave.Equals(clave))
-                                    .Select(u => new UsuarioLogin
+                                    .Select(u => new Login
                                     {
                                         Id = u.Id,
                                         Rol = u.IdRolNavigation.Nombre,
                                         Usuario = u.Nombre + " " + u.Apellido,
                                         Email = u.Email
-                                    }).First();
+                                    }).FirstOrDefault()!;
+
         }
 
         public Usuario RegistrarUsuario(Usuario usuario)
         {
-            Usuario usuarioARegistrar = _context.Usuarios.FirstOrDefault(u => u.Email.Equals(usuario.Email));
+            Usuario usuarioARegistrar = _context.Usuarios.FirstOrDefault(u => u.Email.Equals(usuario.Email))!;
 
             if(usuarioARegistrar == null)
             {
@@ -40,7 +41,7 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
             }
             else
             {
-                return null;
+                return null!;
             }
         }
     }
