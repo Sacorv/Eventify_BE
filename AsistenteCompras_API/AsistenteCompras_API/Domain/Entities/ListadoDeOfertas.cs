@@ -16,6 +16,12 @@
 
         public DateTime FechaCreacion { get; set; }
 
+        public string UrlRecorrido { get; set; } = null!;
+
+        public string MensajeOfertas { get; set; } = null!;
+
+        public double DistanciaARecorrer { get; set; }
+
         public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 
         public virtual Evento IdEventoNavigation { get; set; } = null!;
