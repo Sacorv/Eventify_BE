@@ -1,6 +1,6 @@
 ﻿namespace AsistenteCompras_API.DTOs
 {
-    public class LoginUsuarioDTO
+    public class LoginDTO
     {
         public string Email { get; set; } = null!;
 

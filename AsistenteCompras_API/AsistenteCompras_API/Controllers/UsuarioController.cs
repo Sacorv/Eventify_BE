@@ -2,8 +2,6 @@
 using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AsistenteCompras_API.Controllers
@@ -26,11 +24,11 @@ namespace AsistenteCompras_API.Controllers
         [HttpPost("inicioSesion")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public IActionResult AutenticarUsuario([FromBody]LoginUsuarioDTO usuario)
+        public IActionResult AutenticarUsuario([FromBody]LoginDTO usuario)
         {
             try
             {
-                UsuarioLogin usuarioEncontrado = _usuarioService.IniciarSesion(usuario.Email, usuario.Clave);
+                Login usuarioEncontrado = _usuarioService.IniciarSesion(usuario.Email, usuario.Clave);
                 if (usuarioEncontrado != null)
                 {
                     //return Ok( new { token = _tokenService.GenerateToken(usuarioEncontrado)});
@@ -38,7 +36,7 @@ namespace AsistenteCompras_API.Controllers
                 }
                 else
                 {
-                    return BadRequest( new { message = "Usuario y/o contraseña son incorrectos"});
+                    return BadRequest( new { message = "Email y/o contraseña son incorrectos"});
                 }
             }
             catch (Exception e)
@@ -68,9 +66,9 @@ namespace AsistenteCompras_API.Controllers
                     nuevoUsuario.Clave = usuario.Clave;
                     nuevoUsuario.IdRol = idRol;
                     
-                    string nombreUsuario = _usuarioService.RegistrarUsuario(nuevoUsuario);
+                    string resultado = _usuarioService.RegistrarUsuario(nuevoUsuario);
 
-                    return Ok(new {message = "Registro: "+ $"{nombreUsuario}"});
+                    return Ok(new {message = "Registro: "+ $"{resultado}"});
                 }
                 else
                 {
