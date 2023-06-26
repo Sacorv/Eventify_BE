@@ -15,5 +15,11 @@
         public double Total { get; set; }
 
         public List<OfertaElegidaDTO> Ofertas { get; set; } = null!;
+
+        public string UrlRecorrido { get; set; } = null!;
+
+        public string MensajeOfertas { get; set; } = null!;
+
+        public double DistanciaARecorrer { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
             List<string> comidasElegidas = BuscarComidasElegidasPorIdListado(idListado);
             List<string> bebidasElegidas = BuscarBebidasElegidasPorIdListado(idListado);
 
-            ListadoOfertasUsuario ?listado = _context.ListadoDeOfertas.Where(lo => lo.Id == idListado).Join(_context.Usuarios, lo => lo.IdUsuario, u => u.Id, (lo, u)
+            ListadoOfertasUsuario listado = _context.ListadoDeOfertas.Where(lo => lo.Id == idListado).Join(_context.Usuarios, lo => lo.IdUsuario, u => u.Id, (lo, u)
                                                                         => new ListadoOfertasUsuario
                                                                         {
                                                                             IdListado = lo.Id,
@@ -31,10 +31,13 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
                                                                             ComidasElegidas = comidasElegidas,
                                                                             BebidasElegidas = bebidasElegidas,
                                                                             CantidadOfertas = lo.CantidadOfertasElegidas,
-                                                                            TotalListado = lo.Total
+                                                                            TotalListado = lo.Total,
+                                                                            UrlRecorrido = lo.UrlRecorrido,
+                                                                            MensajeOfertas = lo.MensajeOfertas,
+                                                                            DistanciaARecorrer = lo.DistanciaARecorrer
                                                                         }).Where(listadoOfertas => listadoOfertas.IdUsuario == idUsuario)
-                                                                        .FirstOrDefault();
-            return listado!;
+                                                                        .FirstOrDefault()!;
+            return listado;
         }
 
         public List<OfertaCantidadDTO> BuscarOfertasAsociadas(int idListado)

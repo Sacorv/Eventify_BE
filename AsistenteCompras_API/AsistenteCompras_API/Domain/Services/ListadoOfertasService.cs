@@ -68,6 +68,9 @@ namespace AsistenteCompras_API.Domain.Services
             nuevoListado.Total = total;
             nuevoListado.Estado = true;
             nuevoListado.FechaCreacion = DateTime.Now;
+            nuevoListado.UrlRecorrido = listado.UrlRecorrido;
+            nuevoListado.MensajeOfertas = listado.MensajeOfertas;
+            nuevoListado.DistanciaARecorrer = listado.DistanciaARecorrer;
 
             int idListado = _listadoOfertasRepository.GuardarListado(nuevoListado);
 
