@@ -1,31 +1,46 @@
-﻿using AsistenteCompras_API.Domain.Entities;
+﻿using Azure.Storage.Blobs;
+using Microsoft.IdentityModel.Tokens;
 
-namespace AsistenteCompras_API.Domain.Services
+namespace AsistenteCompras_API.Domain.Services;
+
+public class VerificadorComercioService : IVerificadorComercioService
 {
-    public class VerificadorComercioService : IVerificadorComercioService
+    private readonly IConfiguration _configuration;
+
+    public VerificadorComercioService(IConfiguration configuration)
     {
-        public string VerificarComercioPorCuit(string cuit)
+        _configuration = configuration;
+    }
+    public async Task<string> VerificarComercioPorCuit(string cuit)
+    {
+        string comercioVerificado = "";
+
+        BlobServiceClient blobServiceClient = new BlobServiceClient(_configuration.GetValue<string>("ConnectionStrings:BlobStorage"));
+        BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient("csv");
+        BlobClient blobClient = containerClient.GetBlobClient("registro-nacional-sociedades-202212.csv");
+        string separador = ",";
+
+        if(await blobClient.ExistsAsync())
         {
-            string comercioVerificado = "";
-
-            string pathCsv = "..\\..\\datacsv\\registro-nacional-sociedades-202212.csv";
-
-            System.IO.StreamReader archivo = new StreamReader(pathCsv);
-            string separador = ",";
-            string registroCsv;
-
-            archivo.ReadLine();
-
-            while((registroCsv = archivo.ReadLine()) != null)
+            var response = await blobClient.DownloadAsync();
+            using (var streamReader = new StreamReader(response.Value.Content))
             {
-                string[] registro = registroCsv.Split(separador);
-                if (registro[0].Equals(cuit))
+                while (!streamReader.EndOfStream)
                 {
-                    comercioVerificado = registro[0] + " " + registro[1]; 
-                    break;
+                    var registroCSV = await streamReader.ReadLineAsync();
+                    if (!registroCSV.IsNullOrEmpty())
+                    {
+                        string[] registroSeparado = registroCSV.Split(separador);
+                        if (registroSeparado[0].Equals(cuit))
+                        {
+                            comercioVerificado = registroSeparado[0] + " " + registroSeparado[1];
+                            break;
+                        }
+                    }
                 }
             }
-            return comercioVerificado;
-        }
+        } 
+        
+        return comercioVerificado;
     }
 }

@@ -1,9 +1,6 @@
-﻿using AsistenteCompras_API.Domain.Entities;
-using AsistenteCompras_API.Domain;
-using AsistenteCompras_API.DTOs;
-using Microsoft.AspNetCore.Http;
+﻿using AsistenteCompras_API.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
-using AsistenteCompras_API.Domain.Services;
+using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 
 namespace AsistenteCompras_API.Controllers
@@ -21,12 +18,12 @@ namespace AsistenteCompras_API.Controllers
         [HttpGet("verificarComercio")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public IActionResult VerificarComercio([Required]string cuit)
+        public async Task<IActionResult> VerificarComercioAsync([Required]string cuit)
         {
             try
             {
-                string comercioVerificado = _verificadorComercioService.VerificarComercioPorCuit(cuit);
-                if (comercioVerificado != "")
+                var comercioVerificado = await _verificadorComercioService.VerificarComercioPorCuit(cuit);
+                if (!comercioVerificado.IsNullOrEmpty())
                 {
                     return Ok(new { message = "Comercio verificado por el Registro Nacional de Sociedades: " + $"{comercioVerificado}" });
                 }
