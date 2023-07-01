@@ -4,6 +4,6 @@ namespace AsistenteCompras_API.Domain.Services
 {
     public interface IVerificadorComercioService
     {
-        string VerificarComercioPorCuit(string cuit);
+        Task<string> VerificarComercioPorCuit(string cuit);
     }
 }

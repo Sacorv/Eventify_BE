@@ -1,11 +1,10 @@
 using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.Infraestructure.Contexts;
 using AsistenteCompras_API.Infraestructure.Repositories;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
