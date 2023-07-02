@@ -1,4 +1,6 @@
-﻿namespace AsistenteCompras_API.Domain.Services;
+﻿using AsistenteCompras_API.DTOs;
+
+namespace AsistenteCompras_API.Domain.Services;
 
 public class TipoProductoService : ITipoProductoService
 {
@@ -29,4 +31,8 @@ public class TipoProductoService : ITipoProductoService
         return _tipoProductoRepository.ObtenerIdTipoProductosComidaV2(idComida);
     }
 
+    public List<TipoProductoDTO> ObtenerTodosLosTiposDeProductos()
+    {
+        return _tipoProductoRepository.ObtenerTodosLosTiposDeProductos();
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using AsistenteCompras_API.Domain;
 using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Domain.Services;
+using AsistenteCompras_API.DTOs;
 using AsistenteCompras_API.Infraestructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -60,5 +61,17 @@ public class ComercioRepository : IComercioRepository
         return _context.Comercios.Where(c => c.Id == idComercio)
                                  .Select(c => c.Imagen)
                                  .First();
+    }
+
+    public List<OfertaComercioDTO> ObtenerOfertasDelComercio(int idComercio)
+    {
+        return _context.Publicacions.Where(p => p.IdComercio.Equals(idComercio))
+                                    .Select(p => new OfertaComercioDTO
+                                    {
+                                        Nombre = p.IdProductoNavigation.Nombre,
+                                        Imagen = p.IdProductoNavigation.Imagen,
+                                        FechaFin = p.FechaFin,
+                                        Precio = p.Precio,
+                                    }).ToList();
     }
 }

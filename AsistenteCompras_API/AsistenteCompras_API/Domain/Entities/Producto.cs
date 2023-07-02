@@ -20,6 +20,8 @@ public partial class Producto
 
     public int Unidades { get; set; }
 
+    public string CodigoBarras { get; set; } = null!;
+
     public virtual Categorium IdCategoriaNavigation { get; set; } = null!;
 
     public virtual TipoProducto IdTipoProductoNavigation { get; set; } = null!;

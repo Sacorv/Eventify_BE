@@ -1,4 +1,5 @@
 ﻿using AsistenteCompras_API.Domain.Services;
+using AsistenteCompras_API.DTOs;
 using AsistenteCompras_API.Infraestructure.Contexts;
 
 namespace AsistenteCompras_API.Infraestructure.Repositories;
@@ -34,5 +35,15 @@ public class TipoProductoRepository : ITipoProductoRepository
     {
         return _context.ComidaTipoProductos.Where(c => idComida.Contains(c.IdComida))
                                            .Select(c => c.IdTipoProducto).ToList();
+    }
+
+    public List<TipoProductoDTO> ObtenerTodosLosTiposDeProductos()
+    {
+        return _context.TipoProductos
+                       .Select(t => new TipoProductoDTO
+                       {
+                           Id = t.Id,
+                           Nombre = t.Nombre
+                       }).ToList();
     }
 }

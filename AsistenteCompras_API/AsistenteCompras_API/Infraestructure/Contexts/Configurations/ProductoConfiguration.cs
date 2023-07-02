@@ -19,6 +19,9 @@ public class ProductoConfiguration : IEntityTypeConfiguration<Producto>
         builder.Property(e => e.Nombre)
             .HasMaxLength(50)
             .IsUnicode(false);
+        builder.Property(e => e.CodigoBarras)
+            .HasMaxLength(14)
+            .IsUnicode(false);
         builder.Property(e => e.Peso).HasColumnType("decimal(9, 2)");
         builder.Property(e => e.Unidades).HasColumnType("int");
 
