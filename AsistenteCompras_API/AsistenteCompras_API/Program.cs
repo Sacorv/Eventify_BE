@@ -32,7 +32,8 @@ builder.Services.AddScoped<IListadoOfertasService, ListadoOfertasService>();
 builder.Services.AddScoped<IRolService, RolService>();
 builder.Services.AddScoped<IRolRepository, RolRepository>();
 builder.Services.AddScoped<IVerificadorComercioService, VerificadorComercioService>();
-builder.Services.AddScoped<AsistenteComprasContext>();
+builder.Services.AddDbContext<AsistenteComprasContext>(options => options.UseSqlServer(
+    builder.Configuration.GetValue<string>("ConnectionStrings:DefaultConnection")));
 
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //    .AddJwtBearer(options =>
@@ -56,11 +57,9 @@ app.UseCors(builder =>
 });
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 
