@@ -12,8 +12,8 @@ namespace AsistenteCompras_API.Infraestructure.Contexts.Configurations
 
             builder.Property(e => e.Total).HasColumnType("decimal(18, 2)");
             builder.Property(e => e.DistanciaARecorrer).HasColumnType("decimal(18, 2)");
-            builder.Property(e => e.UrlRecorrido).HasMaxLength(2000);
-            builder.Property(e => e.MensajeOfertas).HasMaxLength(2000);
+            builder.Property(e => e.UrlRecorrido).HasColumnType("nvarchar(max)");
+            builder.Property(e => e.MensajeOfertas).HasColumnType("nvarchar(max)");
 
             builder.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.ListadoDeOfertas)
                 .HasForeignKey(d => d.IdUsuario)
