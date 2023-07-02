@@ -1,4 +1,4 @@
-﻿namespace AsistenteCompras_Entities.DTOs;
+﻿namespace AsistenteCompras_API.DTOs;
 
 public class ProductoDTO
 {

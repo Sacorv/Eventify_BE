@@ -1,6 +1,5 @@
-﻿using AsistenteCompras_API.DTOs;
-using AsistenteCompras_API.Domain.Entities;
-using AsistenteCompras_API.Infraestructure.Repositories;
+﻿using AsistenteCompras_API.Domain.Entities;
+using AsistenteCompras_API.DTOs;
 
 
 namespace AsistenteCompras_API.Domain.Services;
@@ -79,6 +78,20 @@ public class ComercioService : IComercioService
         return _comercioRepository.ObtenerImagenComercio(idComercio);
     }
 
+    public List<OfertaComercioDTO> ObtenerOfertasDelComercio(int idComercio)
+    {
+        List<OfertaComercioDTO> ofertasDelComercio;
+        try
+        {
+            ofertasDelComercio = _comercioRepository.ObtenerOfertasDelComercio(idComercio);
+        }
+        catch(Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        return ofertasDelComercio;
+    }
+
     private static double CalcularDistanciaHaversine(double latitudUno, double longitudUno, double latitudDos, double longitudDos)
     {
         const double radioTierraKilometros = 6371;
@@ -103,5 +116,4 @@ public class ComercioService : IComercioService
     {
         return grados * Math.PI / 180;
     }
-
 }

@@ -16,4 +16,6 @@ public interface IComercioService
     OfertaDTO CompararDistanciaEntreComercios(double latitudUbicacion, double longitudUbicacion, OfertaDTO ofertaComercioUno, OfertaDTO ofertaComercioDos);
 
     string ObtenerImagenDelComercio(int idComercio);
+
+    List<OfertaComercioDTO> ObtenerOfertasDelComercio(int idComercio);
 }
