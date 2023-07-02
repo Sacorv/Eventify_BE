@@ -23,7 +23,7 @@ namespace AsistenteCompras_API.Controllers
         }
 
         [HttpPost("inicioSesion")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LoginDTO>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         public IActionResult AutenticarUsuario([FromBody] LoginDTO login)
         {
