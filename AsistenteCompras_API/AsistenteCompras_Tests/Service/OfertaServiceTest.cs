@@ -1,3 +1,4 @@
+using AsistenteCompras_API.Domain;
 using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
 using Moq;
@@ -19,7 +20,7 @@ public class OfertaServiceTest
     [Fact]
     public void QueListaRecorrerMenosMeDevuelvaUnaListaVaciaCuandoNoHayComerciosEnElRadio()
     {
-        FiltroDTO filtroDTO = new FiltroDTO()
+        Filtro filtroDTO = new Filtro()
         {
             LatitudUbicacion = -34.68544,
             LongitudUbicacion = -58.50168,
@@ -46,7 +47,7 @@ public class OfertaServiceTest
     [Fact]
     public void QueListaRecorrerMenosMeDevuelvaUnaListaVaciaCuandoNoHayOfertasParaLosProductosQueQuieroComprar()
     {
-        FiltroDTO filtroDTO = new FiltroDTO()
+        Filtro filtroDTO = new Filtro()
         {
             LatitudUbicacion = -34.68544,
             LongitudUbicacion = -58.50168,
@@ -93,7 +94,7 @@ public class OfertaServiceTest
     [Fact]
     public void QueListaRecorrerMenosMeDevuelvaUnaListaDeComerciosConLasOfertasDeTodosMisProductosAComprar()
     {
-        FiltroDTO filtroDTO = new FiltroDTO()
+        Filtro filtroDTO = new Filtro()
         {
             LatitudUbicacion = -34.68544,
             LongitudUbicacion = -58.50168,

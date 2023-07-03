@@ -1,4 +1,6 @@
-﻿namespace AsistenteCompras_API.DTOs;
+﻿using System.Globalization;
+
+namespace AsistenteCompras_API.DTOs;
 
 public class OfertaDTO
 {
@@ -29,6 +31,7 @@ public class OfertaDTO
     public double Latitud { get; set; }
 
     public double Longitud { get; set; }
-    public DateTime FechaVencimiento { get; set; } 
+    public string FechaVencimiento { get; set; } = null!;
+
 }
 

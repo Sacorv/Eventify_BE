@@ -8,10 +8,10 @@ public interface IOfertaService
     
     List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> localidades, int idBebida);
 
-    List<OfertaCantidadDTO> GenerarListaPersonalizada(FiltroDTO filtro);
+    List<OfertaCantidadDTO> GenerarListaPersonalizada(Filtro filtro);
 
-    List<OfertasPorProductoDTO> GenerarListaDeOfertas(FiltroDTO filtro);
+    List<OfertasPorProductoDTO> GenerarListaDeOfertas(Filtro filtro);
 
-    List<OfertasPorComercioDTO> ListaRecorrerMenos(FiltroDTO filtro); 
+    List<OfertasPorComercioDTO> ListaRecorrerMenos(Filtro filtro); 
 
 }

@@ -2,6 +2,7 @@
 using AsistenteCompras_API.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using AsistenteCompras_API.Domain;
 
 namespace AsistenteCompras_API.Controllers;
 
@@ -19,7 +20,7 @@ public class OfertaController : ControllerBase
     [HttpPost("listaPersonalizada")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaCantidadDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult ObtenerOfertasMasEconomicasSegunFiltros([FromBody]FiltroDTO filtro)
+    public IActionResult ObtenerOfertasMasEconomicasSegunFiltros([FromBody]Filtro filtro)
     {
         try
         {
@@ -44,7 +45,7 @@ public class OfertaController : ControllerBase
     [HttpPost("listadoOfertas")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertasPorProductoDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult ObtenerListadoOfertasMasEconomicas([FromBody] FiltroDTO filtro)
+    public IActionResult ObtenerListadoOfertasMasEconomicas([FromBody] Filtro filtro)
     {
         try
         {
@@ -68,7 +69,7 @@ public class OfertaController : ControllerBase
     [HttpPost("recorrerMenos")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertasPorComercioDTO>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult ObtenerOfertasEnMenorRecorrido([FromBody] FiltroDTO filtro)
+    public IActionResult ObtenerOfertasEnMenorRecorrido([FromBody] Filtro filtro)
     {
         try
         {

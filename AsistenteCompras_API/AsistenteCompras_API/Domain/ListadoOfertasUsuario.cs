@@ -13,7 +13,7 @@ namespace AsistenteCompras_API.Domain
         public int CantidadOfertas { get; set; }
         public List<OfertaCantidadDTO>? Ofertas { get; set; }
         public double TotalListado { get; set; }
-        public DateTime FechaCreacion { get; set; }
+        public string FechaCreacion { get; set; } = null!;
         public string UrlRecorrido { get; set; } = null!;
         public string MensajeOfertas { get; set; } = null!;
         public double DistanciaARecorrer { get; set; }

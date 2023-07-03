@@ -26,7 +26,7 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
                                                                             IdListado = lo.Id,
                                                                             IdUsuario = u.Id,
                                                                             Usuario = u.Nombre + " " + u.Apellido,
-                                                                            FechaCreacion = lo.FechaCreacion,
+                                                                            FechaCreacion = lo.FechaCreacion.ToString("dd-MM-yy"),
                                                                             Evento = lo.IdEventoNavigation.Nombre,
                                                                             ComidasElegidas = comidasElegidas,
                                                                             BebidasElegidas = bebidasElegidas,
@@ -63,7 +63,7 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
                                 IdLocalidad = oe.IdPublicacionNavigation.IdComercioNavigation.IdLocalidad,
                                 Latitud = (double)oe.IdPublicacionNavigation.IdComercioNavigation.Latitud,
                                 Longitud = (double)oe.IdPublicacionNavigation.IdComercioNavigation.Longitud,
-                                FechaVencimiento = oe.IdPublicacionNavigation.FechaFin
+                                FechaVencimiento = oe.IdPublicacionNavigation.FechaFin.ToString("dd-MM-yy")
                             },
                             Subtotal = oe.Subtotal
                          }).ToList();
@@ -109,7 +109,7 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
                                                                         {
                                                                             IdListado = lo.Id,
                                                                             IdUsuario = u.Id,
-                                                                            FechaCreacion = lo.FechaCreacion,
+                                                                            FechaCreacion = lo.FechaCreacion.ToString("dd-MM-yy"),
                                                                             Evento = lo.IdEventoNavigation.Nombre,
                                                                             CantidadOfertas = lo.CantidadOfertasElegidas,
                                                                             TotalListado = lo.Total

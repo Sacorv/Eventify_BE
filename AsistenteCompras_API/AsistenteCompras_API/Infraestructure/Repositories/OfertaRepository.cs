@@ -92,8 +92,6 @@ public class OfertaRepository : IOfertaRepository
 
     public List<OfertaDTO> OfertasDentroDelRadioV2(List<int> idProductos, List<int> idComercios, List<String> marcasElegidas)
     {
-
-
         List<OfertaDTO> ofertas = _context.Publicacions.Where(pub => idComercios.Contains(pub.IdComercio))
                             .Join(_context.Productos, pub => pub.IdProducto, p => p.Id,
                                   (pub, p) => new OfertaDTO
@@ -111,7 +109,8 @@ public class OfertaRepository : IOfertaRepository
                                       Longitud = (double)pub.IdComercioNavigation.Longitud,
                                       Localidad = pub.IdComercioNavigation.IdLocalidadNavigation.Nombre,
                                       Peso = p.Peso,
-                                      Unidades = p.Unidades
+                                      Unidades = p.Unidades,
+                                      FechaVencimiento = pub.FechaFin.ToString("dd-MM-yy")
                                   })
                             .Where(oferta => idProductos.Contains(oferta.IdTipoProducto) && marcasElegidas.Contains(oferta.Marca))
                             .ToList();
