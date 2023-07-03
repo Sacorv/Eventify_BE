@@ -1,4 +1,6 @@
-﻿using AsistenteCompras_API.DTOs;
+﻿using AsistenteCompras_API.Domain.Entities;
+using AsistenteCompras_API.DTOs;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AsistenteCompras_API.Domain.Services;
@@ -54,7 +56,7 @@ public class OfertaService : IOfertaService
     }
 
 
-    public List<OfertaCantidadDTO> GenerarListaPersonalizada(FiltroDTO filtro)
+    public List<OfertaCantidadDTO> GenerarListaPersonalizada(Filtro filtro)
     {
         List<OfertaDTO> ofertasDisponibles = BuscarOfertasDentroDelRadio(filtro);
 
@@ -63,7 +65,7 @@ public class OfertaService : IOfertaService
         return CalcularCantidadYSubtotalPorOferta(ofertasEconomicasSegunCantidadNecesaria, filtro.CantidadProductos);
     }
 
-    public List<OfertasPorProductoDTO> GenerarListaDeOfertas(FiltroDTO filtro)
+    public List<OfertasPorProductoDTO> GenerarListaDeOfertas(Filtro filtro)
     {
         List<OfertaDTO> ofertasDisponibles = BuscarOfertasDentroDelRadio(filtro);
 
@@ -79,7 +81,7 @@ public class OfertaService : IOfertaService
         return GenerarListadoPorProductoYMarca(ofertasCantidad, filtro.LatitudUbicacion, filtro.LongitudUbicacion);
     }
 
-    public List<OfertasPorComercioDTO> ListaRecorrerMenos(FiltroDTO filtro)
+    public List<OfertasPorComercioDTO> ListaRecorrerMenos(Filtro filtro)
     {
         List<OfertasPorComercioDTO> comercios = new List<OfertasPorComercioDTO>();
         List<OfertaDTO> ofertas;
@@ -184,7 +186,7 @@ public class OfertaService : IOfertaService
         return comerciosConLaMayorCantidadDeProductos;
     }
 
-    private static List<OfertaDTO> ProductosAComprarEnElComercio(FiltroDTO filtro, List<OfertaDTO> ofertas)
+    private static List<OfertaDTO> ProductosAComprarEnElComercio(Filtro filtro, List<OfertaDTO> ofertas)
     {
         List<OfertaDTO> ofertasEncontradas = new List<OfertaDTO>();
         foreach (var productoAcomprar in filtro.CantidadProductos)
@@ -271,7 +273,7 @@ public class OfertaService : IOfertaService
         return ofertasFiltradas;
     }
 
-    private List<OfertaDTO> BuscarOfertasDentroDelRadio(FiltroDTO filtro)
+    private List<OfertaDTO> BuscarOfertasDentroDelRadio(Filtro filtro)
     {
         List<int> idComercios = BuscarComerciosDentroDelRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia);
 
@@ -279,7 +281,23 @@ public class OfertaService : IOfertaService
 
         List<String> marcas = VerificarMarcasElegidas(filtro);
 
-        return _ofertaRepository.OfertasDentroDelRadioV2(idProductos, idComercios, marcas);
+        List<OfertaDTO> ofertasEncontradas = _ofertaRepository.OfertasDentroDelRadioV2(idProductos, idComercios, marcas);
+
+        return FiltrarOfertasVigentes(ofertasEncontradas);
+    }
+
+    private List<OfertaDTO> FiltrarOfertasVigentes(List<OfertaDTO> ofertasEncontradas)
+    {
+        List<OfertaDTO> listadoOfertas = new List<OfertaDTO>();
+
+        foreach (OfertaDTO oferta in ofertasEncontradas)
+        {
+            if (DateTime.Compare(Convert.ToDateTime(oferta.FechaVencimiento), DateTime.Now) > 0)
+            {
+                listadoOfertas.Add(oferta);
+            }
+        }
+        return listadoOfertas;
     }
 
     private List<OfertaDTO> ExtaerMejoresOfertas(List<OfertaDTO> ofertasDisponibles, double latitudUbicacion, double longitudUbicacion, Dictionary<string, double> cantidadNecesaria)
@@ -392,7 +410,7 @@ public class OfertaService : IOfertaService
         return idProductos;
     }
 
-    private List<String> VerificarMarcasElegidas(FiltroDTO filtro)
+    private List<String> VerificarMarcasElegidas(Filtro filtro)
     {
         List<String> marcasDeProductos = new List<string>();
 
