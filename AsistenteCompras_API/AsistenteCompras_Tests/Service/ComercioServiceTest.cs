@@ -7,8 +7,9 @@ namespace AsistenteCompras_Tests.Service;
 public class ComercioServiceTest
 {
     private static Mock<IComercioRepository> comercioRepo = new Mock<IComercioRepository>();
+    private static Mock<IOfertaRepository> ofertaRepo = new Mock<IOfertaRepository>();
 
-    private ComercioService comercioServicio = new ComercioService(comercioRepo.Object);
+    private ComercioService comercioServicio = new ComercioService(comercioRepo.Object,ofertaRepo.Object);
 
     [Fact]
     public void QueSeleccioneLaOfertaMasCercanaSegunMiUbicacion()

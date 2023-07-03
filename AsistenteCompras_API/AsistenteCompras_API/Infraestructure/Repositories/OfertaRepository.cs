@@ -156,7 +156,7 @@ public class OfertaRepository : IOfertaRepository
 
     public List<OfertaDTO> OfertasPorComercio(int idComercio)
     {
-        return _context.Publicacions.Where(p => p.IdComercio == idComercio)
+        return _context.Publicacions.Where(p => p.IdComercio == idComercio && DateTime.Compare(p.FechaFin,DateTime.UtcNow.AddHours(-3)) > 0)
                                     .Select(o => new OfertaDTO
                                     {
                                         IdPublicacion = o.Id,
@@ -172,7 +172,8 @@ public class OfertaRepository : IOfertaRepository
                                         Localidad = o.IdComercioNavigation.IdLocalidadNavigation.Nombre,
                                         IdLocalidad = o.IdComercioNavigation.IdLocalidad,
                                         Latitud = (double) o.IdComercioNavigation.Latitud,
-                                        Longitud = (double) o.IdComercioNavigation.Longitud
+                                        Longitud = (double) o.IdComercioNavigation.Longitud,
+                                        FechaVencimiento = o.FechaFin.ToString("dd-MM-yy")
                                     }).ToList();
     }
 
