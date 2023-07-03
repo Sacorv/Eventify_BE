@@ -25,7 +25,7 @@ public class UbicacionRepository : IUbicacionRepository
 
     public int BuscarLocalidadPorNombre(string localidad)
     {
-        Localidad localidadBuscada = _context.Localidads.FirstOrDefault(l => l.Nombre.Equals(localidad));
+        Localidad localidadBuscada = _context.Localidads.FirstOrDefault(l => l.Nombre.Equals(localidad))!;
 
         if(localidadBuscada != null)
         {
@@ -33,7 +33,11 @@ public class UbicacionRepository : IUbicacionRepository
         }
         else
         {
-            return 0;
+            Localidad nuevaLocalidad = new Localidad() { Nombre = localidad };
+            _context.Localidads.Add(nuevaLocalidad);
+            _context.SaveChanges();
+            
+            return nuevaLocalidad.Id;
         }
     }
 }

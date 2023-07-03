@@ -58,24 +58,27 @@ public class ComercioController : ControllerBase
 
             if (validacionClave == true)
             {
-                //TO DO validar rol y localidad en controller antes de guardar comercio nuevo
                 int idRol = _rolService.BuscarRolPorNombre(comercio.Rol);
                 int idLocalidad = _ubicacionService.BuscarLocalidadPorNombre(comercio.Localidad);
-                Comercio nuevoComercio = new Comercio();
+                string resultado = "";
 
-                nuevoComercio.RazonSocial = comercio.RazonSocial;
-                nuevoComercio.CUIT = comercio.CUIT;
-                nuevoComercio.Direccion = comercio.Direccion;
-                nuevoComercio.IdLocalidad = idLocalidad;
-                nuevoComercio.Latitud = (decimal)comercio.Latitud;
-                nuevoComercio.Longitud = (decimal)comercio.Longitud;
-                nuevoComercio.Email = comercio.Email;
-                nuevoComercio.Clave = comercio.Clave;
-                nuevoComercio.Imagen = comercio.Imagen;
-                nuevoComercio.IdRol = idRol;
+                if(idRol!= 0 && idLocalidad != 0)
+                {
+                    Comercio nuevoComercio = new Comercio();
 
-                string resultado = _comercioService.RegistrarComercio(nuevoComercio);
+                    nuevoComercio.RazonSocial = comercio.RazonSocial;
+                    nuevoComercio.CUIT = comercio.CUIT;
+                    nuevoComercio.Direccion = comercio.Direccion;
+                    nuevoComercio.IdLocalidad = idLocalidad;
+                    nuevoComercio.Latitud = (decimal)comercio.Latitud;
+                    nuevoComercio.Longitud = (decimal)comercio.Longitud;
+                    nuevoComercio.Email = comercio.Email;
+                    nuevoComercio.Clave = comercio.Clave;
+                    nuevoComercio.Imagen = comercio.Imagen;
+                    nuevoComercio.IdRol = idRol;
 
+                    resultado = _comercioService.RegistrarComercio(nuevoComercio);
+                }
                 return Ok(new { message = "Registro: " + $"{resultado}" });
             }
             else
