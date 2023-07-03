@@ -37,6 +37,8 @@ public class UbicacionService : IUbicacionService
 
     public int BuscarLocalidadPorNombre(string localidad)
     {
+        
+
         return _ubicacionRepository.BuscarLocalidadPorNombre(localidad);
     }
 
