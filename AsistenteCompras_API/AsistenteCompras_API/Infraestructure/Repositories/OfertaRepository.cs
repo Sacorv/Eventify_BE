@@ -2,8 +2,7 @@
 using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
 using AsistenteCompras_API.Infraestructure.Contexts;
-using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AsistenteCompras_API.Infraestructure.Repositories;
 
@@ -175,5 +174,21 @@ public class OfertaRepository : IOfertaRepository
                                         Latitud = (double) o.IdComercioNavigation.Latitud,
                                         Longitud = (double) o.IdComercioNavigation.Longitud
                                     }).ToList();
+    }
+
+    public int CargarOferta(Publicacion oferta)
+    {
+        int resultado;
+        _context.Publicacions.Add(oferta);
+        resultado = _context.SaveChanges();
+
+        return resultado;
+    }
+
+    public bool VerficarSiLaOfertaNoExiste(int idComercio, int idProducto)
+    {
+        return _context.Publicacions.Where(p => p.Equals(idComercio) && p.Equals(idProducto))
+                                    .IsNullOrEmpty();
+        
     }
 }

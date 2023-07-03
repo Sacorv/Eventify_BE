@@ -114,4 +114,19 @@ public class ComercioController : ControllerBase
 
         return Ok(ofertasDelComercio);
     }
+
+    [HttpPost("cargarOferta")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
+    public IActionResult CargarOfertaDelComercio(int idComercio, int idProducto, decimal precio,DateTime fechaFin)
+    {
+        try
+        {
+            return Ok(CargarOfertaDelComercio(idComercio, idProducto, precio, fechaFin));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+        }
+    }
 }

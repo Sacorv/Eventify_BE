@@ -1,4 +1,5 @@
-﻿using AsistenteCompras_API.DTOs;
+﻿using AsistenteCompras_API.Domain.Entities;
+using AsistenteCompras_API.DTOs;
 
 namespace AsistenteCompras_API.Domain.Services;
 
@@ -12,5 +13,7 @@ public interface IOfertaRepository
     List<String> ObtenerMarcasComidasDisponibles(List<int> idProductos);
     List<String> ObtenerMarcasBebidasDisponibles(List<int> idProductos);
     List<OfertaDTO> OfertasPorComercio(int idComercio);
+    int CargarOferta(Publicacion oferta);
+    bool VerficarSiLaOfertaNoExiste(int idComercio, int idProducto);
 
 }

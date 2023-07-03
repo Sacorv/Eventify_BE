@@ -4,6 +4,7 @@ using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
 using AsistenteCompras_API.Infraestructure.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Data;
 
 namespace AsistenteCompras_API.Infraestructure.Repositories;
@@ -73,5 +74,11 @@ public class ComercioRepository : IComercioRepository
                                         FechaFin = p.FechaFin,
                                         Precio = p.Precio,
                                     }).ToList();
+    }
+
+    public bool VerificarSiElComercioExiste(int idComercio)
+    {
+        return !(_context.Comercios.Where(c => c.Id.Equals(idComercio))
+                                   .IsNullOrEmpty());
     }
 }

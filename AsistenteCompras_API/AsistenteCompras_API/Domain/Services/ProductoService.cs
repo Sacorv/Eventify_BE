@@ -26,4 +26,9 @@ public class ProductoService : IProductoService
         
         return _productoRepository.ObtenerProductosPorMarcaYTipoProducto(tipoProducto, marca);
     }
+
+    public bool VerificarSiElProductoExiste(int idProducto)
+    {
+        return _productoRepository.VerificarSiElProductoExiste(idProducto);
+    }
 }

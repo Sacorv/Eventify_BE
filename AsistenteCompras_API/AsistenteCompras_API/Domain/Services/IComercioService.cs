@@ -18,4 +18,8 @@ public interface IComercioService
     string ObtenerImagenDelComercio(int idComercio);
 
     List<OfertaComercioDTO> ObtenerOfertasDelComercio(int idComercio);
+
+    int CargarOfertaDelComercio(int idComercio, int idProducto, decimal precio, DateTime fechaFin);
+
+    bool VerficarSiElComercioExiste(int idComercio);
 }

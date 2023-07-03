@@ -8,9 +8,12 @@ public class ComercioService : IComercioService
 {
     private IComercioRepository _comercioRepository;
 
-    public ComercioService(IComercioRepository comercioRepository)
+    private IOfertaRepository _ofertaRepository;
+
+    public ComercioService(IComercioRepository comercioRepository, IOfertaRepository ofertaRepository)
     {
         _comercioRepository = comercioRepository;
+        _ofertaRepository = ofertaRepository;
     }
 
 
@@ -115,5 +118,21 @@ public class ComercioService : IComercioService
     private static double ConvertirARadianes(double grados)
     {
         return grados * Math.PI / 180;
+    }
+
+    public int CargarOfertaDelComercio(int idComercio, int idProducto, decimal precio, DateTime fechaFin)
+    {
+        Publicacion oferta = new Publicacion();
+        oferta.IdComercio = idComercio;
+        oferta.IdProducto = idProducto;
+        oferta.Precio = precio;
+        oferta.FechaFin = fechaFin;
+        oferta.Estado = true;
+        return _ofertaRepository.CargarOferta(oferta);
+    }
+
+    public bool VerficarSiElComercioExiste(int idComercio)
+    {
+        return _comercioRepository.VerificarSiElComercioExiste(idComercio);
     }
 }

@@ -1,7 +1,4 @@
-﻿using AsistenteCompras_API.Domain.Entities;
-using AsistenteCompras_API.DTOs;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AsistenteCompras_API.DTOs;
 
 namespace AsistenteCompras_API.Domain.Services;
 
@@ -117,6 +114,11 @@ public class OfertaService : IOfertaService
         else { comerciosConLaMayorCantidadDeProductos.Clear(); }
         
         return comerciosConLaMayorCantidadDeProductos;
+    }
+
+    public bool VerficarSiLaOfertaNoExiste(int idComercio, int idProducto)
+    {
+        return _ofertaRepository.VerficarSiLaOfertaNoExiste(idComercio,idProducto);
     }
 
     private void RecomendarComercio(List<OfertasPorComercioDTO>aRecomendar,List<OfertasPorComercioDTO> actual, double latitudOrigen, double longitudOrigen)
@@ -462,4 +464,5 @@ public class OfertaService : IOfertaService
         }
         return recomendacion;
     }
+
 }

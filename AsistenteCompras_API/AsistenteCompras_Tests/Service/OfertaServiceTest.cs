@@ -20,7 +20,7 @@ public class OfertaServiceTest
     [Fact]
     public void QueListaRecorrerMenosMeDevuelvaUnaListaVaciaCuandoNoHayComerciosEnElRadio()
     {
-        Filtro filtroDTO = new Filtro()
+        Filtro filtro = new Filtro()
         {
             LatitudUbicacion = -34.68544,
             LongitudUbicacion = -58.50168,
@@ -34,12 +34,12 @@ public class OfertaServiceTest
 
         List<int> comerciosEncontrados = new List<int>();
 
-        comercioServicio.Setup(c => c.ObtenerComerciosPorRadio(filtroDTO.LatitudUbicacion, filtroDTO.LongitudUbicacion, filtroDTO.Distancia))
+        comercioServicio.Setup(c => c.ObtenerComerciosPorRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia))
                         .Returns(comerciosEncontrados);
 
 
 
-        var resultado = ofertaServicio.ListaRecorrerMenos(filtroDTO);
+        var resultado = ofertaServicio.ListaRecorrerMenos(filtro);
 
         Assert.Empty(resultado);
     }
@@ -47,7 +47,7 @@ public class OfertaServiceTest
     [Fact]
     public void QueListaRecorrerMenosMeDevuelvaUnaListaVaciaCuandoNoHayOfertasParaLosProductosQueQuieroComprar()
     {
-        Filtro filtroDTO = new Filtro()
+        Filtro filtro = new Filtro()
         {
             LatitudUbicacion = -34.68544,
             LongitudUbicacion = -58.50168,
@@ -81,12 +81,12 @@ public class OfertaServiceTest
             }
         };
 
-        comercioServicio.Setup(c => c.ObtenerComerciosPorRadio(filtroDTO.LatitudUbicacion, filtroDTO.LongitudUbicacion, filtroDTO.Distancia))
+        comercioServicio.Setup(c => c.ObtenerComerciosPorRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia))
                         .Returns(comerciosEncontados);
 
         ofertaRepo.Setup(o => o.OfertasPorComercio(comerciosEncontados.First())).Returns(ofertasDelComercio);
 
-        var resultado = ofertaServicio.ListaRecorrerMenos(filtroDTO);
+        var resultado = ofertaServicio.ListaRecorrerMenos(filtro);
 
         Assert.Empty(resultado);
     }
@@ -94,7 +94,7 @@ public class OfertaServiceTest
     [Fact]
     public void QueListaRecorrerMenosMeDevuelvaUnaListaDeComerciosConLasOfertasDeTodosMisProductosAComprar()
     {
-        Filtro filtroDTO = new Filtro()
+        Filtro filtro = new Filtro()
         {
             LatitudUbicacion = -34.68544,
             LongitudUbicacion = -58.50168,
@@ -184,7 +184,7 @@ public class OfertaServiceTest
 
         };
 
-        comercioServicio.Setup(c => c.ObtenerComerciosPorRadio(filtroDTO.LatitudUbicacion, filtroDTO.LongitudUbicacion, filtroDTO.Distancia))
+        comercioServicio.Setup(c => c.ObtenerComerciosPorRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia))
                         .Returns(comerciosEncontados);
 
         ofertaRepo.Setup(o => o.OfertasPorComercio(comerciosEncontados[0])).Returns(ofertasDelComercioChino);
@@ -193,7 +193,7 @@ public class OfertaServiceTest
         comercioServicio.Setup(c => c.ObtenerImagenDelComercio(comerciosEncontados[0])).Returns("ImagenChino");
         comercioServicio.Setup(c => c.ObtenerImagenDelComercio(comerciosEncontados[1])).Returns("ImagenAlmacen");
 
-        var resultado = ofertaServicio.ListaRecorrerMenos(filtroDTO);
+        var resultado = ofertaServicio.ListaRecorrerMenos(filtro);
 
         Assert.Equal("Almacen",resultado.First().NombreComercio);
     }

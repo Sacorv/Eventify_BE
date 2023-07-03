@@ -1,6 +1,7 @@
 ﻿using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
 using AsistenteCompras_API.Infraestructure.Contexts;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AsistenteCompras_API.Infraestructure.Repositories;
 
@@ -43,5 +44,11 @@ public class ProductoRepository : IProductoRepository
                                      IdTipoProducto = p.IdTipoProducto,
                                      Imagen = p.Imagen
                                  }).ToList();
+    }
+
+    public bool VerificarSiElProductoExiste(int idProducto)
+    {
+        return !(_context.Productos.Where(p => p.Id == idProducto))
+                                   .IsNullOrEmpty();
     }
 }
