@@ -10,5 +10,5 @@ public interface IProductoRepository
 
     List<ProductoDTO> ObtenerProductosPorMarcaYTipoProducto(int tipoProducto, string marca);
 
-    bool VerificarSiElProductoExiste(int idProducto);
+    List<int> ObtenerProductoIds();
 }

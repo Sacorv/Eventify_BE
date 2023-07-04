@@ -116,9 +116,10 @@ public class OfertaService : IOfertaService
         return comerciosConLaMayorCantidadDeProductos;
     }
 
-    public bool VerficarSiLaOfertaNoExiste(int idComercio, int idProducto)
+    public bool VerficarSiLaOfertaExiste(int idComercio, int idProducto)
     {
-        return _ofertaRepository.VerficarSiLaOfertaNoExiste(idComercio,idProducto);
+        List<int> idProductosDelComercio = _ofertaRepository.ObtenerIdsProductosDelComercio(idComercio);
+        return idProductosDelComercio.Contains(idProducto);
     }
 
     private void RecomendarComercio(List<OfertasPorComercioDTO>aRecomendar,List<OfertasPorComercioDTO> actual, double latitudOrigen, double longitudOrigen)

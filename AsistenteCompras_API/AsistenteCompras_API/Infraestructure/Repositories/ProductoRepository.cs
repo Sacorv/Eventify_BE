@@ -46,9 +46,8 @@ public class ProductoRepository : IProductoRepository
                                  }).ToList();
     }
 
-    public bool VerificarSiElProductoExiste(int idProducto)
+    public List<int> ObtenerProductoIds()
     {
-        return !(_context.Productos.Where(p => p.Id == idProducto))
-                                   .IsNullOrEmpty();
+        return _context.Productos.Select(p => p.Id).ToList();
     }
 }

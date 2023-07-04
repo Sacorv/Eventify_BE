@@ -179,17 +179,18 @@ public class OfertaRepository : IOfertaRepository
 
     public int CargarOferta(Publicacion oferta)
     {
-        int resultado;
+        
         _context.Publicacions.Add(oferta);
-        resultado = _context.SaveChanges();
+        var resultado = _context.SaveChanges();
 
         return resultado;
     }
 
-    public bool VerficarSiLaOfertaNoExiste(int idComercio, int idProducto)
+    public List<int> ObtenerIdsProductosDelComercio(int idComercio)
     {
-        return _context.Publicacions.Where(p => p.Equals(idComercio) && p.Equals(idProducto))
-                                    .IsNullOrEmpty();
+        return _context.Publicacions.Where(p => p.IdComercio.Equals(idComercio))
+                                    .Select(p => p.IdProducto)
+                                    .ToList();
         
     }
 }

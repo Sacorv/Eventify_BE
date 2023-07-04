@@ -76,9 +76,8 @@ public class ComercioRepository : IComercioRepository
                                     }).ToList();
     }
 
-    public bool VerificarSiElComercioExiste(int idComercio)
+    public List<int> ObtenerComercioIds()
     {
-        return !(_context.Comercios.Where(c => c.Id.Equals(idComercio))
-                                   .IsNullOrEmpty());
+        return _context.Comercios.Select(c => c.Id).ToList();
     }
 }

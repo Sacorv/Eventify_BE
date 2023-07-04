@@ -14,6 +14,6 @@ public interface IOfertaRepository
     List<String> ObtenerMarcasBebidasDisponibles(List<int> idProductos);
     List<OfertaDTO> OfertasPorComercio(int idComercio);
     int CargarOferta(Publicacion oferta);
-    bool VerficarSiLaOfertaNoExiste(int idComercio, int idProducto);
+    List<int> ObtenerIdsProductosDelComercio(int idComercio);
 
 }

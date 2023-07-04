@@ -15,6 +15,6 @@ public interface IComercioRepository
 
     List<OfertaComercioDTO> ObtenerOfertasDelComercio(int idComercio);
 
-    bool VerificarSiElComercioExiste(int idComercio);
+    List<int> ObtenerComercioIds();
 
 }

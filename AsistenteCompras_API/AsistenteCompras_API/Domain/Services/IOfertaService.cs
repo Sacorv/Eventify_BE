@@ -14,6 +14,6 @@ public interface IOfertaService
 
     List<OfertasPorComercioDTO> ListaRecorrerMenos(Filtro filtro);
 
-    bool VerficarSiLaOfertaNoExiste(int idComercio, int idProducto);
+    bool VerficarSiLaOfertaExiste(int idComercio, int idProducto);
 
 }

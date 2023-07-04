@@ -133,6 +133,7 @@ public class ComercioService : IComercioService
 
     public bool VerficarSiElComercioExiste(int idComercio)
     {
-        return _comercioRepository.VerificarSiElComercioExiste(idComercio);
+        List<int> comercioIds = _comercioRepository.ObtenerComercioIds();
+        return comercioIds.Contains(idComercio);
     }
 }

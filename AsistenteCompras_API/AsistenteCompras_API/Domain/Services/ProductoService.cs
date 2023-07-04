@@ -29,6 +29,8 @@ public class ProductoService : IProductoService
 
     public bool VerificarSiElProductoExiste(int idProducto)
     {
-        return _productoRepository.VerificarSiElProductoExiste(idProducto);
+        List<int> idProductos = _productoRepository.ObtenerProductoIds();
+
+        return idProductos.Contains(idProducto);
     }
 }

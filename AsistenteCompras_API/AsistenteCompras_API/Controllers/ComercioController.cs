@@ -14,12 +14,16 @@ public class ComercioController : ControllerBase
     private IComercioService _comercioService;
     private IRolService _rolService;
     private IUbicacionService _ubicacionService;
+    private IProductoService _productoService;
+    private IOfertaService _ofertaService;
 
-    public ComercioController(IComercioService comercioService, IRolService rolService, IUbicacionService ubicacionService)
+    public ComercioController(IComercioService comercioService, IRolService rolService, IUbicacionService ubicacionService, IProductoService productoService, IOfertaService ofertaService)
     {
         _comercioService = comercioService;
         _rolService = rolService;
         _ubicacionService = ubicacionService;
+        _productoService = productoService;
+        _ofertaService = ofertaService;
     }
 
     [HttpPost("inicioSesion")]
@@ -117,12 +121,20 @@ public class ComercioController : ControllerBase
 
     [HttpPost("cargarOferta")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
-    public IActionResult CargarOfertaDelComercio(int idComercio, int idProducto, decimal precio,DateTime fechaFin)
+    public IActionResult CargarOfertaDelComercio([FromBody] OfertaAPublicarDTO oferta)
     {
         try
         {
-            return Ok(CargarOfertaDelComercio(idComercio, idProducto, precio, fechaFin));
+            if(!(_comercioService.VerficarSiElComercioExiste(oferta.IdComercio)))
+                return NotFound("El comercio no se encuentra en la plataforma");
+            if (!(_productoService.VerificarSiElProductoExiste(oferta.IdProducto)))
+                return NotFound("El producto no se encuentra en la plataforma");
+            if (_ofertaService.VerficarSiLaOfertaExiste(oferta.IdComercio, oferta.IdProducto))
+                return BadRequest("La oferta ya se encuentra en la plataforma");
+            return Ok(_comercioService.CargarOfertaDelComercio(oferta.IdComercio,oferta.IdProducto,oferta.Precio,oferta.FechaFin));
         }
         catch (Exception e)
         {
