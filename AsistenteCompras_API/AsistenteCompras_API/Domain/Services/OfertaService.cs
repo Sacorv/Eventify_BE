@@ -12,7 +12,7 @@ public class OfertaService : IOfertaService
 
     private IUbicacionService _ubicacionService;
 
-    private DateTime fechaArgentina = DateTime.UtcNow.AddHours(-3);
+    private DateTime fechaArgentina = DateTime.UtcNow.AddHours(-3).Date;
 
     public OfertaService(IOfertaRepository ofertaRepository, IComercioService comercioService, ITipoProductoService tipoProductoService, IUbicacionService ubicacionService)
     {
@@ -297,7 +297,7 @@ public class OfertaService : IOfertaService
 
         foreach (OfertaDTO oferta in ofertasEncontradas)
         {
-            if (DateTime.Compare(Convert.ToDateTime(oferta.FechaVencimiento).Date, fechaArgentina.Date) > 0)
+            if (DateTime.Compare(Convert.ToDateTime(oferta.FechaVencimiento).Date, fechaArgentina) > 0)
             {
                 listadoOfertas.Add(oferta);
             }

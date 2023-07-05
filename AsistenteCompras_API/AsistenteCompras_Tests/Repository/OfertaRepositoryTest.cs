@@ -12,7 +12,7 @@ namespace AsistenteCompras_Tests.Repository
         private Localidad SanJusto = new Localidad() { Nombre = "San Justo" };
         private Localidad RamosMejia = new Localidad() { Nombre = "Ramos mejía" };
         private List<int> idProductos = new List<int> { 1, 2, 3, 4, 5 };
-        private DateTime fechaArgentina = DateTime.UtcNow.AddHours(-3);
+        private DateTime fechaArgentina = DateTime.UtcNow.AddHours(-3).Date;
 
         private AsistenteComprasContext _context;
         private OfertaRepository _ofertaRepository;

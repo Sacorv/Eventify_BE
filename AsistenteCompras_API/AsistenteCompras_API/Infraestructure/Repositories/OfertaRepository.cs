@@ -156,7 +156,7 @@ public class OfertaRepository : IOfertaRepository
 
     public List<OfertaDTO> OfertasPorComercioFiltradasPorFecha(int idComercio, DateTime fecha)
     {
-        return _context.Publicacions.Where(p => p.IdComercio == idComercio && DateTime.Compare(p.FechaFin.Date,fecha.Date) >= 0)
+        return _context.Publicacions.Where(p => p.IdComercio == idComercio && DateTime.Compare(p.FechaFin.Date,fecha) >= 0)
                                     .Select(o => new OfertaDTO
                                     {
                                         IdPublicacion = o.Id,
