@@ -15,6 +15,8 @@ public class OfertaServiceTest
     
     private static Mock<IUbicacionService> ubicacionServicio = new Mock<IUbicacionService>();
 
+    private DateTime fechaArgentina = DateTime.UtcNow.AddHours(-3);
+
     private OfertaService ofertaServicio = new OfertaService(ofertaRepo.Object, comercioServicio.Object, tipoProductoServicio.Object, ubicacionServicio.Object);
 
     [Fact]
@@ -56,10 +58,10 @@ public class OfertaServiceTest
             Bebidas = new List<int>() { 1 },
             MarcasComida = new List<string>() { "Vienisima", "Paladini" },
             MarcasBebida = new List<string>() { "Coca-cola" },
-            CantidadProductos = new Dictionary<string, double>() { { "salchichas", 1 },{"pan de pancho", 1 } }
+            CantidadProductos = new Dictionary<string, double>() { { "salchichas", 1 }, { "pan de pancho", 1 } }
         };
 
-        List<int> comerciosEncontados = new List<int>() {1};
+        List<int> comerciosEncontados = new List<int>() { 1 };
 
         List<OfertaDTO> ofertasDelComercio = new List<OfertaDTO>() {
             new OfertaDTO
@@ -77,14 +79,15 @@ public class OfertaServiceTest
                 Localidad = "Ciudad Madero",
                 IdLocalidad = 1,
                 Latitud = 1,
-                Longitud = 1
+                Longitud = 1,
+                FechaVencimiento = fechaArgentina.ToString("dd-MM-yy")
             }
         };
 
         comercioServicio.Setup(c => c.ObtenerComerciosPorRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia))
                         .Returns(comerciosEncontados);
 
-        ofertaRepo.Setup(o => o.OfertasPorComercio(comerciosEncontados.First())).Returns(ofertasDelComercio);
+        ofertaRepo.Setup(o => o.OfertasPorComercioFiltradasPorFecha(1,fechaArgentina)).Returns(ofertasDelComercio);
 
         var resultado = ofertaServicio.ListaRecorrerMenos(filtro);
 
@@ -187,8 +190,8 @@ public class OfertaServiceTest
         comercioServicio.Setup(c => c.ObtenerComerciosPorRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia))
                         .Returns(comerciosEncontados);
 
-        ofertaRepo.Setup(o => o.OfertasPorComercio(comerciosEncontados[0])).Returns(ofertasDelComercioChino);
-        ofertaRepo.Setup(o => o.OfertasPorComercio(comerciosEncontados[1])).Returns(ofertasDelComercioAlmacen);
+        ofertaRepo.Setup(o => o.OfertasPorComercioFiltradasPorFecha(comerciosEncontados[0],fechaArgentina)).Returns(ofertasDelComercioChino);
+        ofertaRepo.Setup(o => o.OfertasPorComercioFiltradasPorFecha(comerciosEncontados[1],fechaArgentina)).Returns(ofertasDelComercioAlmacen);
         
         comercioServicio.Setup(c => c.ObtenerImagenDelComercio(comerciosEncontados[0])).Returns("ImagenChino");
         comercioServicio.Setup(c => c.ObtenerImagenDelComercio(comerciosEncontados[1])).Returns("ImagenAlmacen");

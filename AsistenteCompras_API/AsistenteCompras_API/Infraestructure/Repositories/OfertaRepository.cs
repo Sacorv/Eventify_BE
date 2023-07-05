@@ -154,9 +154,9 @@ public class OfertaRepository : IOfertaRepository
         return marcasEncontradas;
     }
 
-    public List<OfertaDTO> OfertasPorComercio(int idComercio)
+    public List<OfertaDTO> OfertasPorComercioFiltradasPorFecha(int idComercio, DateTime fecha)
     {
-        return _context.Publicacions.Where(p => p.IdComercio == idComercio && DateTime.Compare(p.FechaFin,DateTime.UtcNow.AddHours(-3)) > 0)
+        return _context.Publicacions.Where(p => p.IdComercio == idComercio && DateTime.Compare(p.FechaFin.Date,fecha.Date) >= 0)
                                     .Select(o => new OfertaDTO
                                     {
                                         IdPublicacion = o.Id,

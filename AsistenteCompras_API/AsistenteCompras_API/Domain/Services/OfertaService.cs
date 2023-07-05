@@ -12,6 +12,8 @@ public class OfertaService : IOfertaService
 
     private IUbicacionService _ubicacionService;
 
+    private DateTime fechaArgentina = DateTime.UtcNow.AddHours(-3);
+
     public OfertaService(IOfertaRepository ofertaRepository, IComercioService comercioService, ITipoProductoService tipoProductoService, IUbicacionService ubicacionService)
     {
         _ofertaRepository = ofertaRepository;
@@ -92,7 +94,7 @@ public class OfertaService : IOfertaService
         foreach (int idComercio in idComercios)
         {
             OfertasPorComercioDTO ofertaComercio = new OfertasPorComercioDTO();
-            ofertas = _ofertaRepository.OfertasPorComercio(idComercio);
+            ofertas = _ofertaRepository.OfertasPorComercioFiltradasPorFecha(idComercio, fechaArgentina);
             ofertas = ProductosAComprarEnElComercio(filtro, ofertas);
             if (ofertas.Count > 0)
             {
@@ -295,7 +297,7 @@ public class OfertaService : IOfertaService
 
         foreach (OfertaDTO oferta in ofertasEncontradas)
         {
-            if (DateTime.Compare(Convert.ToDateTime(oferta.FechaVencimiento), DateTime.Now) > 0)
+            if (DateTime.Compare(Convert.ToDateTime(oferta.FechaVencimiento).Date, fechaArgentina.Date) > 0)
             {
                 listadoOfertas.Add(oferta);
             }
