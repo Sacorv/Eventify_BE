@@ -1,4 +1,6 @@
-﻿namespace AsistenteCompras_API.Domain.Services;
+﻿using AsistenteCompras_API.DTOs;
+
+namespace AsistenteCompras_API.Domain.Services;
 
 public interface ITipoProductoService
 {
@@ -6,4 +8,5 @@ public interface ITipoProductoService
     List<int>  ObtenerIdTipoProductosComida(int idComida);
     List<int> ObtenerTiposDeBebida(List<int> idBebida);
     List<int> ObtenerTiposDeComida(List<int> idComida);
+    List<TipoProductoDTO> ObtenerTodosLosTiposDeProductos();
 }

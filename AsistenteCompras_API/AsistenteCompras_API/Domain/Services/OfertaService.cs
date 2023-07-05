@@ -1,5 +1,4 @@
 ﻿using AsistenteCompras_API.DTOs;
-using System.Linq;
 
 namespace AsistenteCompras_API.Domain.Services;
 
@@ -12,6 +11,8 @@ public class OfertaService : IOfertaService
     private ITipoProductoService _tipoProductoService;
 
     private IUbicacionService _ubicacionService;
+
+    private DateTime fechaArgentina = DateTime.UtcNow.AddHours(-3).Date;
 
     public OfertaService(IOfertaRepository ofertaRepository, IComercioService comercioService, ITipoProductoService tipoProductoService, IUbicacionService ubicacionService)
     {
@@ -54,7 +55,7 @@ public class OfertaService : IOfertaService
     }
 
 
-    public List<OfertaCantidadDTO> GenerarListaPersonalizada(FiltroDTO filtro)
+    public List<OfertaCantidadDTO> GenerarListaPersonalizada(Filtro filtro)
     {
         List<OfertaDTO> ofertasDisponibles = BuscarOfertasDentroDelRadio(filtro);
 
@@ -63,7 +64,7 @@ public class OfertaService : IOfertaService
         return CalcularCantidadYSubtotalPorOferta(ofertasEconomicasSegunCantidadNecesaria, filtro.CantidadProductos);
     }
 
-    public List<OfertasPorProductoDTO> GenerarListaDeOfertas(FiltroDTO filtro)
+    public List<OfertasPorProductoDTO> GenerarListaDeOfertas(Filtro filtro)
     {
         List<OfertaDTO> ofertasDisponibles = BuscarOfertasDentroDelRadio(filtro);
 
@@ -79,7 +80,7 @@ public class OfertaService : IOfertaService
         return GenerarListadoPorProductoYMarca(ofertasCantidad, filtro.LatitudUbicacion, filtro.LongitudUbicacion);
     }
 
-    public List<OfertasPorComercioDTO> ListaRecorrerMenos(FiltroDTO filtro)
+    public List<OfertasPorComercioDTO> ListaRecorrerMenos(Filtro filtro)
     {
         List<OfertasPorComercioDTO> comercios = new List<OfertasPorComercioDTO>();
         List<OfertaDTO> ofertas;
@@ -93,7 +94,7 @@ public class OfertaService : IOfertaService
         foreach (int idComercio in idComercios)
         {
             OfertasPorComercioDTO ofertaComercio = new OfertasPorComercioDTO();
-            ofertas = _ofertaRepository.OfertasPorComercio(idComercio);
+            ofertas = _ofertaRepository.OfertasPorComercioFiltradasPorFecha(idComercio, fechaArgentina);
             ofertas = ProductosAComprarEnElComercio(filtro, ofertas);
             if (ofertas.Count > 0)
             {
@@ -115,6 +116,12 @@ public class OfertaService : IOfertaService
         else { comerciosConLaMayorCantidadDeProductos.Clear(); }
         
         return comerciosConLaMayorCantidadDeProductos;
+    }
+
+    public bool VerficarSiLaOfertaExiste(int idComercio, int idProducto)
+    {
+        List<int> idProductosDelComercio = _ofertaRepository.ObtenerIdsProductosDelComercio(idComercio);
+        return idProductosDelComercio.Contains(idProducto);
     }
 
     private void RecomendarComercio(List<OfertasPorComercioDTO>aRecomendar,List<OfertasPorComercioDTO> actual, double latitudOrigen, double longitudOrigen)
@@ -155,9 +162,13 @@ public class OfertaService : IOfertaService
 
     private static bool TieneTodosLosProductos(List<OfertasPorComercioDTO> comerciosConLaMayorCantidadDeProductos, int cantidadAComprar)
     {
-        int cantidadDeProductosEnElComercio = comerciosConLaMayorCantidadDeProductos.First().Ofertas.DistinctBy(o => o.Oferta.TipoProducto).Count();
-        if (cantidadDeProductosEnElComercio == cantidadAComprar)
-            return true;
+        if(comerciosConLaMayorCantidadDeProductos.Count > 0)
+        {
+            int cantidadDeProductosEnElComercio = comerciosConLaMayorCantidadDeProductos.First().Ofertas.DistinctBy(o => o.Oferta.TipoProducto).Count();
+            if (cantidadDeProductosEnElComercio == cantidadAComprar)
+                return true;
+        }
+
         return false;
     }
 
@@ -180,22 +191,20 @@ public class OfertaService : IOfertaService
         return comerciosConLaMayorCantidadDeProductos;
     }
 
-    private static List<OfertaDTO> ProductosAComprarEnElComercio(FiltroDTO filtro, List<OfertaDTO> ofertas)
+    private static List<OfertaDTO> ProductosAComprarEnElComercio(Filtro filtro, List<OfertaDTO> ofertas)
     {
         List<OfertaDTO> ofertasEncontradas = new List<OfertaDTO>();
-        List<OfertaDTO>? encontrados;
         foreach (var productoAcomprar in filtro.CantidadProductos)
         {
-            encontrados = SeleccionarMarcasDelProducto(ofertas, ofertasEncontradas, productoAcomprar);
+            SeleccionarMarcasDelProducto(ofertas, ofertasEncontradas, productoAcomprar);
         }
         return ofertasEncontradas;
     }
 
-    private static List<OfertaDTO>? SeleccionarMarcasDelProducto(List<OfertaDTO> ofertas, List<OfertaDTO> ofertasEncontradas, KeyValuePair<string, double> productoAcomprar)
+    private static void SeleccionarMarcasDelProducto(List<OfertaDTO> ofertas, List<OfertaDTO> ofertasEncontradas, KeyValuePair<string, double> productoAcomprar)
     {
         List<OfertaDTO>? encontrados = ofertas.Where(o => o.TipoProducto == productoAcomprar.Key).ToList();
         if (encontrados.Count > 0) ofertasEncontradas.Add(encontrados.First());
-        return encontrados;
     }
 
     private List<OfertasPorProductoDTO> GenerarListadoPorProductoYMarca(List<OfertaCantidadDTO> ofertasCantidad, double latitudUbicacion, double longitudUbicacion)
@@ -269,7 +278,7 @@ public class OfertaService : IOfertaService
         return ofertasFiltradas;
     }
 
-    private List<OfertaDTO> BuscarOfertasDentroDelRadio(FiltroDTO filtro)
+    private List<OfertaDTO> BuscarOfertasDentroDelRadio(Filtro filtro)
     {
         List<int> idComercios = BuscarComerciosDentroDelRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia);
 
@@ -277,7 +286,23 @@ public class OfertaService : IOfertaService
 
         List<String> marcas = VerificarMarcasElegidas(filtro);
 
-        return _ofertaRepository.OfertasDentroDelRadioV2(idProductos, idComercios, marcas);
+        List<OfertaDTO> ofertasEncontradas = _ofertaRepository.OfertasDentroDelRadioV2(idProductos, idComercios, marcas);
+
+        return FiltrarOfertasVigentes(ofertasEncontradas);
+    }
+
+    private List<OfertaDTO> FiltrarOfertasVigentes(List<OfertaDTO> ofertasEncontradas)
+    {
+        List<OfertaDTO> listadoOfertas = new List<OfertaDTO>();
+
+        foreach (OfertaDTO oferta in ofertasEncontradas)
+        {
+            if (DateTime.Compare(Convert.ToDateTime(oferta.FechaVencimiento).Date, fechaArgentina) > 0)
+            {
+                listadoOfertas.Add(oferta);
+            }
+        }
+        return listadoOfertas;
     }
 
     private List<OfertaDTO> ExtaerMejoresOfertas(List<OfertaDTO> ofertasDisponibles, double latitudUbicacion, double longitudUbicacion, Dictionary<string, double> cantidadNecesaria)
@@ -390,7 +415,7 @@ public class OfertaService : IOfertaService
         return idProductos;
     }
 
-    private List<String> VerificarMarcasElegidas(FiltroDTO filtro)
+    private List<String> VerificarMarcasElegidas(Filtro filtro)
     {
         List<String> marcasDeProductos = new List<string>();
 
@@ -420,14 +445,12 @@ public class OfertaService : IOfertaService
         return marcas;
     }
 
-
     private List<string> ObtenerMarcasComidasDisponibles(List<int> idProductos)
     {
         List<String> marcas = _ofertaRepository.ObtenerMarcasComidasDisponibles(idProductos);
 
         return marcas;
     }
-
 
     private static OfertaDTO SeleccionarOferta(List<int> localidades, List<OfertaDTO> ofertas)
     {
@@ -444,75 +467,5 @@ public class OfertaService : IOfertaService
         }
         return recomendacion;
     }
-
-
-
-
-
-
-    //public List<OfertaDTO> ObtenerOfertasEconomicasPorLocalidadPreferida(int idLocalidad, int idComida, int idBebida)
-    //{
-    //    List<int> idProductos = ObtenerIdsTipoProductos(idBebida, idComida);
-
-    //    List<OfertaDTO> ofertas = _ofertaRepository.OfertasPorLocalidad(idLocalidad, idProductos);
-
-    //    return FiltrarOfertasEconomicasPorProducto(ofertas);
-    //}
-
-
-
-    //TO DO: ver que no rompa nada y eliminar si se puede (SCA)
-    //private List<OfertaDTO> FiltrarOfertasEconomicasPorProducto(List<OfertaDTO> ofertas, double latitudUbicacion=0, double longitudUbicacion=0)
-    //{
-    //    List<OfertaDTO> ofertasMasEconomicas = new List<OfertaDTO>();
-
-    //    int idMaximo = IdProductoMaximo(ofertas);
-
-    //    do
-    //    {
-    //        OfertaDTO ofertaMasEconomica = new OfertaDTO();
-    //        ofertaMasEconomica.Precio = 999999999999999999;
-
-    //        for (int i = 0; i <= ofertas.Count() - 1; i++)
-    //        {
-    //            if (ofertas[i].IdTipoProducto == idMaximo && ofertas[i].Precio <= ofertaMasEconomica.Precio)
-    //            {
-    //                if (ofertas[i].Precio < ofertaMasEconomica.Precio || latitudUbicacion==0)
-    //                {
-    //                    ofertaMasEconomica = ofertas[i];
-    //                }
-    //                else
-    //                {
-    //                    ofertaMasEconomica = _comercioService.CompararDistanciaEntreComercios(latitudUbicacion, longitudUbicacion, ofertas[i], ofertaMasEconomica);
-    //                }
-    //            }
-    //        }
-    //        idMaximo--;
-
-    //        if (ofertaMasEconomica.IdTipoProducto != 0)
-    //        {
-    //            ofertasMasEconomicas.Add(ofertaMasEconomica);
-    //        }
-
-    //    } while (idMaximo > 0);
-
-    //    return ofertasMasEconomicas;
-    //}
-
-    //TO DO: ver que no rompa nada y eliminar si se puede (SCA)
-    //private int IdProductoMaximo(List<OfertaDTO> ofertas)
-    //{
-    //    int idProdMáximo = 0;
-
-    //    foreach (OfertaDTO item in ofertas)
-    //    {
-    //        if (item.IdTipoProducto > idProdMáximo)
-    //        {
-    //            idProdMáximo = item.IdTipoProducto;
-    //        }
-    //    }
-    //    return idProdMáximo;
-    //}
-
 
 }

@@ -2,8 +2,7 @@
 using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
 using AsistenteCompras_API.Infraestructure.Contexts;
-using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AsistenteCompras_API.Infraestructure.Repositories;
 
@@ -92,8 +91,6 @@ public class OfertaRepository : IOfertaRepository
 
     public List<OfertaDTO> OfertasDentroDelRadioV2(List<int> idProductos, List<int> idComercios, List<String> marcasElegidas)
     {
-
-
         List<OfertaDTO> ofertas = _context.Publicacions.Where(pub => idComercios.Contains(pub.IdComercio))
                             .Join(_context.Productos, pub => pub.IdProducto, p => p.Id,
                                   (pub, p) => new OfertaDTO
@@ -111,7 +108,8 @@ public class OfertaRepository : IOfertaRepository
                                       Longitud = (double)pub.IdComercioNavigation.Longitud,
                                       Localidad = pub.IdComercioNavigation.IdLocalidadNavigation.Nombre,
                                       Peso = p.Peso,
-                                      Unidades = p.Unidades
+                                      Unidades = p.Unidades,
+                                      FechaVencimiento = pub.FechaFin.ToString("dd-MM-yy")
                                   })
                             .Where(oferta => idProductos.Contains(oferta.IdTipoProducto) && marcasElegidas.Contains(oferta.Marca))
                             .ToList();
@@ -156,9 +154,9 @@ public class OfertaRepository : IOfertaRepository
         return marcasEncontradas;
     }
 
-    public List<OfertaDTO> OfertasPorComercio(int idComercio)
+    public List<OfertaDTO> OfertasPorComercioFiltradasPorFecha(int idComercio, DateTime fecha)
     {
-        return _context.Publicacions.Where(p => p.IdComercio == idComercio)
+        return _context.Publicacions.Where(p => p.IdComercio == idComercio && DateTime.Compare(p.FechaFin.Date,fecha) >= 0)
                                     .Select(o => new OfertaDTO
                                     {
                                         IdPublicacion = o.Id,
@@ -174,7 +172,25 @@ public class OfertaRepository : IOfertaRepository
                                         Localidad = o.IdComercioNavigation.IdLocalidadNavigation.Nombre,
                                         IdLocalidad = o.IdComercioNavigation.IdLocalidad,
                                         Latitud = (double) o.IdComercioNavigation.Latitud,
-                                        Longitud = (double) o.IdComercioNavigation.Longitud
+                                        Longitud = (double) o.IdComercioNavigation.Longitud,
+                                        FechaVencimiento = o.FechaFin.ToString("dd-MM-yy")
                                     }).ToList();
+    }
+
+    public int CargarOferta(Publicacion oferta)
+    {
+        
+        _context.Publicacions.Add(oferta);
+        var resultado = _context.SaveChanges();
+
+        return resultado;
+    }
+
+    public List<int> ObtenerIdsProductosDelComercio(int idComercio)
+    {
+        return _context.Publicacions.Where(p => p.IdComercio.Equals(idComercio))
+                                    .Select(p => p.IdProducto)
+                                    .ToList();
+        
     }
 }

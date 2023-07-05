@@ -1,4 +1,5 @@
-﻿using AsistenteCompras_API.Domain.Entities;
+﻿using AsistenteCompras_API.Domain;
+using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -11,30 +12,31 @@ namespace AsistenteCompras_API.Controllers
     {
         private IUsuarioService _usuarioService;
         private ITokenService _tokenService;
+        private IRolService _rolService;
 
-        public UsuarioController(IUsuarioService usuarioService, ITokenService tokenService)
+        public UsuarioController(IUsuarioService usuarioService, ITokenService tokenService, IRolService rolService)
         {
             _usuarioService = usuarioService;
             _tokenService = tokenService;
+            _rolService = rolService;
         }
 
         [HttpPost("inicioSesion")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LoginDTO>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public IActionResult AutenticarUsuario([FromBody]LoginUsuarioDTO usuario)
+        public IActionResult AutenticarUsuario([FromBody]LoginDTO usuario)
         {
             try
             {
-                Usuario usuarioEncontrado = _usuarioService.IniciarSesion(usuario.Email, usuario.Clave);
+                Login usuarioEncontrado = _usuarioService.IniciarSesion(usuario.Email, usuario.Clave);
                 if (usuarioEncontrado != null)
                 {
                     //return Ok( new { token = _tokenService.GenerateToken(usuarioEncontrado)});
-
                     return Ok(usuarioEncontrado);
                 }
                 else
                 {
-                    return BadRequest( new { message = "Usuario y/o contraseña son incorrectos"});
+                    return BadRequest( new { message = "Email y/o contraseña son incorrectos"});
                 }
             }
             catch (Exception e)
@@ -45,9 +47,9 @@ namespace AsistenteCompras_API.Controllers
 
 
         [HttpPost("registro")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<UsuarioDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<RegistroUsuarioDTO>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public IActionResult RegistrarUsuario([FromBody]UsuarioDTO usuario)
+        public IActionResult RegistrarUsuario([FromBody]RegistroUsuarioDTO usuario)
         {
             try
             {
@@ -55,16 +57,18 @@ namespace AsistenteCompras_API.Controllers
 
                 if (validacionClave == true)
                 {
+                    int idRol = _rolService.BuscarRolPorNombre(usuario.Rol);
                     Usuario nuevoUsuario = new Usuario();
 
                     nuevoUsuario.Nombre = usuario.Nombre;
                     nuevoUsuario.Apellido = usuario.Apellido;
                     nuevoUsuario.Email = usuario.Email;
                     nuevoUsuario.Clave = usuario.Clave;
+                    nuevoUsuario.IdRol = idRol;
                     
-                    string nombreUsuario = _usuarioService.RegistrarUsuario(nuevoUsuario);
+                    string resultado = _usuarioService.RegistrarUsuario(nuevoUsuario);
 
-                    return Ok(new {message = "Registro: "+ $"{nombreUsuario}"});
+                    return Ok(new {message = "Registro: "+ $"{resultado}"});
                 }
                 else
                 {

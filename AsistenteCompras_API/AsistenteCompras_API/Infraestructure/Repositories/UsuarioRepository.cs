@@ -1,4 +1,5 @@
-﻿using AsistenteCompras_API.Domain.Entities;
+﻿using AsistenteCompras_API.Domain;
+using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.Infraestructure.Contexts;
 
@@ -13,16 +14,23 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
         }
 
 
-        public Usuario VerificarUsuario(string email, string clave)
+        public Login VerificarUsuario(string email, string clave)
         {
-            //Usuario usuario = _context.Usuarios.Where(u => u.Email.Equals(email) && u.Clave.Equals(clave)).First();
+            return _context.Usuarios.Where(u => u.Email
+                                    .Equals(email) && u.Clave.Equals(clave))
+                                    .Select(u => new Login
+                                    {
+                                        Id = u.Id,
+                                        Rol = u.IdRolNavigation.Nombre,
+                                        Usuario = u.Nombre + " " + u.Apellido,
+                                        Email = u.Email
+                                    }).FirstOrDefault()!;
 
-            return _context.Usuarios.FirstOrDefault(u => u.Email.Equals(email) && u.Clave.Equals(clave));
         }
 
         public Usuario RegistrarUsuario(Usuario usuario)
         {
-            Usuario usuarioARegistrar = _context.Usuarios.FirstOrDefault(u => u.Email.Equals(usuario.Email));
+            Usuario usuarioARegistrar = _context.Usuarios.FirstOrDefault(u => u.Email.Equals(usuario.Email))!;
 
             if(usuarioARegistrar == null)
             {
@@ -33,7 +41,7 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
             }
             else
             {
-                return null;
+                return null!;
             }
         }
     }

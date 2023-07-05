@@ -40,17 +40,29 @@ public partial class AsistenteComprasContext : DbContext
     public virtual DbSet<Publicacion> Publicacions { get; set; }
 
     public virtual DbSet<TipoProducto> TipoProductos { get; set; }
+
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
+    public virtual DbSet<ListadoDeOfertas> ListadoDeOfertas { get; set; }
+
+    public virtual DbSet<OfertaElegida> OfertaElegida { get; set; }
+
+    public virtual DbSet<ListadoOfertasBebida> ListadoOfertasBebida { get; set; }
+
+    public virtual DbSet<ListadoOfertasComida> ListadoOfertasComida { get; set; }
+    public virtual DbSet<Rol> Rol { get; set; }
+
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
+                .AddJsonFile("appsettings.json")
+                .AddUserSecrets<Program>();
             var configuration = builder.Build();
-            optionsBuilder.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]);
+            optionsBuilder.UseSqlServer(configuration.GetValue<string>("ConnectionStrings:DefaultConnection"));
         }
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)

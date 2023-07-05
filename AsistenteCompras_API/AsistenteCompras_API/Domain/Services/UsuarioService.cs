@@ -12,16 +12,16 @@ namespace AsistenteCompras_API.Domain.Services
             _usuarioRepository = usuarioRepository;
         }
 
-        public Usuario IniciarSesion(string email, string clave)
+        public Login IniciarSesion(string email, string clave)
         {
-            Usuario usuario = _usuarioRepository.VerificarUsuario(email, clave);
+            Login usuario = _usuarioRepository.VerificarUsuario(email, clave);
             if (usuario != null)
             {
                 return usuario;
             }
             else
             {
-                return null;
+                return null!;
             }
         }
 

@@ -14,6 +14,11 @@ namespace AsistenteCompras_API.Infraestructure.Contexts.Configurations
             builder.Property(e => e.Apellido).HasMaxLength(50);
             builder.Property(e => e.Email).HasMaxLength(50);
             builder.Property(e => e.Clave).HasMaxLength(50);
+
+            builder.HasOne(d => d.IdRolNavigation).WithMany(p => p.Usuarios)
+           .HasForeignKey(d => d.IdRol)
+           .OnDelete(DeleteBehavior.ClientSetNull)
+           .HasConstraintName("FK_Usuario_Rol");
         }
     }
 }
