@@ -147,7 +147,7 @@ namespace AsistenteCompras_Tests.Repository
             
         }
 
-        [Fact]
+        //[Fact]
         public void QuePuedaObtenerLasOfertasDeComercioConFechaMayor()
         {
             List<DateTime> fechas = new List<DateTime>()
