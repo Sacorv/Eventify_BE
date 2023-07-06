@@ -5,7 +5,7 @@ namespace AsistenteCompras_API.Domain.Services;
 
 public interface IComercioRepository
 {
-    Login VerificarComercio(string usuario, string clave);
+    PerfilComercio LoguearComercio(string usuario, string clave);
 
     Comercio RegistrarComercio(Comercio comercio);
 
