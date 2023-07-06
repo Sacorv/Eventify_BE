@@ -14,11 +14,11 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
         }
 
 
-        public Login VerificarUsuario(string email, string clave)
+        public PerfilUsuario VerificarUsuario(string email, string clave)
         {
             return _context.Usuarios.Where(u => u.Email
                                     .Equals(email) && u.Clave.Equals(clave))
-                                    .Select(u => new Login
+                                    .Select(u => new PerfilUsuario
                                     {
                                         Id = u.Id,
                                         Rol = u.IdRolNavigation.Nombre,

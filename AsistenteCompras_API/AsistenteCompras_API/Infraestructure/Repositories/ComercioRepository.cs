@@ -18,16 +18,18 @@ public class ComercioRepository : IComercioRepository
         _context = context;
     }
 
-    public Login VerificarComercio(string email, string clave)
+    public PerfilComercio LoguearComercio(string email, string clave)
     {
         return _context.Comercios.Where(c => c.Email
                                     .Equals(email) && c.Clave.Equals(clave))
-                                    .Select(c => new Login
+                                    .Select(c => new PerfilComercio
                                     {
-                                        Id = c.Id,
-                                        Rol = c.IdRolNavigation.Nombre,
-                                        Usuario = c.RazonSocial + " " + c.CUIT,
-                                        Email = c.Email
+                                        RazonSocial = c.RazonSocial,
+                                        CUIT = c.CUIT,
+                                        Direccion = c.Direccion,
+                                        Localidad = c.IdLocalidadNavigation.Nombre,
+                                        Email = c.Email,
+                                        Imagen = c.Imagen
                                     }).FirstOrDefault()!;
     }
 

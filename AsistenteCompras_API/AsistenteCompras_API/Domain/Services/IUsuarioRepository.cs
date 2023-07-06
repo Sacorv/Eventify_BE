@@ -4,7 +4,7 @@ namespace AsistenteCompras_API.Domain.Services
 {
     public interface IUsuarioRepository
     {
-        Login VerificarUsuario(string usuario, string clave);
+        PerfilUsuario VerificarUsuario(string usuario, string clave);
 
         Usuario RegistrarUsuario(Usuario usuario);
          

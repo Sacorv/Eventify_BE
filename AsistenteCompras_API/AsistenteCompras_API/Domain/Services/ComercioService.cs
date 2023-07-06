@@ -17,9 +17,9 @@ public class ComercioService : IComercioService
     }
 
 
-    public Login IniciarSesion(string email, string clave)
+    public PerfilComercio IniciarSesion(string email, string clave)
     {
-        Login comercio = _comercioRepository.VerificarComercio(email, clave);
+        PerfilComercio comercio = _comercioRepository.LoguearComercio(email, clave);
         if (comercio != null)
         {
             return comercio;

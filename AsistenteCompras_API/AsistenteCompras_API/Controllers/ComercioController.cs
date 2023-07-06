@@ -27,13 +27,13 @@ public class ComercioController : ControllerBase
     }
 
     [HttpPost("inicioSesion")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LoginDTO>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PerfilComercio))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult AutenticarUsuario([FromBody] LoginDTO login)
+    public IActionResult AutenticarComercio([FromBody] LoginDTO login)
     {
         try
         {
-            Login comercioEncontrado = _comercioService.IniciarSesion(login.Email, login.Clave);
+            PerfilComercio comercioEncontrado = _comercioService.IniciarSesion(login.Email, login.Clave);
             if (comercioEncontrado != null)
             {
                 //return Ok( new { token = _tokenService.GenerateToken(comercioEncontrado)});
