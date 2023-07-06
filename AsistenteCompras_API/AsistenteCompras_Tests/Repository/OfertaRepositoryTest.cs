@@ -12,7 +12,7 @@ namespace AsistenteCompras_Tests.Repository
         private Localidad SanJusto = new Localidad() { Nombre = "San Justo" };
         private Localidad RamosMejia = new Localidad() { Nombre = "Ramos mejía" };
         private List<int> idProductos = new List<int> { 1, 2, 3, 4, 5 };
-        private DateTime fechaArgentina = DateTime.UtcNow.AddHours(-3).Date;
+        private DateTime fechaActualArgentina = DateTime.UtcNow.AddHours(-3).Date;
 
         private AsistenteComprasContext _context;
         private OfertaRepository _ofertaRepository;
@@ -147,26 +147,26 @@ namespace AsistenteCompras_Tests.Repository
             
         }
 
-        //[Fact]
+        [Fact]
         public void QuePuedaObtenerLasOfertasDeComercioConFechaMayor()
         {
+            DateTime fechaPosterior = fechaActualArgentina.AddDays(1);
+            DateTime fechaAnterior = fechaActualArgentina.AddDays(-1);
             List<DateTime> fechas = new List<DateTime>()
             {
-                new DateTime(2023,07,05),
-                new DateTime(2023,07,04),
-                new DateTime(2023,07,12)
+                fechaPosterior,
+                fechaAnterior,
+                fechaActualArgentina
             };
-
-            var comercio = DadoQueExistenOfertasDeUnComercioConLaSiguientesFechas(fechas);
-
-            var resultado = _ofertaRepository.OfertasPorComercioFiltradasPorFecha(comercio, fechaArgentina);
-
             
+            int comercio = DadoQueExistenOfertasDeUnComercioConLaSiguientesFechas(fechas);
 
-            Assert.Equal("05-07-23", resultado.First().FechaVencimiento);
-            Assert.Equal(2, resultado.Count);
-            
-            
+            List<OfertaDTO> resultado = _ofertaRepository.OfertasPorComercioFiltradasPorFecha(comercio, fechaActualArgentina);
+            List<string> actual = resultado.Select(r => r.FechaVencimiento).ToList();
+
+            Assert.Contains(fechaPosterior.ToString("dd-MM-yy"), actual);
+            Assert.Contains(fechaActualArgentina.ToString("dd-MM-yy"), actual);
+            Assert.Equal(2, resultado.Count);            
         }
 
         private int DadoQueExistenOfertasDeUnComercioConLaSiguientesFechas(List<DateTime> fechas)
