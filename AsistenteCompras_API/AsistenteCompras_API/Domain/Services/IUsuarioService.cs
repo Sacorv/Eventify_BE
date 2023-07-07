@@ -4,7 +4,7 @@ namespace AsistenteCompras_API.Domain.Services
 {
     public interface IUsuarioService
     {
-        Login IniciarSesion(string email, string clave);
+        PerfilUsuario IniciarSesion(string email, string clave);
 
         string RegistrarUsuario(Usuario usuario);
 

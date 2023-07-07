@@ -86,18 +86,12 @@ public class OfertaServiceTest
 
         comercioServicio.Setup(c => c.ObtenerComerciosPorRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia))
                         .Returns(comerciosEncontados);
+
+        ofertaRepo.Setup(o => o.OfertasPorComercioFiltradasPorFecha(1,fechaArgentina)).Returns(ofertasDelComercio);
         
-
-        DateTime prueba = new DateTime(2023,07,05);
-
-        List<OfertaDTO> oferta = new List<OfertaDTO>();
-
-        ofertaRepo.Setup(o => o.OfertasPorComercioFiltradasPorFecha(1,fechaArgentina.Date)).Returns(ofertasDelComercio);
-        
-
-        var resultado = ofertaServicio.ListaRecorrerMenos(filtro);
+        List<OfertasPorComercioDTO> resultado = ofertaServicio.ListaRecorrerMenos(filtro);
         comercioServicio.Verify(c => c.ObtenerComerciosPorRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia));
-        ofertaRepo.Verify(o => o.OfertasPorComercioFiltradasPorFecha(1, prueba));
+        ofertaRepo.Verify(o => o.OfertasPorComercioFiltradasPorFecha(1, fechaArgentina));
         Assert.Empty(resultado);
     }
     

@@ -362,6 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-./Properties/ServiceDependencies/
+AsistenteCompras_API/AsistenteCompras_API/Properties/ServiceDependencies/
 
 

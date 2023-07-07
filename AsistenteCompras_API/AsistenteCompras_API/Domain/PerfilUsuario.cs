@@ -1,6 +1,6 @@
 ﻿namespace AsistenteCompras_API.Domain
 {
-    public class Login
+    public class PerfilUsuario
     {
         public int Id { get; set; }
 

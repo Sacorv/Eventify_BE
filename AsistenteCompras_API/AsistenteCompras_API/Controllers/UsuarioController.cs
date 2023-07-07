@@ -22,13 +22,13 @@ namespace AsistenteCompras_API.Controllers
         }
 
         [HttpPost("inicioSesion")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LoginDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PerfilUsuario))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         public IActionResult AutenticarUsuario([FromBody]LoginDTO usuario)
         {
             try
             {
-                Login usuarioEncontrado = _usuarioService.IniciarSesion(usuario.Email, usuario.Clave);
+                PerfilUsuario usuarioEncontrado = _usuarioService.IniciarSesion(usuario.Email, usuario.Clave);
                 if (usuarioEncontrado != null)
                 {
                     //return Ok( new { token = _tokenService.GenerateToken(usuarioEncontrado)});
