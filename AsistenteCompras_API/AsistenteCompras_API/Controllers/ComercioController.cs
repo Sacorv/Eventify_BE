@@ -36,7 +36,6 @@ public class ComercioController : ControllerBase
             PerfilComercio comercioEncontrado = _comercioService.IniciarSesion(login.Email, login.Clave);
             if (comercioEncontrado != null)
             {
-                //return Ok( new { token = _tokenService.GenerateToken(comercioEncontrado)});
                 return Ok(comercioEncontrado);
             }
             else

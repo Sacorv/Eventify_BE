@@ -1,6 +1,4 @@
-﻿using AsistenteCompras_API.DTOs;
-
-namespace AsistenteCompras_API.Domain
+﻿namespace AsistenteCompras_API.Domain
 {
     public class ListadosUsuario
     {
