@@ -1,6 +1,6 @@
-﻿namespace AsistenteCompras_API.DTOs
+﻿namespace AsistenteCompras_API.Domain
 {
-    public class OfertaElegidaDTO
+    public class OfertaSeleccionada
     {
         public string? NombreProducto { get; set; }
 

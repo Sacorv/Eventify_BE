@@ -30,17 +30,9 @@ public class ComercioService : IComercioService
         }
     }
 
-    public string RegistrarComercio(Comercio comercio)
+    public Comercio RegistrarComercio(Comercio comercio)
     {
-        Comercio comercioNuevo = _comercioRepository.RegistrarComercio(comercio);
-        if (comercioNuevo != null)
-        {
-            return comercioNuevo.RazonSocial + " - " + comercioNuevo.CUIT;
-        }
-        else
-        {
-            return "El email o CUIT ingresado ya se encuentra registrado";
-        }
+        return _comercioRepository.RegistrarComercio(comercio);
     }
 
     public bool ValidarClaves(string clave, string claveAComparar)
@@ -59,7 +51,7 @@ public class ComercioService : IComercioService
         return idComercios;
     }
 
-    public OfertaDTO CompararDistanciaEntreComercios(double latitudUbicacion, double longitudUbicacion, OfertaDTO ofertaComercioUno, OfertaDTO ofertaComercioDos)
+    public Oferta CompararDistanciaEntreComercios(double latitudUbicacion, double longitudUbicacion, Oferta ofertaComercioUno, Oferta ofertaComercioDos)
     {
         double distanciaKmComercioUno = CalcularDistanciaHaversine(latitudUbicacion, longitudUbicacion, ofertaComercioUno.Latitud, ofertaComercioUno.Longitud);
 

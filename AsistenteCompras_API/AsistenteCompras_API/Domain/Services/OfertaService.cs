@@ -22,9 +22,9 @@ public class OfertaService : IOfertaService
         _ubicacionService = ubicacionService;
     }
 
-    public List<OfertaDTO> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> localidades, int idBebida)
+    public List<Oferta> ObtenerListaProductosEconomicosPorEvento(int idComida, List<int> localidades, int idBebida)
     {
-        List<OfertaDTO> listaCompraEconomica = new List<OfertaDTO>();
+        List<Oferta> listaCompraEconomica = new List<Oferta>();
 
         List<int> idTiposProducto = ObtenerIdsTipoProductos(idBebida, idComida);
 
@@ -35,7 +35,7 @@ public class OfertaService : IOfertaService
             {
                 Decimal precioMinimo = _ofertaRepository.ObtenerPrecioMinimoDelProductoPorLocalidad(localidades, idTipoProducto);
 
-                List<OfertaDTO> ofertas = _ofertaRepository.ObtenerOfertasPorPrecio(idTipoProducto, precioMinimo);
+                List<Oferta> ofertas = _ofertaRepository.ObtenerOfertasPorPrecio(idTipoProducto, precioMinimo);
 
                 if(ofertas.Count > 1)
                 {
@@ -55,27 +55,18 @@ public class OfertaService : IOfertaService
     }
 
 
-    public List<OfertaCantidadDTO> GenerarListaPersonalizada(Filtro filtro)
+    public List<OfertasPorProducto> GenerarListaDeOfertas(Filtro filtro)
     {
-        List<OfertaDTO> ofertasDisponibles = BuscarOfertasDentroDelRadio(filtro);
-
-        List<OfertaDTO> ofertasEconomicasSegunCantidadNecesaria = ExtaerMejoresOfertas(ofertasDisponibles, filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.CantidadProductos);
-
-        return CalcularCantidadYSubtotalPorOferta(ofertasEconomicasSegunCantidadNecesaria, filtro.CantidadProductos);
-    }
-
-    public List<OfertasPorProductoDTO> GenerarListaDeOfertas(Filtro filtro)
-    {
-        List<OfertaDTO> ofertasDisponibles = BuscarOfertasDentroDelRadio(filtro);
+        List<Oferta> ofertasDisponibles = BuscarOfertasDentroDelRadio(filtro);
 
         if (ofertasDisponibles.Count == 0)
         {
-            return new List<OfertasPorProductoDTO>();
+            return new List<OfertasPorProducto>();
         }
 
         ofertasDisponibles.Sort((x, y) => x.IdTipoProducto.CompareTo(y.IdTipoProducto));
 
-        List<OfertaCantidadDTO> ofertasCantidad = CalcularCantidadYSubtotalPorOferta(ofertasDisponibles, filtro.CantidadProductos);
+        List<OfertaCantidad> ofertasCantidad = CalcularCantidadYSubtotalPorOferta(ofertasDisponibles, filtro.CantidadProductos);
 
         return GenerarListadoPorProductoYMarca(ofertasCantidad, filtro.LatitudUbicacion, filtro.LongitudUbicacion);
     }
@@ -83,7 +74,7 @@ public class OfertaService : IOfertaService
     public List<OfertasPorComercioDTO> ListaRecorrerMenos(Filtro filtro)
     {
         List<OfertasPorComercioDTO> comercios = new List<OfertasPorComercioDTO>();
-        List<OfertaDTO> ofertas;
+        List<Oferta> ofertas;
         List<OfertasPorComercioDTO> comerciosConLaMayorCantidadDeProductos = new List<OfertasPorComercioDTO>();
         int cantidadAComprar = filtro.CantidadProductos.Count;
 
@@ -98,7 +89,7 @@ public class OfertaService : IOfertaService
             ofertas = ProductosAComprarEnElComercio(filtro, ofertas);
             if (ofertas.Count > 0)
             {
-                List<OfertaCantidadDTO> ofertasConCantidades = CalcularCantidadYSubtotalPorOferta(ofertas, filtro.CantidadProductos);
+                List<OfertaCantidad> ofertasConCantidades = CalcularCantidadYSubtotalPorOferta(ofertas, filtro.CantidadProductos);
                 ofertaComercio.Ofertas = ofertasConCantidades;
                 ofertaComercio.NombreComercio = ofertasConCantidades.First().Oferta.NombreComercio;
                 ofertaComercio.ImagenComercio = _comercioService.ObtenerImagenDelComercio(idComercio);
@@ -191,9 +182,9 @@ public class OfertaService : IOfertaService
         return comerciosConLaMayorCantidadDeProductos;
     }
 
-    private static List<OfertaDTO> ProductosAComprarEnElComercio(Filtro filtro, List<OfertaDTO> ofertas)
+    private static List<Oferta> ProductosAComprarEnElComercio(Filtro filtro, List<Oferta> ofertas)
     {
-        List<OfertaDTO> ofertasEncontradas = new List<OfertaDTO>();
+        List<Oferta> ofertasEncontradas = new List<Oferta>();
         foreach (var productoAcomprar in filtro.CantidadProductos)
         {
             SeleccionarMarcasDelProducto(ofertas, ofertasEncontradas, productoAcomprar);
@@ -201,25 +192,25 @@ public class OfertaService : IOfertaService
         return ofertasEncontradas;
     }
 
-    private static void SeleccionarMarcasDelProducto(List<OfertaDTO> ofertas, List<OfertaDTO> ofertasEncontradas, KeyValuePair<string, double> productoAcomprar)
+    private static void SeleccionarMarcasDelProducto(List<Oferta> ofertas, List<Oferta> ofertasEncontradas, KeyValuePair<string, double> productoAcomprar)
     {
-        List<OfertaDTO>? encontrados = ofertas.Where(o => o.TipoProducto == productoAcomprar.Key).ToList();
+        List<Oferta>? encontrados = ofertas.Where(o => o.TipoProducto == productoAcomprar.Key).ToList();
         if (encontrados.Count > 0) ofertasEncontradas.Add(encontrados.First());
     }
 
-    private List<OfertasPorProductoDTO> GenerarListadoPorProductoYMarca(List<OfertaCantidadDTO> ofertasCantidad, double latitudUbicacion, double longitudUbicacion)
+    private List<OfertasPorProducto> GenerarListadoPorProductoYMarca(List<OfertaCantidad> ofertasCantidad, double latitudUbicacion, double longitudUbicacion)
     {
-        List<OfertasPorProductoDTO> ofertasDisponiblesAgrupadasPorProducto = new List<OfertasPorProductoDTO>();
+        List<OfertasPorProducto> ofertasDisponiblesAgrupadasPorProducto = new List<OfertasPorProducto>();
 
-        List<OfertaCantidadDTO> ofertasProducto = new List<OfertaCantidadDTO>();
+        List<OfertaCantidad> ofertasProducto = new List<OfertaCantidad>();
 
         ofertasCantidad.Sort((x, y) => x.Oferta.IdTipoProducto.CompareTo(y.Oferta.IdTipoProducto));
 
 
         int idTipoProducto = ofertasCantidad[0].Oferta.IdTipoProducto;
-        OfertaCantidadDTO actual = null;
+        OfertaCantidad actual = null;
 
-        foreach (OfertaCantidadDTO oferta in ofertasCantidad)
+        foreach (OfertaCantidad oferta in ofertasCantidad)
         {
             if (oferta.Oferta.IdTipoProducto == idTipoProducto)
             {
@@ -228,28 +219,28 @@ public class OfertaService : IOfertaService
             }
             else
             {
-                ofertasDisponiblesAgrupadasPorProducto.Add(new OfertasPorProductoDTO() { NombreProducto = actual.Oferta.TipoProducto, Ofertas = MenorPrecioPorProductoYMarca(ofertasProducto, latitudUbicacion, longitudUbicacion) });
-                ofertasProducto = new List<OfertaCantidadDTO>();
+                ofertasDisponiblesAgrupadasPorProducto.Add(new OfertasPorProducto() { NombreProducto = actual.Oferta.TipoProducto, Ofertas = MenorPrecioPorProductoYMarca(ofertasProducto, latitudUbicacion, longitudUbicacion) });
+                ofertasProducto = new List<OfertaCantidad>();
                 idTipoProducto = oferta.Oferta.IdTipoProducto;
                 actual = oferta;
                 ofertasProducto.Add(oferta);
             }
         }
-        ofertasDisponiblesAgrupadasPorProducto.Add(new OfertasPorProductoDTO() { NombreProducto = actual.Oferta.TipoProducto, Ofertas = MenorPrecioPorProductoYMarca(ofertasProducto, latitudUbicacion, longitudUbicacion) });
+        ofertasDisponiblesAgrupadasPorProducto.Add(new OfertasPorProducto() { NombreProducto = actual.Oferta.TipoProducto, Ofertas = MenorPrecioPorProductoYMarca(ofertasProducto, latitudUbicacion, longitudUbicacion) });
 
         return ofertasDisponiblesAgrupadasPorProducto;
     }
 
-    private List<OfertaCantidadDTO> MenorPrecioPorProductoYMarca(List<OfertaCantidadDTO> ofertas, double latitudUbicacion, double longitudUbicacion)
+    private List<OfertaCantidad> MenorPrecioPorProductoYMarca(List<OfertaCantidad> ofertas, double latitudUbicacion, double longitudUbicacion)
     {
-        OfertaDTO ofertaDTO = new OfertaDTO();
-        List<OfertaCantidadDTO> ofertasFiltradas = new List<OfertaCantidadDTO>();
+        Oferta oferta = new Oferta();
+        List<OfertaCantidad> ofertasFiltradas = new List<OfertaCantidad>();
         ofertas.Sort((x, y) => x.Oferta.Marca.CompareTo(y.Oferta.Marca));
 
         String marcaActual = ofertas[0].Oferta.Marca;
-        OfertaCantidadDTO ofertaMasEconomica = ofertas[0];
+        OfertaCantidad ofertaMasEconomica = ofertas[0];
 
-        foreach (OfertaCantidadDTO ofertaActual in ofertas)
+        foreach (OfertaCantidad ofertaActual in ofertas)
         {
             if (ofertaActual.Oferta.Marca.Equals(marcaActual))
             {
@@ -259,8 +250,8 @@ public class OfertaService : IOfertaService
                 }
                 else if(ofertaActual.Subtotal==ofertaMasEconomica.Subtotal)
                 {
-                    ofertaDTO = _comercioService.CompararDistanciaEntreComercios(latitudUbicacion, longitudUbicacion, ofertaActual.Oferta, ofertaMasEconomica.Oferta);
-                    ofertaMasEconomica = ofertaActual.Oferta.IdPublicacion == ofertaDTO.IdPublicacion ? ofertaActual : ofertaMasEconomica;
+                    oferta = _comercioService.CompararDistanciaEntreComercios(latitudUbicacion, longitudUbicacion, ofertaActual.Oferta, ofertaMasEconomica.Oferta);
+                    ofertaMasEconomica = ofertaActual.Oferta.IdPublicacion == oferta.IdPublicacion ? ofertaActual : ofertaMasEconomica;
                 }
             }
             else
@@ -278,7 +269,7 @@ public class OfertaService : IOfertaService
         return ofertasFiltradas;
     }
 
-    private List<OfertaDTO> BuscarOfertasDentroDelRadio(Filtro filtro)
+    private List<Oferta> BuscarOfertasDentroDelRadio(Filtro filtro)
     {
         List<int> idComercios = BuscarComerciosDentroDelRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia);
 
@@ -286,16 +277,16 @@ public class OfertaService : IOfertaService
 
         List<String> marcas = VerificarMarcasElegidas(filtro);
 
-        List<OfertaDTO> ofertasEncontradas = _ofertaRepository.OfertasDentroDelRadioV2(idProductos, idComercios, marcas);
+        List<Oferta> ofertasEncontradas = _ofertaRepository.OfertasDentroDelRadioV2(idProductos, idComercios, marcas);
 
         return FiltrarOfertasVigentes(ofertasEncontradas);
     }
 
-    private List<OfertaDTO> FiltrarOfertasVigentes(List<OfertaDTO> ofertasEncontradas)
+    private List<Oferta> FiltrarOfertasVigentes(List<Oferta> ofertasEncontradas)
     {
-        List<OfertaDTO> listadoOfertas = new List<OfertaDTO>();
+        List<Oferta> listadoOfertas = new List<Oferta>();
 
-        foreach (OfertaDTO oferta in ofertasEncontradas)
+        foreach (Oferta oferta in ofertasEncontradas)
         {
             if (DateTime.Compare(Convert.ToDateTime(oferta.FechaVencimiento).Date, fechaArgentina) > 0)
             {
@@ -305,46 +296,46 @@ public class OfertaService : IOfertaService
         return listadoOfertas;
     }
 
-    private List<OfertaDTO> ExtaerMejoresOfertas(List<OfertaDTO> ofertasDisponibles, double latitudUbicacion, double longitudUbicacion, Dictionary<string, double> cantidadNecesaria)
+    //private List<Oferta> ExtaerMejoresOfertas(List<Oferta> ofertasDisponibles, double latitudUbicacion, double longitudUbicacion, Dictionary<string, double> cantidadNecesaria)
+    //{
+    //    List<Oferta> ofertasMasEconomicas = new List<Oferta>();
+
+    //    ofertasDisponibles.Sort((x, y) => x.IdTipoProducto.CompareTo(y.IdTipoProducto));
+
+    //    Oferta ofertaMasEconomica = ofertasDisponibles[0];
+    //    int idProducto = 1;
+
+    //    for (int i=0; i<ofertasDisponibles.Count-1; i++)
+    //    {
+    //        if (ofertasDisponibles[i+1].IdTipoProducto != idProducto)
+    //        {
+    //            ofertasMasEconomicas.Add(ofertaMasEconomica);
+    //            idProducto = ofertasDisponibles[i+1].IdTipoProducto;
+    //            ofertaMasEconomica = ofertasDisponibles[i+1];
+    //        }
+
+    //        if (ofertasDisponibles[i+1].Peso != 0)
+    //        {
+    //            ofertaMasEconomica = CompararPreciosPorPesoNeto(ofertasDisponibles[i + 1], ofertaMasEconomica, latitudUbicacion, longitudUbicacion, cantidadNecesaria);
+    //        }
+    //        else
+    //        {
+    //            ofertaMasEconomica = CompararPreciosPorUnidad(ofertasDisponibles[i + 1], ofertaMasEconomica, latitudUbicacion, longitudUbicacion, cantidadNecesaria);
+    //        }
+    //    }
+
+    //    ofertasMasEconomicas.Add(ofertaMasEconomica);
+
+    //    return ofertasMasEconomicas;
+    //}
+
+    private List<OfertaCantidad> CalcularCantidadYSubtotalPorOferta(List<Oferta> ofertasEconomicas, Dictionary<string, double> cantidadProductos)
     {
-        List<OfertaDTO> ofertasMasEconomicas = new List<OfertaDTO>();
-
-        ofertasDisponibles.Sort((x, y) => x.IdTipoProducto.CompareTo(y.IdTipoProducto));
-
-        OfertaDTO ofertaMasEconomica = ofertasDisponibles[0];
-        int idProducto = 1;
-
-        for (int i=0; i<ofertasDisponibles.Count-1; i++)
-        {
-            if (ofertasDisponibles[i+1].IdTipoProducto != idProducto)
-            {
-                ofertasMasEconomicas.Add(ofertaMasEconomica);
-                idProducto = ofertasDisponibles[i+1].IdTipoProducto;
-                ofertaMasEconomica = ofertasDisponibles[i+1];
-            }
-
-            if (ofertasDisponibles[i+1].Peso != 0)
-            {
-                ofertaMasEconomica = CompararPreciosPorPesoNeto(ofertasDisponibles[i + 1], ofertaMasEconomica, latitudUbicacion, longitudUbicacion, cantidadNecesaria);
-            }
-            else
-            {
-                ofertaMasEconomica = CompararPreciosPorUnidad(ofertasDisponibles[i + 1], ofertaMasEconomica, latitudUbicacion, longitudUbicacion, cantidadNecesaria);
-            }
-        }
-
-        ofertasMasEconomicas.Add(ofertaMasEconomica);
-
-        return ofertasMasEconomicas;
-    }
-
-    private List<OfertaCantidadDTO> CalcularCantidadYSubtotalPorOferta(List<OfertaDTO> ofertasEconomicas, Dictionary<string, double> cantidadProductos)
-    {
-        List<OfertaCantidadDTO> listadoPersonalizado = new List<OfertaCantidadDTO>();
+        List<OfertaCantidad> listadoPersonalizado = new List<OfertaCantidad>();
 
         ofertasEconomicas.Sort((x, y) => x.TipoProducto.CompareTo(y.TipoProducto));
 
-        ofertasEconomicas.ForEach(oferta => listadoPersonalizado.Add(new OfertaCantidadDTO() 
+        ofertasEconomicas.ForEach(oferta => listadoPersonalizado.Add(new OfertaCantidad() 
                                                                                 { Cantidad = oferta.Peso != 0 ? Math.Ceiling(cantidadProductos[oferta.TipoProducto] / oferta.Peso) : Math.Ceiling(cantidadProductos[oferta.TipoProducto] / oferta.Unidades), 
                                                                                   Oferta = oferta, 
                                                                                   Subtotal = oferta.Peso != 0 ? Math.Ceiling(cantidadProductos[oferta.TipoProducto] / oferta.Peso) * oferta.Precio : Math.Ceiling(cantidadProductos[oferta.TipoProducto] / oferta.Unidades) * oferta.Precio }));
@@ -352,9 +343,9 @@ public class OfertaService : IOfertaService
         return listadoPersonalizado;
     }
 
-    private OfertaDTO CompararPreciosPorPesoNeto(OfertaDTO ofertaAComparar, OfertaDTO ofertaMasBarata, double latitudUbicacion, double longitudUbicacion, Dictionary<string, double> cantidadNecesaria)
+    private Oferta CompararPreciosPorPesoNeto(Oferta ofertaAComparar, Oferta ofertaMasBarata, double latitudUbicacion, double longitudUbicacion, Dictionary<string, double> cantidadNecesaria)
     {
-        OfertaDTO masEconomica = new OfertaDTO();
+        Oferta masEconomica = new Oferta();
 
         double precioSegunCantidadNecesariaOfertaActual = (cantidadNecesaria[ofertaAComparar.TipoProducto] / ofertaAComparar.Peso) * ofertaAComparar.Precio;
         double precioSegunCantidadNecesariaOfertaBarata = (cantidadNecesaria[ofertaMasBarata.TipoProducto] / ofertaMasBarata.Peso) * ofertaMasBarata.Precio;
@@ -376,9 +367,9 @@ public class OfertaService : IOfertaService
         return masEconomica;
     }
 
-    private OfertaDTO CompararPreciosPorUnidad(OfertaDTO ofertaAComparar, OfertaDTO ofertaMasBarata, double latitudUbicacion, double longitudUbicacion, Dictionary<string, double> cantidadNecesaria)
+    private Oferta CompararPreciosPorUnidad(Oferta ofertaAComparar, Oferta ofertaMasBarata, double latitudUbicacion, double longitudUbicacion, Dictionary<string, double> cantidadNecesaria)
     {
-        OfertaDTO masEconomica = new OfertaDTO();
+        Oferta masEconomica = new Oferta();
 
         double precioSegunCantidadNecesariaOfertaActual = (cantidadNecesaria[ofertaAComparar.TipoProducto] / ofertaAComparar.Unidades) * ofertaAComparar.Precio;
         double precioSegunCantidadNecesariaOfertaBarata = (cantidadNecesaria[ofertaMasBarata.TipoProducto] / ofertaMasBarata.Unidades) * ofertaMasBarata.Precio;
@@ -452,9 +443,9 @@ public class OfertaService : IOfertaService
         return marcas;
     }
 
-    private static OfertaDTO SeleccionarOferta(List<int> localidades, List<OfertaDTO> ofertas)
+    private static Oferta SeleccionarOferta(List<int> localidades, List<Oferta> ofertas)
     {
-        OfertaDTO recomendacion = new OfertaDTO();
+        Oferta recomendacion = new Oferta();
 
         foreach (int idLocalidad in localidades)
         {

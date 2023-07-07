@@ -1,6 +1,6 @@
-﻿using AsistenteCompras_API.Domain.Entities;
+﻿using AsistenteCompras_API.Domain;
+using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Domain.Services;
-using AsistenteCompras_API.DTOs;
 using AsistenteCompras_API.Infraestructure.Contexts;
 using Microsoft.IdentityModel.Tokens;
 
@@ -16,10 +16,10 @@ public class OfertaRepository : IOfertaRepository
         _context = context;
     }
 
-    public List<OfertaDTO> ObtenerOfertasPorPrecio(int idTipoProducto, decimal precio)
+    public List<Oferta> ObtenerOfertasPorPrecio(int idTipoProducto, decimal precio)
     {
         return _context.Publicacions.Where(p => p.IdProductoNavigation.IdTipoProducto == idTipoProducto && p.Precio == precio)
-                                    .Select(o => new OfertaDTO
+                                    .Select(o => new Oferta
                                     {
                                         IdPublicacion = o.Id,
                                         IdTipoProducto = o.IdProductoNavigation.IdTipoProducto,
@@ -42,11 +42,11 @@ public class OfertaRepository : IOfertaRepository
                                     .Min(p => p.Precio);
     }
 
-    public List<OfertaDTO> OfertasPorLocalidad(int idLocalidad, List<int> idProductos)
+    public List<Oferta> OfertasPorLocalidad(int idLocalidad, List<int> idProductos)
     {
         return _context.Publicacions.Where(pub => pub.IdComercioNavigation.IdLocalidadNavigation.Id == idLocalidad)
                                                 .Join(_context.Productos, pub => pub.IdProducto, p => p.Id,
-                                                    (pub, p) => new OfertaDTO
+                                                    (pub, p) => new Oferta
                                                     {
                                                         IdPublicacion = pub.Id,
                                                         IdTipoProducto = p.IdTipoProducto,
@@ -64,11 +64,11 @@ public class OfertaRepository : IOfertaRepository
                                                 .Where(oferta => idProductos.Contains(oferta.IdTipoProducto)).ToList();
     }
 
-    public List<OfertaDTO> OfertasDentroDelRadio(List<int> idProductos, List<int> idComercios)
+    public List<Oferta> OfertasDentroDelRadio(List<int> idProductos, List<int> idComercios)
     {
         return _context.Publicacions.Where(pub => idComercios.Contains(pub.IdComercio))
                             .Join(_context.Productos, pub => pub.IdProducto, p => p.Id,
-                                  (pub, p) => new OfertaDTO
+                                  (pub, p) => new Oferta
                                   {
                                       IdPublicacion = pub.Id,
                                       IdTipoProducto = p.IdTipoProducto,
@@ -89,11 +89,11 @@ public class OfertaRepository : IOfertaRepository
 
     }
 
-    public List<OfertaDTO> OfertasDentroDelRadioV2(List<int> idProductos, List<int> idComercios, List<String> marcasElegidas)
+    public List<Oferta> OfertasDentroDelRadioV2(List<int> idProductos, List<int> idComercios, List<String> marcasElegidas)
     {
-        List<OfertaDTO> ofertas = _context.Publicacions.Where(pub => idComercios.Contains(pub.IdComercio))
+        List<Oferta> ofertas = _context.Publicacions.Where(pub => idComercios.Contains(pub.IdComercio))
                             .Join(_context.Productos, pub => pub.IdProducto, p => p.Id,
-                                  (pub, p) => new OfertaDTO
+                                  (pub, p) => new Oferta
                                   {
                                       IdPublicacion = pub.Id,
                                       IdTipoProducto = p.IdTipoProducto,
@@ -154,10 +154,10 @@ public class OfertaRepository : IOfertaRepository
         return marcasEncontradas;
     }
 
-    public List<OfertaDTO> OfertasPorComercioFiltradasPorFecha(int idComercio, DateTime fecha)
+    public List<Oferta> OfertasPorComercioFiltradasPorFecha(int idComercio, DateTime fecha)
     {
         return _context.Publicacions.Where(p => p.IdComercio == idComercio && DateTime.Compare(p.FechaFin.Date,fecha) >= 0)
-                                    .Select(o => new OfertaDTO
+                                    .Select(o => new Oferta
                                     {
                                         IdPublicacion = o.Id,
                                         IdTipoProducto = o.IdProductoNavigation.IdTipoProducto,

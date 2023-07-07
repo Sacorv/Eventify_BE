@@ -2,8 +2,11 @@
 using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
+using Azure;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic;
 
 namespace AsistenteCompras_API.Controllers;
 
@@ -28,20 +31,28 @@ public class ComercioController : ControllerBase
 
     [HttpPost("inicioSesion")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PerfilComercio))]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult AutenticarComercio([FromBody] LoginDTO login)
+    public dynamic AutenticarComercio([FromBody] LoginDTO login)
     {
         try
         {
-            PerfilComercio comercioEncontrado = _comercioService.IniciarSesion(login.Email, login.Clave);
-            if (comercioEncontrado != null)
+            PerfilComercio comercio = _comercioService.IniciarSesion(login.Email, login.Clave);
+            if (comercio != null)
             {
-                //return Ok( new { token = _tokenService.GenerateToken(comercioEncontrado)});
-                return Ok(comercioEncontrado);
+                return new
+                {
+                    statusCode = StatusCodes.Status200OK,
+                    comercio
+                };
             }
             else
             {
-                return BadRequest(new { message = "Email y/o contraseña son incorrectos" });
+                return new 
+                { 
+                    StatusCode = StatusCodes.Status204NoContent,
+                    message = "Email y/o contraseña son incorrectos" 
+                };
             }
         }
         catch (Exception e)
@@ -52,9 +63,10 @@ public class ComercioController : ControllerBase
 
 
     [HttpPost("registro")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<RegistroComercioDTO>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult RegistrarComercio([FromBody] RegistroComercioDTO comercio)
+    public dynamic RegistrarComercio([FromBody] RegistroComercioDTO comercio)
     {
         try
         {
@@ -64,30 +76,37 @@ public class ComercioController : ControllerBase
             {
                 int idRol = _rolService.BuscarRolPorNombre(comercio.Rol);
                 int idLocalidad = _ubicacionService.BuscarLocalidadPorNombre(comercio.Localidad);
-                string resultado = "";
+                Comercio comercioRegistrado = null;
 
                 if(idRol!= 0 && idLocalidad != 0)
                 {
-                    Comercio nuevoComercio = new Comercio();
-
-                    nuevoComercio.RazonSocial = comercio.RazonSocial;
-                    nuevoComercio.CUIT = comercio.CUIT;
-                    nuevoComercio.Direccion = comercio.Direccion;
-                    nuevoComercio.IdLocalidad = idLocalidad;
-                    nuevoComercio.Latitud = (decimal)comercio.Latitud;
-                    nuevoComercio.Longitud = (decimal)comercio.Longitud;
-                    nuevoComercio.Email = comercio.Email;
-                    nuevoComercio.Clave = comercio.Clave;
-                    nuevoComercio.Imagen = comercio.Imagen;
-                    nuevoComercio.IdRol = idRol;
-
-                    resultado = _comercioService.RegistrarComercio(nuevoComercio);
+                    comercioRegistrado = nuevoComercio(comercio, idLocalidad, idRol);
                 }
-                return Ok(new { message = "Registro: " + $"{resultado}" });
+                if (comercioRegistrado != null)
+                {
+                    return new
+                    {
+                        statusCode = StatusCodes.Status200OK,
+                        comercio = comercioRegistrado.RazonSocial,
+                        cuit = comercioRegistrado.CUIT
+                    };
+                }
+                else
+                {
+                    return new
+                    {
+                        statusCode = StatusCodes.Status204NoContent,
+                        message = "El email o CUIT del comercio ya se encuentran asociados a una cuenta"
+                    };
+                }
             }
             else
             {
-                return BadRequest(new { message = "Las claves no coinciden" });
+                return new 
+                {
+                    statusCode = StatusCodes.Status204NoContent,
+                    message = "Las claves no coinciden" 
+                };
             }
         }
         catch (Exception e)
@@ -140,5 +159,24 @@ public class ComercioController : ControllerBase
         {
             return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
         }
+    }
+
+
+    private Comercio nuevoComercio(RegistroComercioDTO comercio, int idLocalidad, int idRol)
+    {
+        Comercio nuevoComercio = new Comercio();
+
+        nuevoComercio.RazonSocial = comercio.RazonSocial;
+        nuevoComercio.CUIT = comercio.CUIT;
+        nuevoComercio.Direccion = comercio.Direccion;
+        nuevoComercio.IdLocalidad = idLocalidad;
+        nuevoComercio.Latitud = (decimal)comercio.Latitud;
+        nuevoComercio.Longitud = (decimal)comercio.Longitud;
+        nuevoComercio.Email = comercio.Email;
+        nuevoComercio.Clave = comercio.Clave;
+        nuevoComercio.Imagen = comercio.Imagen;
+        nuevoComercio.IdRol = idRol;
+
+        return _comercioService.RegistrarComercio(nuevoComercio);
     }
 }

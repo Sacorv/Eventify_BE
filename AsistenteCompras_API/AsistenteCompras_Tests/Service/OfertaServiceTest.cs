@@ -1,6 +1,5 @@
 using AsistenteCompras_API.Domain;
 using AsistenteCompras_API.Domain.Services;
-using AsistenteCompras_API.DTOs;
 using Moq;
 
 namespace AsistenteCompras_Tests.Service;
@@ -63,8 +62,8 @@ public class OfertaServiceTest
 
         List<int> comerciosEncontados = new List<int>() { 1 };
 
-        List<OfertaDTO> ofertasDelComercio = new List<OfertaDTO>() {
-            new OfertaDTO
+        List<Oferta> ofertasDelComercio = new List<Oferta>() {
+            new Oferta
             {
                 IdPublicacion = 15,
                 IdTipoProducto = 8,
@@ -90,7 +89,7 @@ public class OfertaServiceTest
 
         DateTime prueba = new DateTime(2023,07,05);
 
-        List<OfertaDTO> oferta = new List<OfertaDTO>();
+        List<Oferta> oferta = new List<Oferta>();
 
         ofertaRepo.Setup(o => o.OfertasPorComercioFiltradasPorFecha(1,fechaArgentina.Date)).Returns(ofertasDelComercio);
         
@@ -118,8 +117,8 @@ public class OfertaServiceTest
 
         List<int> comerciosEncontados = new List<int>() { 1,2 };
 
-        List<OfertaDTO> ofertasDelComercioChino = new List<OfertaDTO>() {
-            new OfertaDTO
+        List<Oferta> ofertasDelComercioChino = new List<Oferta>() {
+            new Oferta
             {
                 IdPublicacion = 15,
                 IdTipoProducto = 8,
@@ -138,8 +137,8 @@ public class OfertaServiceTest
             }
         };
 
-        List<OfertaDTO> ofertasDelComercioAlmacen = new List<OfertaDTO>() {
-            new OfertaDTO
+        List<Oferta> ofertasDelComercioAlmacen = new List<Oferta>() {
+            new Oferta
             {
                 IdPublicacion = 2,
                 IdTipoProducto = 1,
@@ -156,7 +155,7 @@ public class OfertaServiceTest
                 Latitud = -34.68485,
                 Longitud = -58.50218
             },
-            new OfertaDTO
+            new Oferta
             {
                 IdPublicacion = 3,
                 IdTipoProducto = 2,
@@ -173,7 +172,7 @@ public class OfertaServiceTest
                 Latitud = -34.68485,
                 Longitud = -58.50218
             },
-            new OfertaDTO
+            new Oferta
             {
                 IdPublicacion = 4,
                 IdTipoProducto = 3,

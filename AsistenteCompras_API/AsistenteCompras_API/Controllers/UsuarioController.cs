@@ -2,6 +2,7 @@
 using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Domain.Services;
 using AsistenteCompras_API.DTOs;
+using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AsistenteCompras_API.Controllers
@@ -24,19 +25,26 @@ namespace AsistenteCompras_API.Controllers
         [HttpPost("inicioSesion")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PerfilUsuario))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public IActionResult AutenticarUsuario([FromBody]LoginDTO usuario)
+        public dynamic AutenticarUsuario([FromBody] LoginDTO login)
         {
             try
             {
-                PerfilUsuario usuarioEncontrado = _usuarioService.IniciarSesion(usuario.Email, usuario.Clave);
-                if (usuarioEncontrado != null)
+                PerfilUsuario usuario = _usuarioService.IniciarSesion(login.Email, login.Clave);
+                if (usuario != null)
                 {
-                    //return Ok( new { token = _tokenService.GenerateToken(usuarioEncontrado)});
-                    return Ok(usuarioEncontrado);
+                    return new
+                    {
+                        statusCode = StatusCodes.Status200OK,
+                        usuario
+                    };
                 }
                 else
                 {
-                    return BadRequest( new { message = "Email y/o contraseña son incorrectos"});
+                    return new 
+                    { 
+                        statusCode = StatusCodes.Status204NoContent,
+                        message = "Email y/o contraseña son incorrectos" 
+                    };
                 }
             }
             catch (Exception e)
@@ -47,38 +55,65 @@ namespace AsistenteCompras_API.Controllers
 
 
         [HttpPost("registro")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<RegistroUsuarioDTO>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RegistroUsuarioDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public IActionResult RegistrarUsuario([FromBody]RegistroUsuarioDTO usuario)
+        public dynamic RegistrarUsuario([FromBody]RegistroUsuarioDTO usuario)
         {
             try
             {
                 bool validacionClave = _usuarioService.ValidarClaves(usuario.Clave, usuario.ClaveAComparar);
-
+                Usuario usuarioRegistrado = null;
                 if (validacionClave == true)
                 {
                     int idRol = _rolService.BuscarRolPorNombre(usuario.Rol);
-                    Usuario nuevoUsuario = new Usuario();
-
-                    nuevoUsuario.Nombre = usuario.Nombre;
-                    nuevoUsuario.Apellido = usuario.Apellido;
-                    nuevoUsuario.Email = usuario.Email;
-                    nuevoUsuario.Clave = usuario.Clave;
-                    nuevoUsuario.IdRol = idRol;
-                    
-                    string resultado = _usuarioService.RegistrarUsuario(nuevoUsuario);
-
-                    return Ok(new {message = "Registro: "+ $"{resultado}"});
+                    if (idRol != 0)
+                    {
+                        usuarioRegistrado = nuevoUsuario(usuario, idRol);
+                    }
+                    if (usuarioRegistrado != null)
+                    {
+                        return new
+                        {
+                            statusCode = StatusCodes.Status200OK,
+                            usuario = usuarioRegistrado.Nombre + " " + usuarioRegistrado.Apellido,
+                            email = usuarioRegistrado.Email
+                        };
+                    }
+                    else
+                    {
+                        return new
+                        {
+                            statusCode = StatusCodes.Status204NoContent,
+                            message = "El email ingresado ya se encuentra asociado a una cuenta"
+                        };
+                    }
                 }
                 else
                 {
-                    return BadRequest(new { message = "Las claves no coinciden" });
+                    return new
+                    {
+                        statusCode = StatusCodes.Status204NoContent,
+                        message = "Las claves no coinciden"
+                    };
                 }
             }
             catch (Exception e)
             {
                 return BadRequest(e.ToString());
             }
+        }
+
+        private Usuario nuevoUsuario(RegistroUsuarioDTO usuario, int idRol)
+        {
+            Usuario nuevoUsuario = new Usuario();
+
+            nuevoUsuario.Nombre = usuario.Nombre;
+            nuevoUsuario.Apellido = usuario.Apellido;
+            nuevoUsuario.Email = usuario.Email;
+            nuevoUsuario.Clave = usuario.Clave;
+            nuevoUsuario.IdRol = idRol;
+
+            return _usuarioService.RegistrarUsuario(nuevoUsuario);
         }
 
     }

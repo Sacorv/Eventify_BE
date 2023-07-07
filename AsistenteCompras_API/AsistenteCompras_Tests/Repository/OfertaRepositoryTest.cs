@@ -1,8 +1,8 @@
-﻿using AsistenteCompras_API.DTOs;
-using AsistenteCompras_API.Domain.Entities;
+﻿using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Infraestructure.Contexts;
 using AsistenteCompras_API.Infraestructure.Repositories;
 using Microsoft.IdentityModel.Tokens;
+using AsistenteCompras_API.Domain;
 
 namespace AsistenteCompras_Tests.Repository
 {
@@ -31,7 +31,7 @@ namespace AsistenteCompras_Tests.Repository
             DadoQueExistenOfertasDeComerciosQuePertenecenAUnaLocalidad(SanJusto, 3);
             DadoQueExistenOfertasDeComerciosQuePertenecenAUnaLocalidad(RamosMejia, 2);
 
-            List<OfertaDTO> ofertas = CuandoBuscoOfertasDeDeterminadosProductosPorLocalidad(SanJusto, idProductos);
+            List<Oferta> ofertas = CuandoBuscoOfertasDeDeterminadosProductosPorLocalidad(SanJusto, idProductos);
 
             EntoncesEncuentroLasOfertas(3, ofertas);
         }
@@ -131,12 +131,12 @@ namespace AsistenteCompras_Tests.Repository
             }
         }
 
-        private List<OfertaDTO> CuandoBuscoOfertasDeDeterminadosProductosPorLocalidad(Localidad localidad, List<int> idProductos)
+        private List<Oferta> CuandoBuscoOfertasDeDeterminadosProductosPorLocalidad(Localidad localidad, List<int> idProductos)
         {
             return _ofertaRepository.OfertasPorLocalidad(localidad.Id, idProductos);
         }
 
-        private void EntoncesEncuentroLasOfertas(int cantidadOfertas, List<OfertaDTO> ofertas)
+        private void EntoncesEncuentroLasOfertas(int cantidadOfertas, List<Oferta> ofertas)
         {
             Assert.Equal(cantidadOfertas, ofertas.Count);
         }

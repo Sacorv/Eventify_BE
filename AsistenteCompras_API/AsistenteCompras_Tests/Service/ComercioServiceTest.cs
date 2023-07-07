@@ -1,5 +1,5 @@
-﻿using AsistenteCompras_API.Domain.Services;
-using AsistenteCompras_API.DTOs;
+﻿using AsistenteCompras_API.Domain;
+using AsistenteCompras_API.Domain.Services;
 using Moq;
 
 namespace AsistenteCompras_Tests.Service;
@@ -14,27 +14,27 @@ public class ComercioServiceTest
     [Fact]
     public void QueSeleccioneLaOfertaMasCercanaSegunMiUbicacion()
     {
-        DadoLasSiguientesOfertasEnMiUbicacion(out double latitudDeMiUbiacion, out double longitudDeMiUbiacion, out OfertaDTO ofertaCercana, out OfertaDTO ofertaLejana);
-        OfertaDTO recomendacion = CuandoHayMasDeUnaOferta(latitudDeMiUbiacion, longitudDeMiUbiacion, ofertaCercana, ofertaLejana);
+        DadoLasSiguientesOfertasEnMiUbicacion(out double latitudDeMiUbiacion, out double longitudDeMiUbiacion, out Oferta ofertaCercana, out Oferta ofertaLejana);
+        Oferta recomendacion = CuandoHayMasDeUnaOferta(latitudDeMiUbiacion, longitudDeMiUbiacion, ofertaCercana, ofertaLejana);
         EntoncesRecomendarLaMasCercana(recomendacion);
 
     }
 
-    private static void EntoncesRecomendarLaMasCercana(OfertaDTO recomendacion)
+    private static void EntoncesRecomendarLaMasCercana(Oferta recomendacion)
     {
         Assert.Equal("Almacen", recomendacion.NombreComercio);
     }
 
-    private OfertaDTO CuandoHayMasDeUnaOferta(double latitudDeMiUbiacion, double longitudDeMiUbiacion, OfertaDTO ofertaCercana, OfertaDTO ofertaLejana)
+    private Oferta CuandoHayMasDeUnaOferta(double latitudDeMiUbiacion, double longitudDeMiUbiacion, Oferta ofertaCercana, Oferta ofertaLejana)
     {
         return comercioServicio.CompararDistanciaEntreComercios(latitudDeMiUbiacion, longitudDeMiUbiacion, ofertaCercana, ofertaLejana);
     }
 
-    private static void DadoLasSiguientesOfertasEnMiUbicacion(out double latitudDeMiUbiacion, out double longitudDeMiUbiacion, out OfertaDTO ofertaCercana, out OfertaDTO ofertaLejana)
+    private static void DadoLasSiguientesOfertasEnMiUbicacion(out double latitudDeMiUbiacion, out double longitudDeMiUbiacion, out Oferta ofertaCercana, out Oferta ofertaLejana)
     {
         latitudDeMiUbiacion = -34.68550;
         longitudDeMiUbiacion = -58.50166;
-        ofertaLejana = new OfertaDTO()
+        ofertaLejana = new Oferta()
         {
             IdPublicacion = 2,
             IdTipoProducto = 3,
@@ -51,7 +51,7 @@ public class ComercioServiceTest
             Latitud = -34.68495,
             Longitud = -58.50218,
         };
-        ofertaCercana = new OfertaDTO()
+        ofertaCercana = new Oferta()
         {
             IdPublicacion = 2,
             IdTipoProducto = 3,
