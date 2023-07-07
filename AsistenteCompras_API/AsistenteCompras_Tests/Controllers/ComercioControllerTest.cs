@@ -39,9 +39,12 @@ public class ComercioControllerTest
         productoExiste = true;
         ofertaExiste = false;
         errorInterno = false;
+
         DadoQue(comercioExiste, productoExiste, ofertaExiste, errorInterno);
 
         int estadoHttpObtenido = CuandoCargaOferta();
+
+        _comercioService.Verify((c => c.VerficarSiElComercioExiste(oferta.IdComercio)));
 
         EntoncesObtengoElSiguenteEstadoHttp(200, estadoHttpObtenido);
     }
@@ -121,6 +124,7 @@ public class ComercioControllerTest
 
     private int CuandoCargaOferta()
     {
+        
         return ((ObjectResult)comercioController.CargarOfertaDelComercio(oferta)).StatusCode.Value;
     }
 

@@ -12,7 +12,7 @@ public interface IOfertaService
 
     List<OfertasPorProductoDTO> GenerarListaDeOfertas(Filtro filtro);
 
-    List<OfertasPorComercioDTO> ListaRecorrerMenos(Filtro filtro);
+    List<OfertasPorComercioDTO> ListaRecorrerMenos(Filtro filtro, List<int> idComercios);
 
     bool VerficarSiLaOfertaExiste(int idComercio, int idProducto);
 

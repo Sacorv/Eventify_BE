@@ -1,8 +1,7 @@
-﻿using AsistenteCompras_API.DTOs;
-using AsistenteCompras_API.Domain.Entities;
+﻿using AsistenteCompras_API.Domain.Entities;
+using AsistenteCompras_API.DTOs;
 using AsistenteCompras_API.Infraestructure.Contexts;
 using AsistenteCompras_API.Infraestructure.Repositories;
-using Microsoft.IdentityModel.Tokens;
 
 namespace AsistenteCompras_Tests.Repository
 {
@@ -168,6 +167,22 @@ namespace AsistenteCompras_Tests.Repository
             Assert.Contains(fechaActualArgentina.ToString("dd-MM-yy"), actual);
             Assert.Equal(2, resultado.Count);            
         }
+
+        [Fact]
+        public void QueNoSeEncuentreOfertasDisponibles()
+        {
+            DateTime fechaAnterior = fechaActualArgentina.AddDays(-1);
+            List<DateTime> fechas = new List<DateTime>() { fechaAnterior };
+
+            int comercio = DadoQueExistenOfertasDeUnComercioConLaSiguientesFechas(fechas);
+
+            List<OfertaDTO> resultado = _ofertaRepository.OfertasPorComercioFiltradasPorFecha(comercio, fechaActualArgentina);
+            
+
+            Assert.Empty(resultado);
+        }
+
+
 
         private int DadoQueExistenOfertasDeUnComercioConLaSiguientesFechas(List<DateTime> fechas)
         {
