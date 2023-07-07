@@ -1,4 +1,5 @@
 ﻿using AsistenteCompras_API.DTOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AsistenteCompras_API.Domain.Services;
@@ -282,7 +283,7 @@ public class OfertaService : IOfertaService
 
         foreach (OfertaDTO oferta in ofertasEncontradas)
         {
-            DateTime fechaConvertida = DateTime.ParseExact(oferta.FechaVencimiento, @"d/M/yy", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime fechaConvertida = Convert.ToDateTime(oferta.FechaVencimiento, System.Globalization.CultureInfo.GetCultureInfo("es-AR").DateTimeFormat);
             if (DateTime.Compare(fechaConvertida.Date, fechaArgentina) > 0)
             {
                 listadoOfertas.Add(oferta);
