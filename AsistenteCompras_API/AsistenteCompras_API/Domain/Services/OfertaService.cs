@@ -282,7 +282,8 @@ public class OfertaService : IOfertaService
 
         foreach (OfertaDTO oferta in ofertasEncontradas)
         {
-            if (DateTime.Compare(Convert.ToDateTime(oferta.FechaVencimiento).Date, fechaArgentina) > 0)
+            DateTime fechaConvertida = DateTime.ParseExact(oferta.FechaVencimiento, @"d/M/yy", System.Globalization.CultureInfo.InvariantCulture);
+            if (DateTime.Compare(fechaConvertida.Date, fechaArgentina) > 0)
             {
                 listadoOfertas.Add(oferta);
             }
