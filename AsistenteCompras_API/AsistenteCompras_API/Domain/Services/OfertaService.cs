@@ -202,7 +202,7 @@ public class OfertaService : IOfertaService
 
 
         int idTipoProducto = ofertasCantidad[0].Oferta.IdTipoProducto;
-        OfertaCantidadDTO actual = null;
+        OfertaCantidadDTO actual = new OfertaCantidadDTO();
 
         foreach (OfertaCantidadDTO oferta in ofertasCantidad)
         {

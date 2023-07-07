@@ -11,13 +11,11 @@ namespace AsistenteCompras_API.Controllers
     public class UsuarioController : ControllerBase
     {
         private IUsuarioService _usuarioService;
-        private ITokenService _tokenService;
         private IRolService _rolService;
 
-        public UsuarioController(IUsuarioService usuarioService, ITokenService tokenService, IRolService rolService)
+        public UsuarioController(IUsuarioService usuarioService, IRolService rolService)
         {
             _usuarioService = usuarioService;
-            _tokenService = tokenService;
             _rolService = rolService;
         }
 
@@ -31,7 +29,6 @@ namespace AsistenteCompras_API.Controllers
                 PerfilUsuario usuarioEncontrado = _usuarioService.IniciarSesion(usuario.Email, usuario.Clave);
                 if (usuarioEncontrado != null)
                 {
-                    //return Ok( new { token = _tokenService.GenerateToken(usuarioEncontrado)});
                     return Ok(usuarioEncontrado);
                 }
                 else

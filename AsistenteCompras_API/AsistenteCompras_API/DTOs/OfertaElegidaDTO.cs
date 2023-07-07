@@ -2,7 +2,7 @@
 {
     public class OfertaElegidaDTO
     {
-        public string? NombreProducto { get; set; }
+        public string NombreProducto { get; set; } = null!;
 
         public int IdPublicacion { get; set; }
 

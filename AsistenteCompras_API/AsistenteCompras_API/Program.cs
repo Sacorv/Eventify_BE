@@ -28,7 +28,6 @@ builder.Services.AddScoped<IComercioService, ComercioService>();
 builder.Services.AddScoped<ITipoProductoService, TipoProductoService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IListadoOfertasRepository, ListadoOfertasRepository>();
 builder.Services.AddScoped<IListadoOfertasService, ListadoOfertasService>();
 builder.Services.AddScoped<IRolService, RolService>();
@@ -36,18 +35,6 @@ builder.Services.AddScoped<IRolRepository, RolRepository>();
 builder.Services.AddScoped<IVerificadorComercioService, VerificadorComercioService>();
 builder.Services.AddDbContext<AsistenteComprasContext>(options => options.UseSqlServer(
     builder.Configuration.GetValue<string>("ConnectionStrings:DefaultConnection")));
-
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddJwtBearer(options =>
-//    {
-//        options.TokenValidationParameters = new TokenValidationParameters
-//        {
-//            ValidateIssuer = false,
-//            ValidateAudience = false,
-//            ValidateIssuerSigningKey = true,
-//            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
-//        };
-//    });
 
 var app = builder.Build();
 
