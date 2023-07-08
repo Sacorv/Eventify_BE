@@ -23,9 +23,6 @@ public class OfertaServiceTest
     private const double LATITUDUNO = -34.653976;
     private const double LONGITUDUNO = -58.618469;
 
-    private const double LATITUDDOS = -34.658075;
-    private const double LONGITUDDOS = -58.505414;
-
     [Fact]
     public void QueListaRecorrerMenosMeDevuelvaUnaListaVaciaCuandoNoHayComerciosEnElRadio()
     {
@@ -45,8 +42,6 @@ public class OfertaServiceTest
 
         comercioServicio.Setup(c => c.ObtenerComerciosPorRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia))
                         .Returns(comerciosEncontrados);
-
-
 
         var resultado = ofertaServicio.ListaRecorrerMenos(filtro);
 
@@ -215,8 +210,6 @@ public class OfertaServiceTest
         Assert.Equal("Almacen",resultado.First().NombreComercio);
     }
 
-
-
     [Fact]
     public void QueObtengaUnaListaVacíaDeOfertasMejoresPreciosEnRadioSinComercios()
     {
@@ -252,7 +245,6 @@ public class OfertaServiceTest
     {
         Assert.True(ofertas.Count==0);
     }
-
 
     [Fact]
     public void QueNoPuedaBuscarOfertasSiEnvioTiposComidaYBebidaInexistentes()
@@ -303,8 +295,6 @@ public class OfertaServiceTest
         Assert.Empty(listaVacía);
     }
 
-
-
     //[Fact]
     public void QuePuedaObtenerOfertasMejoresPreciosDentroDeUnRadio()
     {
@@ -312,7 +302,6 @@ public class OfertaServiceTest
         List<OfertasPorProducto> mejoresOfertas = CuandoBuscoOfertasDentroDelRadio(filtros);
         EntoncesObtengoUnaLista(mejoresOfertas);
     }
-
 
     private Filtro DadoUnSetDeDatos()
     {
@@ -386,7 +375,6 @@ public class OfertaServiceTest
 
         comercioServicio.Setup(c => c.ObtenerComerciosPorRadio(filtros.LatitudUbicacion, filtros.LongitudUbicacion, filtros.Distancia))
                         .Returns(idComercios);
-
         return idComercios;
     }
 
