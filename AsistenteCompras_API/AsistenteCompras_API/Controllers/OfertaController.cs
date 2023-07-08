@@ -32,19 +32,11 @@ public class OfertaController : ControllerBase
             List<OfertasPorProducto> ofertas = _ofertaService.GenerarListaDeOfertas(filtro);
             if (ofertas.Count != 0)
             {
-                return new
-                {
-                    statusCode = StatusCodes.Status200OK,
-                    ofertas
-                };
+                return ofertas;
             }
             else
             {
-                return new
-                {
-                    statusCode = StatusCodes.Status204NoContent,
-                    message = "No se encontraron ofertas para los datos ingresados"
-                };
+                return NoContent();
             }
 
         }
