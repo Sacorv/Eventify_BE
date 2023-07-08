@@ -1,5 +1,5 @@
-﻿using AsistenteCompras_API.Domain.Entities;
-using AsistenteCompras_API.DTOs;
+﻿using AsistenteCompras_API.Domain;
+using AsistenteCompras_API.Domain.Entities;
 using AsistenteCompras_API.Infraestructure.Contexts;
 using AsistenteCompras_API.Infraestructure.Repositories;
 
@@ -30,7 +30,7 @@ namespace AsistenteCompras_Tests.Repository
             DadoQueExistenOfertasDeComerciosQuePertenecenAUnaLocalidad(SanJusto, 3);
             DadoQueExistenOfertasDeComerciosQuePertenecenAUnaLocalidad(RamosMejia, 2);
 
-            List<OfertaDTO> ofertas = CuandoBuscoOfertasDeDeterminadosProductosPorLocalidad(SanJusto, idProductos);
+            List<Oferta> ofertas = CuandoBuscoOfertasDeDeterminadosProductosPorLocalidad(SanJusto, idProductos);
 
             EntoncesEncuentroLasOfertas(3, ofertas);
         }
@@ -130,12 +130,12 @@ namespace AsistenteCompras_Tests.Repository
             }
         }
 
-        private List<OfertaDTO> CuandoBuscoOfertasDeDeterminadosProductosPorLocalidad(Localidad localidad, List<int> idProductos)
+        private List<Oferta> CuandoBuscoOfertasDeDeterminadosProductosPorLocalidad(Localidad localidad, List<int> idProductos)
         {
             return _ofertaRepository.OfertasPorLocalidad(localidad.Id, idProductos);
         }
 
-        private void EntoncesEncuentroLasOfertas(int cantidadOfertas, List<OfertaDTO> ofertas)
+        private void EntoncesEncuentroLasOfertas(int cantidadOfertas, List<Oferta> ofertas)
         {
             Assert.Equal(cantidadOfertas, ofertas.Count);
         }
@@ -160,7 +160,7 @@ namespace AsistenteCompras_Tests.Repository
             
             int comercio = DadoQueExistenOfertasDeUnComercioConLaSiguientesFechas(fechas);
 
-            List<OfertaDTO> resultado = _ofertaRepository.OfertasPorComercioFiltradasPorFecha(comercio, fechaActualArgentina);
+            List<Oferta> resultado = _ofertaRepository.OfertasPorComercioFiltradasPorFecha(comercio, fechaActualArgentina);
             List<string> actual = resultado.Select(r => r.FechaVencimiento).ToList();
 
             Assert.Contains(fechaPosterior.ToString("dd-MM-yy"), actual);
@@ -176,7 +176,7 @@ namespace AsistenteCompras_Tests.Repository
 
             int comercio = DadoQueExistenOfertasDeUnComercioConLaSiguientesFechas(fechas);
 
-            List<OfertaDTO> resultado = _ofertaRepository.OfertasPorComercioFiltradasPorFecha(comercio, fechaActualArgentina);
+            List<Oferta> resultado = _ofertaRepository.OfertasPorComercioFiltradasPorFecha(comercio, fechaActualArgentina);
             
 
             Assert.Empty(resultado);

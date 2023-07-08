@@ -11,7 +11,7 @@ namespace AsistenteCompras_API.Domain
         public List<string> ComidasElegidas { get; set; } = null!;
         public List<string> BebidasElegidas { get; set; } = null!;
         public int CantidadOfertas { get; set; }
-        public List<OfertaCantidadDTO>? Ofertas { get; set; }
+        public List<OfertaCantidad>? Ofertas { get; set; }
         public double TotalListado { get; set; }
         public string FechaCreacion { get; set; } = null!;
         public string UrlRecorrido { get; set; } = null!;

@@ -1,6 +1,5 @@
 ﻿using AsistenteCompras_API.Domain;
 using AsistenteCompras_API.Domain.Services;
-using AsistenteCompras_API.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,9 +16,10 @@ namespace AsistenteCompras_API.Controllers
         }
 
         [HttpPost("guardarListado")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ListadoOfertasDTO))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public IActionResult GuardarListado([FromBody]ListadoOfertasDTO listado)
+        public dynamic GuardarListado([FromBody]Listado listado)
         {
             try
             {
@@ -27,11 +27,19 @@ namespace AsistenteCompras_API.Controllers
 
                 if (idListadoGuardado != 0)
                 {
-                    return Ok(new { message = "Se guardó con éxito el listado seleccionado. Id: "+$"{idListadoGuardado}"});
+                    return new
+                    {
+                        statusCode = StatusCodes.Status200OK,
+                        message = "Se guardó con éxito el listado seleccionado. Id: " + $"{idListadoGuardado}"
+                    };
                 }
                 else
                 {
-                    return BadRequest(new {message = "Error al guardar el listado"});
+                    return new
+                    {
+                        statusCode = StatusCodes.Status204NoContent,
+                        message = "No se logró guardar el listado"
+                    };
                 }
             }
             catch (Exception e)
@@ -42,13 +50,14 @@ namespace AsistenteCompras_API.Controllers
 
         [HttpGet("detalleListado")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ListadoOfertasUsuario))]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public IActionResult VerDetalleListado([Required]int idListado, [Required]int idUsuario)
+        public dynamic VerDetalleListado([Required]int idListado, [Required]int idUsuario)
         {
             try
             {
                 ListadoOfertasUsuario listado = _listadoOfertasService.BuscarListado(idListado, idUsuario);
-                return listado!=null ? Ok(listado) : NoContent();
+                return listado!=null ? new { statusCode = StatusCodes.Status200OK, listado} : new { statusCode = StatusCodes.Status204NoContent, message = "El id de listado o usuario incorrecto" };
             }
             catch(Exception e)
             {
@@ -58,13 +67,14 @@ namespace AsistenteCompras_API.Controllers
 
         [HttpGet("misListados")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ListadosUsuario>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public IActionResult VerListados([Required]int idUsuario)
+        public dynamic VerListados([Required]int idUsuario)
         {
             try
             {
                 List<ListadosUsuario> listadosAsociados = _listadoOfertasService.ConsultarListados(idUsuario);
-                return listadosAsociados.Count!=0 ? Ok(listadosAsociados) : NoContent();
+                return listadosAsociados.Count!=0 ? new { statusCode = StatusCodes.Status200OK, listadosAsociados } : new { statusCode = StatusCodes.Status204NoContent, message = "El id de usuario es incorrectos" };
             }
             catch (Exception e)
             {

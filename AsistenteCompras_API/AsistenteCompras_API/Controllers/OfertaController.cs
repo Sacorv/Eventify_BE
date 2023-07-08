@@ -20,46 +20,31 @@ public class OfertaController : ControllerBase
         _comercioService = comercioService;
     }
 
-    [HttpPost("listaPersonalizada")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertaCantidadDTO>))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult ObtenerOfertasMasEconomicasSegunFiltros([FromBody]Filtro filtro)
-    {
-        try
-        {
-            List<OfertaCantidadDTO> ofertas = _ofertaService.GenerarListaPersonalizada(filtro);
-            if (ofertas.Count != 0)
-            {
-                return Ok(ofertas);
-            }
-            else
-            {
-                return NoContent();
-            }
-
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.ToString());
-        }
-    }
-
 
     [HttpPost("listadoOfertas")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertasPorProductoDTO>))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult ObtenerListadoOfertasMasEconomicas([FromBody] Filtro filtro)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertasPorProducto>))]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(object))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(object))]
+    public dynamic ObtenerListadoOfertasMasEconomicas([FromBody] Filtro filtro)
     {
         try
         {
-            List<OfertasPorProductoDTO> ofertas = _ofertaService.GenerarListaDeOfertas(filtro);
+            List<OfertasPorProducto> ofertas = _ofertaService.GenerarListaDeOfertas(filtro);
             if (ofertas.Count != 0)
             {
-                return Ok(ofertas);
+                return new
+                {
+                    statusCode = StatusCodes.Status200OK,
+                    ofertas
+                };
             }
             else
             {
-                return NoContent();
+                return new
+                {
+                    statusCode = StatusCodes.Status204NoContent,
+                    message = "No se encontraron ofertas para los datos ingresados"
+                };
             }
 
         }

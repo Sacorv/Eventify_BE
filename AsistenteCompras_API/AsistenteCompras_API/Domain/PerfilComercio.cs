@@ -2,6 +2,10 @@
 {
     public class PerfilComercio
     {
+        public int Id { get; set; }
+
+        public string Rol { get; set; } = null!;
+
         public string RazonSocial { get; set; } = null!;
 
         public string CUIT { get; set; } = null!;
