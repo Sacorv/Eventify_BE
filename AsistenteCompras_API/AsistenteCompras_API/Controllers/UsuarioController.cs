@@ -24,6 +24,7 @@ namespace AsistenteCompras_API.Controllers
 
         [HttpPost("inicioSesion")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PerfilUsuario))]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         public dynamic AutenticarUsuario([FromBody] LoginDTO login)
         {
@@ -56,6 +57,7 @@ namespace AsistenteCompras_API.Controllers
 
         [HttpPost("registro")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RegistroUsuarioDTO))]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         public dynamic RegistrarUsuario([FromBody]RegistroUsuarioDTO usuario)
         {

@@ -1,4 +1,5 @@
-﻿using AsistenteCompras_API.DTOs;
+﻿using AsistenteCompras_API.Domain.Entities;
+using AsistenteCompras_API.DTOs;
 
 namespace AsistenteCompras_API.Domain.Services;
 
@@ -269,11 +270,20 @@ public class OfertaService : IOfertaService
         return ofertasFiltradas;
     }
 
-    private List<Oferta> BuscarOfertasDentroDelRadio(Filtro filtro)
+    public List<Oferta> BuscarOfertasDentroDelRadio(Filtro filtro)
     {
         List<int> idComercios = BuscarComerciosDentroDelRadio(filtro.LatitudUbicacion, filtro.LongitudUbicacion, filtro.Distancia);
+        if(idComercios.Count == 0)
+        {
+            return new List<Oferta>();
+        }
 
         List<int> idProductos = BuscarProductosElegidos(filtro.Bebidas, filtro.Comidas);
+
+        if (idProductos.Count==0)
+        {
+            return new List<Oferta>();
+        }
 
         List<String> marcas = VerificarMarcasElegidas(filtro);
 
@@ -296,38 +306,6 @@ public class OfertaService : IOfertaService
         return listadoOfertas;
     }
 
-    //private List<Oferta> ExtaerMejoresOfertas(List<Oferta> ofertasDisponibles, double latitudUbicacion, double longitudUbicacion, Dictionary<string, double> cantidadNecesaria)
-    //{
-    //    List<Oferta> ofertasMasEconomicas = new List<Oferta>();
-
-    //    ofertasDisponibles.Sort((x, y) => x.IdTipoProducto.CompareTo(y.IdTipoProducto));
-
-    //    Oferta ofertaMasEconomica = ofertasDisponibles[0];
-    //    int idProducto = 1;
-
-    //    for (int i=0; i<ofertasDisponibles.Count-1; i++)
-    //    {
-    //        if (ofertasDisponibles[i+1].IdTipoProducto != idProducto)
-    //        {
-    //            ofertasMasEconomicas.Add(ofertaMasEconomica);
-    //            idProducto = ofertasDisponibles[i+1].IdTipoProducto;
-    //            ofertaMasEconomica = ofertasDisponibles[i+1];
-    //        }
-
-    //        if (ofertasDisponibles[i+1].Peso != 0)
-    //        {
-    //            ofertaMasEconomica = CompararPreciosPorPesoNeto(ofertasDisponibles[i + 1], ofertaMasEconomica, latitudUbicacion, longitudUbicacion, cantidadNecesaria);
-    //        }
-    //        else
-    //        {
-    //            ofertaMasEconomica = CompararPreciosPorUnidad(ofertasDisponibles[i + 1], ofertaMasEconomica, latitudUbicacion, longitudUbicacion, cantidadNecesaria);
-    //        }
-    //    }
-
-    //    ofertasMasEconomicas.Add(ofertaMasEconomica);
-
-    //    return ofertasMasEconomicas;
-    //}
 
     private List<OfertaCantidad> CalcularCantidadYSubtotalPorOferta(List<Oferta> ofertasEconomicas, Dictionary<string, double> cantidadProductos)
     {
@@ -399,10 +377,18 @@ public class OfertaService : IOfertaService
     private List<int> BuscarProductosElegidos(List<int> idBebida, List<int> idComida)
     {
         List<int> idProductos = new List<int>();
+        List<int> idBebidas = _tipoProductoService.ObtenerTiposDeBebida(idBebida);
+        List<int> idComidas = _tipoProductoService.ObtenerTiposDeComida(idComida);
 
-        idProductos.AddRange(_tipoProductoService.ObtenerTiposDeBebida(idBebida));
-        idProductos.AddRange(_tipoProductoService.ObtenerTiposDeComida(idComida));
-
+        if(idBebidas.Count==0 || idComidas.Count==0)
+        {
+            return idProductos;
+        }
+        else
+        {
+            idProductos.AddRange(idBebidas);
+            idProductos.AddRange(idComidas);
+        }
         return idProductos;
     }
 

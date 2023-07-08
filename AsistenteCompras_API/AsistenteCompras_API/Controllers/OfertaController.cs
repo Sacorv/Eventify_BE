@@ -20,19 +20,28 @@ public class OfertaController : ControllerBase
 
     [HttpPost("listadoOfertas")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OfertasPorProducto>))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public IActionResult ObtenerListadoOfertasMasEconomicas([FromBody] Filtro filtro)
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(object))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(object))]
+    public dynamic ObtenerListadoOfertasMasEconomicas([FromBody] Filtro filtro)
     {
         try
         {
             List<OfertasPorProducto> ofertas = _ofertaService.GenerarListaDeOfertas(filtro);
             if (ofertas.Count != 0)
             {
-                return Ok(ofertas);
+                return new
+                {
+                    statusCode = StatusCodes.Status200OK,
+                    ofertas
+                };
             }
             else
             {
-                return NoContent();
+                return new
+                {
+                    statusCode = StatusCodes.Status204NoContent,
+                    message = "No se encontraron ofertas para los datos ingresados"
+                };
             }
 
         }

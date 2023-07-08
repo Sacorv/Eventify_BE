@@ -31,8 +31,8 @@ public class ComercioController : ControllerBase
 
     [HttpPost("inicioSesion")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PerfilComercio))]
-    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(object))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(object))]
     public dynamic AutenticarComercio([FromBody] LoginDTO login)
     {
         try
@@ -64,8 +64,8 @@ public class ComercioController : ControllerBase
 
     [HttpPost("registro")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(object))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(object))]
     public dynamic RegistrarComercio([FromBody] RegistroComercioDTO comercio)
     {
         try
