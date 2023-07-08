@@ -1,6 +1,4 @@
 ﻿using AsistenteCompras_API.Domain.Entities;
-using AsistenteCompras_API.DTOs;
-using AsistenteCompras_API.Infraestructure.Repositories;
 
 namespace AsistenteCompras_API.Domain.Services
 {
@@ -25,18 +23,9 @@ namespace AsistenteCompras_API.Domain.Services
             }
         }
 
-        public string RegistrarUsuario(Usuario usuario)
+        public Usuario RegistrarUsuario(Usuario usuario)
         {
-            Usuario usuarioNuevo = _usuarioRepository.RegistrarUsuario(usuario);
-
-            if(usuarioNuevo != null)
-            {
-                return usuarioNuevo.Nombre + " " + usuarioNuevo.Apellido;
-            }
-            else
-            {
-                return "El email ingresado ya se encuentra asociado a una cuenta";
-            }            
+            return _usuarioRepository.RegistrarUsuario(usuario);            
         }
 
         public bool ValidarClaves(string clave, string claveAComparar)

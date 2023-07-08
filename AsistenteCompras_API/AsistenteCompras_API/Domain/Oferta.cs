@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 
-namespace AsistenteCompras_API.DTOs;
+namespace AsistenteCompras_API.Domain;
 
-public class OfertaDTO
+public class Oferta
 {
     public int IdPublicacion { get; set; }
 

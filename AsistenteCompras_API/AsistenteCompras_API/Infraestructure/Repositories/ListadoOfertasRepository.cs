@@ -40,14 +40,14 @@ namespace AsistenteCompras_API.Infraestructure.Repositories
             return listado;
         }
 
-        public List<OfertaCantidadDTO> BuscarOfertasAsociadas(int idListado)
+        public List<OfertaCantidad> BuscarOfertasAsociadas(int idListado)
         {
-            List<OfertaCantidadDTO> ofertas = _context.OfertaElegida.Where(oe => oe.IdListadoDeOfertas == idListado)
+            List<OfertaCantidad> ofertas = _context.OfertaElegida.Where(oe => oe.IdListadoDeOfertas == idListado)
                         .Join(_context.Publicacions, oe => oe.IdListadoDeOfertas, pub => pub.Id, (oe, pub)
-                         => new OfertaCantidadDTO
+                         => new OfertaCantidad
                          {
                             Cantidad = oe.Cantidad,
-                            Oferta = new OfertaDTO
+                            Oferta = new Oferta
                             {
                                 IdPublicacion = oe.IdPublicacion,
                                 IdTipoProducto = oe.IdPublicacionNavigation.IdProductoNavigation.IdTipoProducto,

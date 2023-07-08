@@ -6,7 +6,7 @@ namespace AsistenteCompras_API.Domain.Services
     {
         PerfilUsuario IniciarSesion(string email, string clave);
 
-        string RegistrarUsuario(Usuario usuario);
+        Usuario RegistrarUsuario(Usuario usuario);
 
         bool ValidarClaves(string clave, string claveAComparar);
     }

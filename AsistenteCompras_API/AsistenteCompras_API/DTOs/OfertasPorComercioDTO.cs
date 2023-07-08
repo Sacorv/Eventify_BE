@@ -1,4 +1,6 @@
-﻿namespace AsistenteCompras_API.DTOs;
+﻿using AsistenteCompras_API.Domain;
+
+namespace AsistenteCompras_API.DTOs;
 
 public class OfertasPorComercioDTO
 {
@@ -8,5 +10,5 @@ public class OfertasPorComercioDTO
 
     public double Distancia { get; set; }  
 
-    public List<OfertaCantidadDTO> Ofertas { get; set; } = new List<OfertaCantidadDTO>();
+    public List<OfertaCantidad> Ofertas { get; set; } = new List<OfertaCantidad>();
 }

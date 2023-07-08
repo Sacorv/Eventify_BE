@@ -7,13 +7,13 @@ public interface IComercioService
 {
     PerfilComercio IniciarSesion(string email, string clave);
 
-    string RegistrarComercio(Comercio comercio);
+    Comercio RegistrarComercio(Comercio comercio);
 
     bool ValidarClaves(string clave, string claveAComparar);
 
     List<int> ObtenerComerciosPorRadio(double latitud, double longitud, float distancia);
 
-    OfertaDTO CompararDistanciaEntreComercios(double latitudUbicacion, double longitudUbicacion, OfertaDTO ofertaComercioUno, OfertaDTO ofertaComercioDos);
+    Oferta CompararDistanciaEntreComercios(double latitudUbicacion, double longitudUbicacion, Oferta ofertaComercioUno, Oferta ofertaComercioDos);
 
     string ObtenerImagenDelComercio(int idComercio);
 

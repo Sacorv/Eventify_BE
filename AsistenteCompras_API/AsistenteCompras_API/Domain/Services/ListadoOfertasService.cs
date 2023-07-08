@@ -1,5 +1,4 @@
 ﻿using AsistenteCompras_API.Domain.Entities;
-using AsistenteCompras_API.DTOs;
 
 namespace AsistenteCompras_API.Domain.Services
 {
@@ -16,7 +15,7 @@ namespace AsistenteCompras_API.Domain.Services
         {
             ListadoOfertasUsuario listadoAsociadoAlUsuario = _listadoOfertasRepository.BuscarListado(idListado, idUsuario);
 
-            List<OfertaCantidadDTO> ofertasAsociadasAListado = new List<OfertaCantidadDTO>();
+            List<OfertaCantidad> ofertasAsociadasAListado = new List<OfertaCantidad>();
 
             if (listadoAsociadoAlUsuario!=null)
             {
@@ -30,15 +29,13 @@ namespace AsistenteCompras_API.Domain.Services
             return listadoAsociadoAlUsuario;
         }
 
-        public int GuardarListadoConOfertas(ListadoOfertasDTO listadoOfertas)
+        public int GuardarListadoConOfertas(Listado listadoOfertas)
         {
-            //Inyecto a usuario un listado con sus ofertas asociadas y los tipos de comida y bebida que corresponden las ofertas
             int idListado = GuardarListado(listadoOfertas);
             GuardarOfertasEnListado(idListado, listadoOfertas);
             GuardarComidasElegidas(listadoOfertas.IdComidas, idListado);
             GuardarBebidasElegidas(listadoOfertas.IdBebidas, idListado);
 
-            //Verifico si quedó guardado OK
             ListadoOfertasUsuario listadoGuardado = BuscarListado(idListado, listadoOfertas.IdUsuario);
 
             return listadoGuardado!=null ? listadoGuardado.IdListado : 0;
@@ -49,13 +46,7 @@ namespace AsistenteCompras_API.Domain.Services
             return _listadoOfertasRepository.ObtenerListados(idUsuario);
         }
 
-        public void ModificarListado(ListadoDeOfertas listado)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        private int GuardarListado(ListadoOfertasDTO listado)
+        private int GuardarListado(Listado listado)
         {
             ListadoDeOfertas nuevoListado = new ListadoDeOfertas();
 
@@ -77,9 +68,9 @@ namespace AsistenteCompras_API.Domain.Services
             return idListado;
         }
 
-        private void GuardarOfertasEnListado(int idListado ,ListadoOfertasDTO listadoOfertas)
+        private void GuardarOfertasEnListado(int idListado ,Listado listadoOfertas)
         {
-            foreach (OfertaElegidaDTO oferta in listadoOfertas.Ofertas)
+            foreach (OfertaSeleccionada oferta in listadoOfertas.Ofertas)
             {
                 OfertaElegida ofertaNueva = new OfertaElegida();
 

@@ -36,8 +36,8 @@ public class OfertaServiceTest
             CantidadProductos = new Dictionary<string, double>() { { "salchichas", 1 }, { "pan de pancho", 1 } }
         };
 
-        List<OfertaDTO> ofertasDelComercio = new List<OfertaDTO>() {
-            new OfertaDTO
+        List<Oferta> ofertasDelComercio = new List<Oferta>() {
+            new Oferta
             {
                 IdPublicacion = 15,
                 IdTipoProducto = 8,
@@ -82,7 +82,7 @@ public class OfertaServiceTest
             MarcasBebida = new List<string>() { "Coca-cola" },
             CantidadProductos = new Dictionary<string, double>() { { "salchichas", 1 }, { "pan de pancho", 1 } }
         };
-        List<OfertaDTO> ofertasDelComercio = new List<OfertaDTO>();
+        List<Oferta> ofertasDelComercio = new List<Oferta>();
 
         //Cuando
         ofertaRepo.Setup(o => o.OfertasPorComercioFiltradasPorFecha(1, fechaArgentina)).Returns(ofertasDelComercio);
@@ -109,8 +109,8 @@ public class OfertaServiceTest
             CantidadProductos = new Dictionary<string, double>() { { "salchichas", 1 }, { "pan de pancho", 1 }, {"gaseosa", 1 } }
         };
         List<int> comerciosEncontados = new List<int>() { 1,2 };
-        List<OfertaDTO> ofertasDelComercioChino = new List<OfertaDTO>() {
-            new OfertaDTO
+        List<Oferta> ofertasDelComercioChino = new List<Oferta>() {
+            new Oferta
             {
                 IdPublicacion = 15,
                 IdTipoProducto = 8,
@@ -128,8 +128,8 @@ public class OfertaServiceTest
                 Longitud = -58.50380
             }
         };
-        List<OfertaDTO> ofertasDelComercioAlmacen = new List<OfertaDTO>() {
-            new OfertaDTO
+        List<Oferta> ofertasDelComercioAlmacen = new List<Oferta>() {
+            new Oferta
             {
                 IdPublicacion = 2,
                 IdTipoProducto = 1,
@@ -146,7 +146,7 @@ public class OfertaServiceTest
                 Latitud = -34.68485,
                 Longitud = -58.50218
             },
-            new OfertaDTO
+            new Oferta
             {
                 IdPublicacion = 3,
                 IdTipoProducto = 2,
@@ -163,7 +163,7 @@ public class OfertaServiceTest
                 Latitud = -34.68485,
                 Longitud = -58.50218
             },
-            new OfertaDTO
+            new Oferta
             {
                 IdPublicacion = 4,
                 IdTipoProducto = 3,
@@ -213,8 +213,8 @@ public class OfertaServiceTest
             CantidadProductos = new Dictionary<string, double>() { { "salchichas", 1 }, { "pan de pancho", 1 }, { "gaseosa", 1 } }
         };
         List<int> comerciosEncontados = new List<int>() {1};
-        List<OfertaDTO> ofertasDelComercioAlmacen = new List<OfertaDTO>() {
-            new OfertaDTO
+        List<Oferta> ofertasDelComercioAlmacen = new List<Oferta>() {
+            new Oferta
             {
                 IdPublicacion = 2,
                 IdTipoProducto = 1,
@@ -231,7 +231,7 @@ public class OfertaServiceTest
                 Latitud = -34.68485,
                 Longitud = -58.50218
             },
-            new OfertaDTO
+            new Oferta
             {
                 IdPublicacion = 3,
                 IdTipoProducto = 2,
@@ -277,8 +277,8 @@ public class OfertaServiceTest
             CantidadProductos = new Dictionary<string, double>() { { "salchichas", 1 }, { "pan de pancho", 1 }, { "gaseosa", 1 } }
         };
         List<int> comerciosEncontados = new List<int>() {1};
-        List<OfertaDTO> ofertasDelComercioAlmacen = new List<OfertaDTO>() {
-            new OfertaDTO
+        List<Oferta> ofertasDelComercioAlmacen = new List<Oferta>() {
+            new Oferta
             {
                 IdPublicacion = 2,
                 IdTipoProducto = 1,
@@ -295,7 +295,7 @@ public class OfertaServiceTest
                 Latitud = -34.68485,
                 Longitud = -58.50218
             },
-            new OfertaDTO
+            new Oferta
             {
                 IdPublicacion = 3,
                 IdTipoProducto = 2,
@@ -312,7 +312,7 @@ public class OfertaServiceTest
                 Latitud = -34.68485,
                 Longitud = -58.50218
             },
-            new OfertaDTO
+            new Oferta
             {
                 IdPublicacion = 4,
                 IdTipoProducto = 3,
@@ -329,7 +329,7 @@ public class OfertaServiceTest
                 Latitud = -34.68485,
                 Longitud = -58.50218
             },
-            new OfertaDTO
+            new Oferta
             {
                 IdPublicacion = 11,
                 IdTipoProducto = 3,
@@ -347,14 +347,14 @@ public class OfertaServiceTest
                 Longitud = -58.50218
             }
         };
-        OfertaDTO marcaBarata = ofertasDelComercioAlmacen[3];
-        OfertaDTO marcaCara = ofertasDelComercioAlmacen[2];
+        Oferta marcaBarata = ofertasDelComercioAlmacen[3];
+        Oferta marcaCara = ofertasDelComercioAlmacen[2];
 
         //Cuando
         ofertaRepo.Setup(o => o.OfertasPorComercioFiltradasPorFecha(comerciosEncontados[0], fechaArgentina)).Returns(ofertasDelComercioAlmacen);
         comercioServicio.Setup(c => c.ObtenerImagenDelComercio(comerciosEncontados[0])).Returns("ImagenAlmacen");
         List<OfertasPorComercioDTO> resultado = ofertaServicio.ListaRecorrerMenos(filtro, comerciosEncontados);
-        List<OfertaDTO> ofertasDelComercio = resultado.First().Ofertas.Select(o => o.Oferta).ToList();
+        List<Oferta> ofertasDelComercio = (List<Oferta>)resultado.First().Ofertas.Select(o => o.Oferta).ToList();
 
         //Entonces
         ofertaRepo.Verify(o => o.OfertasPorComercioFiltradasPorFecha(comerciosEncontados[0], fechaArgentina));
@@ -379,8 +379,8 @@ public class OfertaServiceTest
             CantidadProductos = new Dictionary<string, double>() { { "salchichas", 1 }, { "pan de pancho", 1 }, { "gaseosa", 1 } }
         };
         List<int> comerciosEncontados = new List<int>() { 1, 2 };
-        List<OfertaDTO> ofertasDelComercioChino = new List<OfertaDTO>() {
-            new OfertaDTO
+        List<Oferta> ofertasDelComercioChino = new List<Oferta>() {
+            new Oferta
             {
                 IdPublicacion = 2,
                 IdTipoProducto = 1,
@@ -397,7 +397,7 @@ public class OfertaServiceTest
                 Latitud = -34.68479,
                 Longitud = -58.50380
             },
-            new OfertaDTO
+            new Oferta
             {
                 IdPublicacion = 3,
                 IdTipoProducto = 2,
@@ -414,7 +414,7 @@ public class OfertaServiceTest
                 Latitud = -34.68479,
                 Longitud = -58.50380
             },
-            new OfertaDTO
+            new Oferta
             {
                 IdPublicacion = 4,
                 IdTipoProducto = 3,
@@ -432,8 +432,8 @@ public class OfertaServiceTest
                 Longitud = -58.50380
             }
         };
-        List<OfertaDTO> ofertasDelComercioAlmacen = new List<OfertaDTO>() {
-            new OfertaDTO
+        List<Oferta> ofertasDelComercioAlmacen = new List<Oferta>() {
+            new Oferta
             {
                 IdPublicacion = 2,
                 IdTipoProducto = 1,
@@ -450,7 +450,7 @@ public class OfertaServiceTest
                 Latitud = -34.68485,
                 Longitud = -58.50218
             },
-            new OfertaDTO
+            new Oferta
             {
                 IdPublicacion = 3,
                 IdTipoProducto = 2,
@@ -467,7 +467,7 @@ public class OfertaServiceTest
                 Latitud = -34.68485,
                 Longitud = -58.50218
             },
-            new OfertaDTO
+            new Oferta
             {
                 IdPublicacion = 4,
                 IdTipoProducto = 3,

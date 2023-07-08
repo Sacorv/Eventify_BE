@@ -17,7 +17,9 @@ public class ProductoRepository : IProductoRepository
     public List<string> ObtenerMarcasParaElTipoDeProducto(int tipoProducto)
     {
         return _context.Productos.Where(p => p.IdTipoProducto.Equals(tipoProducto))
-                                  .Select(p => p.Marca).ToList();
+                                  .Select(p => p.Marca)
+                                  .Distinct()
+                                  .ToList();
     }
 
     public ProductoDTO ObtenerProductoPorCodigoDeBarras(string codigoBarras)
