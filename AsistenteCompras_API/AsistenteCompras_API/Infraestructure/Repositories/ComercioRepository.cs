@@ -24,6 +24,8 @@ public class ComercioRepository : IComercioRepository
                                     .Equals(email) && c.Clave.Equals(clave))
                                     .Select(c => new PerfilComercio
                                     {
+                                        Id = c.Id,
+                                        Rol = c.IdRolNavigation.Nombre,
                                         RazonSocial = c.RazonSocial,
                                         CUIT = c.CUIT,
                                         Direccion = c.Direccion,
