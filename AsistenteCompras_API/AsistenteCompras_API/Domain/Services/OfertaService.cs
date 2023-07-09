@@ -183,7 +183,7 @@ public class OfertaService : IOfertaService
     private static void SeleccionarMarcasDelProducto(List<Oferta> ofertas, List<Oferta> ofertasEncontradas, KeyValuePair<string, double> productoAcomprar)
     {
         List<Oferta> encontrados = ofertas.Where(o => o.TipoProducto == productoAcomprar.Key).ToList();
-        if (!encontrados.IsNullOrEmpty()) ofertasEncontradas.Add(encontrados.OrderBy(e => e.Precio).First());
+        if (!encontrados.IsNullOrEmpty()) ofertasEncontradas.AddRange(encontrados.OrderBy(e => e.Precio).ToList());
     }
 
     private List<OfertasPorProducto> GenerarListadoPorProductoYMarca(List<OfertaCantidad> ofertasCantidad, double latitudUbicacion, double longitudUbicacion)

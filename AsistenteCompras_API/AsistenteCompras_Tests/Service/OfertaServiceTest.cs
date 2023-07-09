@@ -262,7 +262,7 @@ public class OfertaServiceTest
     }
 
     [Fact]
-    public void QueListaRecorrerMenosAlEncontraseUnProductoAComprarConVariasMarcasSeleccioneElMasBataro()
+    public void QueListaRecorrerMenosAlEncontraseUnProductoAComprarConVariasMarcasLasOrdenePorPrecioAscendente()
     {
         //Dado
         Filtro filtro = new Filtro()
@@ -359,8 +359,8 @@ public class OfertaServiceTest
         //Entonces
         ofertaRepo.Verify(o => o.OfertasPorComercioFiltradasPorFecha(comerciosEncontados[0], fechaArgentina));
         comercioServicio.Verify(c => c.ObtenerImagenDelComercio(comerciosEncontados[0]));
-        Assert.Contains(marcaBarata, ofertasDelComercio);
-        Assert.DoesNotContain(marcaCara, ofertasDelComercio);
+        Assert.Equal(marcaBarata, ofertasDelComercio[0]);
+        Assert.Equal(marcaCara, ofertasDelComercio[1]);
     }
 
     [Fact]
