@@ -53,10 +53,10 @@ public class UsuarioController : ControllerBase
 
 
     [HttpPost("registro")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RegistroUsuarioDTO))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Object))]
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public dynamic RegistrarUsuario([FromBody]RegistroUsuarioDTO usuario)
+    public IActionResult RegistrarUsuario([FromBody]RegistroUsuarioDTO usuario)
     {
         try
         {
@@ -71,29 +71,20 @@ public class UsuarioController : ControllerBase
                 }
                 if (usuarioRegistrado != null)
                 {
-                    return new
-                    {
-                        statusCode = StatusCodes.Status200OK,
-                        usuario = usuarioRegistrado.Nombre + " " + usuarioRegistrado.Apellido,
-                        email = usuarioRegistrado.Email
-                    };
+                    return Ok(new {
+                                    statusCode = StatusCodes.Status200OK,
+                                    usuario = usuarioRegistrado.Nombre + " " + usuarioRegistrado.Apellido,
+                                    email = usuarioRegistrado.Email
+                                  });
                 }
                 else
                 {
-                    return new
-                    {
-                        statusCode = StatusCodes.Status204NoContent,
-                        message = "El email ingresado ya se encuentra asociado a una cuenta"
-                    };
+                    return BadRequest(new { message = "El email ingresado ya se encuentra asociado a una cuenta" });
                 }
             }
             else
             {
-                return new
-                {
-                    statusCode = StatusCodes.Status204NoContent,
-                    message = "Las claves no coinciden"
-                };
+                return BadRequest(new {message = "Las claves no coincide" });
             }
         }
         catch (Exception e)

@@ -69,12 +69,20 @@ namespace AsistenteCompras_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ListadosUsuario>))]
         [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        public dynamic VerListados([Required]int idUsuario)
+        public IActionResult VerListados([Required]int idUsuario)
         {
             try
             {
                 List<ListadosUsuario> listadosAsociados = _listadoOfertasService.ConsultarListados(idUsuario);
-                return listadosAsociados.Count!=0 ? new { statusCode = StatusCodes.Status200OK, listadosAsociados } : new { statusCode = StatusCodes.Status204NoContent, message = "El id de usuario es incorrectos" };
+                if(listadosAsociados.Count != 0)
+                {
+                    return Ok(listadosAsociados);
+                }
+                else
+                {
+                    return BadRequest("El id de usuario es incorrectos");
+                }
+                
             }
             catch (Exception e)
             {

@@ -104,6 +104,24 @@ public class ComercioControllerTest
 
         EntoncesObtengoElSiguenteEstadoHttp(500, estadoHttpObtenido);
     }
+    
+    [Fact]
+    public void QueRegistrarComercioMeDevuelvaUnEstado400CuandoNoPudoEncontrarRolYLocalidad()
+    {
+        RegistroComercioDTO registro = new RegistroComercioDTO();
+        registro.Clave = "clave";
+        registro.ClaveAComparar = "clave";
+        registro.Rol = "Comercio";
+        registro.Localidad = "Matanza";
+
+        _comercioService.Setup(c => c.ValidarClaves(registro.Clave, registro.Clave)).Returns(true);
+        _rolService.Setup(r => r.BuscarRolPorNombre(registro.Rol)).Returns(0);
+        _ubicacionService.Setup(u => u.BuscarLocalidadPorNombre(registro.Localidad)).Returns(0);
+        var resultado = ((ObjectResult)comercioController.RegistrarComercio(registro)).StatusCode.Value;
+
+        Assert.Equal(400, resultado);
+
+    }
 
     private void DadoQue(bool comercioExiste, bool productoExiste, bool ofertaExiste, bool errorInterno)
     {

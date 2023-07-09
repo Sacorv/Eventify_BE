@@ -63,7 +63,7 @@ public class ComercioController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(object))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(object))]
-    public dynamic RegistrarComercio([FromBody] RegistroComercioDTO comercio)
+    public IActionResult RegistrarComercio([FromBody] RegistroComercioDTO comercio)
     {
         try
         {
@@ -73,37 +73,28 @@ public class ComercioController : ControllerBase
             {
                 int idRol = _rolService.BuscarRolPorNombre(comercio.Rol);
                 int idLocalidad = _ubicacionService.BuscarLocalidadPorNombre(comercio.Localidad);
-                Comercio comercioRegistrado = null;
+                Comercio comercioRegistrado = new Comercio();
 
                 if(idRol!= 0 && idLocalidad != 0)
                 {
                     comercioRegistrado = nuevoComercio(comercio, idLocalidad, idRol);
                 }
-                if (comercioRegistrado != null)
+                if (comercioRegistrado.Id != 0 && comercioRegistrado != null)
                 {
-                    return new
-                    {
-                        statusCode = StatusCodes.Status200OK,
-                        comercio = comercioRegistrado.RazonSocial,
-                        cuit = comercioRegistrado.CUIT
-                    };
+                    return Ok(new {
+                                    comercio = comercioRegistrado.RazonSocial,
+                                    cuit = comercioRegistrado.CUIT
+                                  });
                 }
                 else
                 {
-                    return new
-                    {
-                        statusCode = StatusCodes.Status204NoContent,
-                        message = "El email o CUIT del comercio ya se encuentran asociados a una cuenta"
-                    };
+                    
+                    return BadRequest(new { message = "El email o CUIT del comercio ya se encuentran asociados a una cuenta" });
                 }
             }
             else
             {
-                return new 
-                {
-                    statusCode = StatusCodes.Status204NoContent,
-                    message = "Las claves no coinciden" 
-                };
+                return BadRequest(new { message = "Las claves no coinciden" });
             }
         }
         catch (Exception e)
