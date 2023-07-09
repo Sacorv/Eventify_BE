@@ -69,12 +69,13 @@ public class ComercioRepository : IComercioRepository
 
     public List<OfertaComercioDTO> ObtenerOfertasDelComercio(int idComercio)
     {
-        return _context.Publicacions.Where(p => p.IdComercio.Equals(idComercio))
+        return _context.Publicacions.Where(p => p.IdComercio.Equals(idComercio) && p.FechaFin >= DateTime.UtcNow.AddHours(-3))
+                                    .OrderByDescending(p => p.FechaFin)
                                     .Select(p => new OfertaComercioDTO
                                     {
                                         Nombre = p.IdProductoNavigation.Nombre,
                                         Imagen = p.IdProductoNavigation.Imagen,
-                                        FechaFin = p.FechaFin,
+                                        FechaFin = p.FechaFin.ToString("dd-MM-yy"),
                                         Precio = p.Precio,
                                     }).ToList();
     }

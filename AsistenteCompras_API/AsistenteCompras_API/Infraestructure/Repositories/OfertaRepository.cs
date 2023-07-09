@@ -187,7 +187,7 @@ public class OfertaRepository : IOfertaRepository
 
     public List<int> ObtenerIdsProductosDelComercio(int idComercio)
     {
-        return _context.Publicacions.Where(p => p.IdComercio.Equals(idComercio))
+        return _context.Publicacions.Where(p => p.IdComercio.Equals(idComercio) && p.FechaFin >= DateTime.UtcNow.AddHours(-3))
                                     .Select(p => p.IdProducto)
                                     .ToList();
         
