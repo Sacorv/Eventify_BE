@@ -6,7 +6,7 @@ public class OfertaComercioDTO
 
     public String Imagen { get; set; } = null!;
 
-    public DateTime FechaFin { get; set; }
+    public string FechaFin { get; set; } = null!;
 
     public Decimal Precio { get; set; }
 }
