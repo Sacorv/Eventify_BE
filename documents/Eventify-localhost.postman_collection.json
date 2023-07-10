@@ -1,0 +1,1097 @@
+{
+	"info": {
+		"_postman_id": "b4f5f053-236f-4b3f-8a6c-02a9512c736b",
+		"name": "Eventify-localhost",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15615615",
+		"_collection_link": "https://orange-flare-897443.postman.co/workspace/Team-Eventify~a053d1e7-1285-4637-9867-65fe8a995bcd/collection/15615615-b4f5f053-236f-4b3f-8a6c-02a9512c736b?action=share&creator=15615615&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Gestión de Usuario/Comercio",
+			"item": [
+				{
+					"name": "sesion-usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"scortes@gmail.com\",\r\n  \"clave\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7292/api/Usuario/inicioSesion",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Usuario",
+								"inicioSesion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sesion-comercio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"discocencosud@gmail.com\",\r\n  \"clave\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7292/api/Comercio/inicioSesion",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Comercio",
+								"inicioSesion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registro-usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Jimenassssssssssssssssssssssssssssss\",\r\n  \"apellido\": \"\",\r\n  \"email\": \"jacevedo@gmail.com\",\r\n  \"clave\": \"123456\",\r\n  \"claveAComparar\": \"123456\",\r\n  \"rol\": \"Usuario\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7292/api/Usuario/registro",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Usuario",
+								"registro"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registro-comercio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"razonSocial\": \"Disco Cencosud\",\r\n  \"CUIT\": \"30590360763\",\r\n  \"direccion\":\"Av. Rivadavia 14452\",\r\n  \"localidad\": \"Ramos Mejía\",\r\n  \"latitud\": -34.641829470889625,\r\n  \"longitud\": -58.57090118256158,\r\n  \"email\": \"discocencosud@gmail.com\",\r\n  \"clave\": \"123456\",\r\n  \"claveAComparar\": \"123456\",\r\n  \"imagen\": \"https://discoargentina.vtexassets.com/assets/vtex.file-manager-graphql/images/bd790034-1117-4263-90e5-04f3f5a27503___ab950355900559ccc0bc0cb131364561.png\",\r\n  \"rol\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7292/api/Comercio/registro",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Comercio",
+								"registro"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verificador-comercio",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7292/api/VerificadorComercio/verificarComercio?cuit=30709889148",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"VerificadorComercio",
+								"verificarComercio"
+							],
+							"query": [
+								{
+									"key": "cuit",
+									"value": "30709889148"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Listas Optimizadas",
+			"item": [
+				{
+					"name": "listado-productos-cantidades",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"idComidas\":[1,3],\r\n    \"idBebidas\":[2]\r\n}\r\n\r\n/*\r\nCaso 1\r\n\r\nSe ingresa la comida hamburguesa el cual en la base la relacion es de que la comida hamburguesa se prepara para 2 personas y para dicha preparacion se parte de la base que para 2 personas se van necesitar\r\nPan de hamburguesa x4\r\nHamburguesa x4\r\nMayonesa 16gr\r\nKetchup 16gr\r\nMostaza 16gr\r\n\r\nPara el caso de bebidas se maneja de la misma forma si se trata de bebidas sin alcohol gaeseosa y jugo por el momento se parte de que para que 2 personas tomen se va necesitar 1lt de gaseosa y para jugo 1 sobre de jugo\r\n*/",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7292/api/Evento/listadoConCantidades/10",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Evento",
+								"listadoConCantidades",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listado-ofertas-masEconomico",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"latitudUbicacion\":-34.691804207148479,\r\n    \"longitudUbicacion\": -58.572354315470506,\r\n    \"distancia\":5,\r\n    \"comidas\":[1],\r\n    \"bebidas\": [1,2],\r\n    \"cantidadProductos\":{\r\n        \"Fernet\":2000,\r\n        \"Gaseosa\":5000,\r\n        \"Jugo\":4000,\r\n        \"Salchichas\":20,\r\n        \"Pan de pancho\":20,\r\n        \"Mayonesa\":160,\r\n        \"Mostaza\":160,\r\n        \"Ketchup\":160,\r\n        \"Harina\":2000,\r\n        \"Queso\":2000,\r\n        \"Salsa de tomate\":1000\r\n    },\r\n    \"marcasBebida\": [\"coca-cola\"],\r\n    \"marcasComida\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7292/api/Oferta/listadoOfertas",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Oferta",
+								"listadoOfertas"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "listado-ofertas --> Pizza",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"latitudUbicacion\":-34.78322956859597,\r\n    \"longitudUbicacion\": -58.61867841954101,\r\n    \"distancia\":20,\r\n    \"comidas\":[1],\r\n    \"bebidas\": [2],\r\n    \"cantidadProductos\":{\r\n        \"Gaseosa\":5000,\r\n        \"Jugo\":4000,\r\n        \"Harina\":2000,\r\n        \"Queso\":2000,\r\n        \"Salsa de tomate\":1000\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7292/api/Oferta/listadoOfertas",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7292",
+									"path": [
+										"api",
+										"Oferta",
+										"listadoOfertas"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "listado-ofertas --> Pancho",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"latitudUbicacion\":-34.691804207148479,\r\n    \"longitudUbicacion\": -58.572354315470506,\r\n    \"distancia\":4.50,\r\n    \"comidas\":[3],\r\n    \"bebidas\": [2],\r\n    \"cantidadProductos\":{\r\n        \"Gaseosa\":5000,\r\n        \"Jugo\":4000,\r\n        \"Salchichas\":20,\r\n        \"Pan de pancho\":20,\r\n        \"Mayonesa\":160,\r\n        \"Mostaza\":160,\r\n        \"Ketchup\":160\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7292/api/Oferta/listadoOfertas",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7292",
+									"path": [
+										"api",
+										"Oferta",
+										"listadoOfertas"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "listado-ofertas --> Hamburguesa",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"latitudUbicacion\":-34.691804207148479,\r\n    \"longitudUbicacion\": -58.572354315470506,\r\n    \"distancia\":4.50,\r\n    \"comidas\":[2],\r\n    \"bebidas\": [2],\r\n    \"cantidadProductos\":{\r\n        \"Gaseosa\":5000,\r\n        \"Jugo\":4000,\r\n        \"Hamburguesa\":20,\r\n        \"Pan de hamburguesa\":20,\r\n        \"Mayonesa\":160,\r\n        \"Mostaza\":160,\r\n        \"Ketchup\":160\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7292/api/Oferta/listadoOfertas",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7292",
+									"path": [
+										"api",
+										"Oferta",
+										"listadoOfertas"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "listado-ofertas --> Snacks",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"latitudUbicacion\":-34.691804207148479,\r\n    \"longitudUbicacion\": -58.572354315470506,\r\n    \"distancia\":4.50,\r\n    \"comidas\":[4],\r\n    \"bebidas\": [2],\r\n    \"cantidadProductos\":{\r\n        \"Gaseosa\":5000,\r\n        \"Jugo\":4000,\r\n        \"Papas fritas\":425,\r\n        \"Maní\":425,\r\n        \"Chizitos\":425,\r\n        \"Palitos salados\":425,\r\n        \"Nachos\":425\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7292/api/Oferta/listadoOfertas",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7292",
+									"path": [
+										"api",
+										"Oferta",
+										"listadoOfertas"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "listado-ofertas --> Carne vacuna",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"latitudUbicacion\":-34.691804207148479,\r\n    \"longitudUbicacion\": -58.572354315470506,\r\n    \"distancia\":4.50,\r\n    \"comidas\":[6],\r\n    \"bebidas\": [2],\r\n    \"cantidadProductos\":{\r\n        \"Gaseosa\":5000,\r\n        \"Jugo\":4000,\r\n        \"Tira de asado\":2800,\r\n        \"Vacío\":2800,\r\n        \"Entraña\":2800,\r\n        \"Falda parrillera\":2800,\r\n        \"Chorizo\":2800\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7292/api/Oferta/listadoOfertas",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7292",
+									"path": [
+										"api",
+										"Oferta",
+										"listadoOfertas"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "listado-ofertas --> Carne de cerdo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"latitudUbicacion\":-34.691804207148479,\r\n    \"longitudUbicacion\": -58.572354315470506,\r\n    \"distancia\":4.50,\r\n    \"comidas\":[7],\r\n    \"bebidas\": [2],\r\n    \"cantidadProductos\":{\r\n        \"Gaseosa\":5000,\r\n        \"Jugo\":4000,\r\n        \"Bondiola\":2800,\r\n        \"Pechito de cerdo\":2800,\r\n        \"Costillita de cerdo\":2800\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7292/api/Oferta/listadoOfertas",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7292",
+									"path": [
+										"api",
+										"Oferta",
+										"listadoOfertas"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "listado-ofertas --> Pollo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"latitudUbicacion\":-34.691804207148479,\r\n    \"longitudUbicacion\": -58.572354315470506,\r\n    \"distancia\":4.50,\r\n    \"comidas\":[8],\r\n    \"bebidas\": [2],\r\n    \"cantidadProductos\":{\r\n        \"Gaseosa\":5000,\r\n        \"Jugo\":4000,\r\n        \"Pata de pollo\":2800,\r\n        \"Muslo de pollo\":2800,\r\n        \"Pechuga de pollo\":2800\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7292/api/Oferta/listadoOfertas",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7292",
+									"path": [
+										"api",
+										"Oferta",
+										"listadoOfertas"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "listado-ofertas --> Todas las carnes",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"latitudUbicacion\":-34.691804207148479,\r\n    \"longitudUbicacion\": -58.572354315470506,\r\n    \"distancia\":4.50,\r\n    \"comidas\":[9],\r\n    \"bebidas\": [2],\r\n    \"cantidadProductos\":{\r\n        \"Gaseosa\":5000,\r\n        \"Jugo\":4000,\r\n        \"Tira de asado\":2800,\r\n        \"Vacío\":2800,\r\n        \"Entraña\":2800,\r\n        \"Falda parrillera\":2800,\r\n        \"Chorizo\":2800,\r\n        \"Bondiola\":2800,\r\n        \"Pechito de cerdo\":2800,\r\n        \"Costillita de cerdo\":2800,\r\n        \"Pata de pollo\":2800,\r\n        \"Muslo de pollo\":2800,\r\n        \"Pechuga de pollo\":2800\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7292/api/Oferta/listadoOfertas",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7292",
+									"path": [
+										"api",
+										"Oferta",
+										"listadoOfertas"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "listado-ofertas-menor-recorrido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"latitudUbicacion\":-34.691804207148479,\r\n    \"longitudUbicacion\": -58.572354315470506,\r\n    \"distancia\":5,\r\n  \"comidas\":[1],\r\n    \"bebidas\": [1,2],\r\n   \"marcasBebida\": [\"coca-cola\"],\r\n    \"marcasComida\": [],\r\n  \"cantidadProductos\":{\r\n        \"Fernet\":2000,\r\n        \"Gaseosa\":5000,\r\n        \"Jugo\":4000,\r\n        \"Salchichas\":20,\r\n        \"Pan de pancho\":20,\r\n        \"Mayonesa\":160,\r\n        \"Mostaza\":160,\r\n        \"Ketchup\":160,\r\n        \"Harina\":2000,\r\n        \"Queso\":2000,\r\n        \"Salsa de tomate\":1000\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7292/api/Oferta/recorrerMenos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Oferta",
+								"recorrerMenos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener-listado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7292/api/Evento/listado?idEvento=1&idComida=3&idBebida=2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Evento",
+								"listado"
+							],
+							"query": [
+								{
+									"key": "idEvento",
+									"value": "1"
+								},
+								{
+									"key": "idComida",
+									"value": "3"
+								},
+								{
+									"key": "idBebida",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Listados asociados a Usuario",
+			"item": [
+				{
+					"name": "guardar-listado-ofertas",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUsuario\": 1,\r\n  \"idEvento\": 1,\r\n  \"idComidas\":[1,3],\r\n  \"idBebidas\": [2],\r\n  \"ofertas\": [\r\n    {\r\n      \"nombreProducto\": \"Gaseosa\",\r\n      \"idPublicacion\": 270,\r\n      \"precio\": 279.36,\r\n      \"cantidad\": 4,\r\n      \"subtotal\": 1117.44\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Jugo\",\r\n      \"idPublicacion\": 268,\r\n      \"precio\": 271.5,\r\n      \"cantidad\": 3,\r\n      \"subtotal\": 814.5\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Queso\",\r\n      \"idPublicacion\": 52,\r\n      \"precio\": 1200,\r\n      \"cantidad\": 4,\r\n      \"subtotal\": 4800\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Salsa de tomate\",\r\n      \"idPublicacion\": 20,\r\n      \"precio\": 135.9,\r\n      \"cantidad\": 2,\r\n      \"subtotal\": 271.8\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Harina\",\r\n      \"idPublicacion\": 22,\r\n      \"precio\": 215,\r\n      \"cantidad\": 2,\r\n      \"subtotal\": 430\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Pan de pancho\",\r\n      \"idPublicacion\": 383,\r\n      \"precio\": 266.5,\r\n      \"cantidad\": 4,\r\n      \"subtotal\": 1066\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Salchichas\",\r\n      \"idPublicacion\": 204,\r\n      \"precio\": 411,\r\n      \"cantidad\": 2,\r\n      \"subtotal\": 822\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Mayonesa\",\r\n      \"idPublicacion\": 91,\r\n      \"precio\": 320,\r\n      \"cantidad\": 1,\r\n      \"subtotal\": 320\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Mostaza\",\r\n      \"idPublicacion\": 248,\r\n      \"precio\": 178.86,\r\n      \"cantidad\": 1,\r\n      \"subtotal\": 178.86\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Ketchup\",\r\n      \"idPublicacion\": 104,\r\n      \"precio\": 214.75,\r\n      \"cantidad\": 1,\r\n      \"subtotal\": 214.75\r\n    }\r\n  ],\r\n  \"urlRecorrido\": \"https://www.google.com.ar/maps/dir/Puente+Rotonda+de+San+Justo/-34.671408,-58.5631544/@-34.6797969,-58.5691129,14.41z/data=!4m9!4m8!1m5!1m1!1s0x95bcc623d06043cb:0x195112316a6887e!2m2!1d-58.5606389!2d-34.6856646!1m0!3e3?entry=ttu\",\r\n  \"mensajeOfertas\": \"Las mejores ofertas\",\r\n  \"distanciaARecorrer\": 6.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7292/api/ListadoOfertas/guardarListado",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"ListadoOfertas",
+								"guardarListado"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "guardar-listado-ofertas",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"idUsuario\": 1,\r\n  \"idEvento\": 1,\r\n  \"idComidas\":[1,3],\r\n  \"idBebidas\": [2],\r\n  \"ofertas\": [\r\n    {\r\n      \"nombreProducto\": \"Gaseosa\",\r\n      \"idPublicacion\": 270,\r\n      \"precio\": 279.36,\r\n      \"cantidad\": 4,\r\n      \"subtotal\": 1117.44\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Jugo\",\r\n      \"idPublicacion\": 268,\r\n      \"precio\": 271.5,\r\n      \"cantidad\": 3,\r\n      \"subtotal\": 814.5\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Queso\",\r\n      \"idPublicacion\": 52,\r\n      \"precio\": 1200,\r\n      \"cantidad\": 4,\r\n      \"subtotal\": 4800\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Salsa de tomate\",\r\n      \"idPublicacion\": 20,\r\n      \"precio\": 135.9,\r\n      \"cantidad\": 2,\r\n      \"subtotal\": 271.8\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Harina\",\r\n      \"idPublicacion\": 22,\r\n      \"precio\": 215,\r\n      \"cantidad\": 2,\r\n      \"subtotal\": 430\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Pan de pancho\",\r\n      \"idPublicacion\": 383,\r\n      \"precio\": 266.5,\r\n      \"cantidad\": 4,\r\n      \"subtotal\": 1066\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Salchichas\",\r\n      \"idPublicacion\": 204,\r\n      \"precio\": 411,\r\n      \"cantidad\": 2,\r\n      \"subtotal\": 822\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Mayonesa\",\r\n      \"idPublicacion\": 91,\r\n      \"precio\": 320,\r\n      \"cantidad\": 1,\r\n      \"subtotal\": 320\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Mostaza\",\r\n      \"idPublicacion\": 248,\r\n      \"precio\": 178.86,\r\n      \"cantidad\": 1,\r\n      \"subtotal\": 178.86\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Ketchup\",\r\n      \"idPublicacion\": 104,\r\n      \"precio\": 214.75,\r\n      \"cantidad\": 1,\r\n      \"subtotal\": 214.75\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7292/api/ListadoOfertas/guardarListado",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7292",
+									"path": [
+										"api",
+										"ListadoOfertas",
+										"guardarListado"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Jun 2023 22:36:00 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Se guardó con éxito el listado seleccionado. Id: 3\"\n}"
+						},
+						{
+							"name": "guardar-listado-ofertas",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"idUsuario\": 1,\r\n  \"idEvento\": 1,\r\n  \"idComidas\":[1,3],\r\n  \"idBebidas\": [2],\r\n  \"ofertas\": [\r\n    {\r\n      \"nombreProducto\": \"Gaseosa\",\r\n      \"idPublicacion\": 270,\r\n      \"precio\": 279.36,\r\n      \"cantidad\": 4,\r\n      \"subtotal\": 1117.44\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Jugo\",\r\n      \"idPublicacion\": 268,\r\n      \"precio\": 271.5,\r\n      \"cantidad\": 3,\r\n      \"subtotal\": 814.5\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Queso\",\r\n      \"idPublicacion\": 52,\r\n      \"precio\": 1200,\r\n      \"cantidad\": 4,\r\n      \"subtotal\": 4800\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Salsa de tomate\",\r\n      \"idPublicacion\": 20,\r\n      \"precio\": 135.9,\r\n      \"cantidad\": 2,\r\n      \"subtotal\": 271.8\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Harina\",\r\n      \"idPublicacion\": 22,\r\n      \"precio\": 215,\r\n      \"cantidad\": 2,\r\n      \"subtotal\": 430\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Pan de pancho\",\r\n      \"idPublicacion\": 383,\r\n      \"precio\": 266.5,\r\n      \"cantidad\": 4,\r\n      \"subtotal\": 1066\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Salchichas\",\r\n      \"idPublicacion\": 204,\r\n      \"precio\": 411,\r\n      \"cantidad\": 2,\r\n      \"subtotal\": 822\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Mayonesa\",\r\n      \"idPublicacion\": 91,\r\n      \"precio\": 320,\r\n      \"cantidad\": 1,\r\n      \"subtotal\": 320\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Mostaza\",\r\n      \"idPublicacion\": 248,\r\n      \"precio\": 178.86,\r\n      \"cantidad\": 1,\r\n      \"subtotal\": 178.86\r\n    },\r\n    {\r\n      \"nombreProducto\": \"Ketchup\",\r\n      \"idPublicacion\": 104,\r\n      \"precio\": 214.75,\r\n      \"cantidad\": 1,\r\n      \"subtotal\": 214.75\r\n    }\r\n  ],\r\n  \"urlRecorrido\": \"https://www.google.com.ar/maps/dir/Puente+Rotonda+de+San+Justo/-34.671408,-58.5631544/@-34.6797969,-58.5691129,14.41z/data=!4m9!4m8!1m5!1m1!1s0x95bcc623d06043cb:0x195112316a6887e!2m2!1d-58.5606389!2d-34.6856646!1m0!3e3?entry=ttu\",\r\n  \"mensajeOfertas\": \"Las mejores ofertas\",\r\n  \"distanciaARecorrer\": 6.5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7292/api/ListadoOfertas/guardarListado",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7292",
+									"path": [
+										"api",
+										"ListadoOfertas",
+										"guardarListado"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jun 2023 02:44:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Se guardó con éxito el listado seleccionado. Id: 37\"\n}"
+						}
+					]
+				},
+				{
+					"name": "detalle-listadoConOfertas-usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7292/api/ListadoOfertas/detalleListado?idListado=5&idUsuario=2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"ListadoOfertas",
+								"detalleListado"
+							],
+							"query": [
+								{
+									"key": "idListado",
+									"value": "5"
+								},
+								{
+									"key": "idUsuario",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "detalle-listado",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7292/api/ListadoOfertas/detalleListado?idListado=38&idUsuario=1",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7292",
+									"path": [
+										"api",
+										"ListadoOfertas",
+										"detalleListado"
+									],
+									"query": [
+										{
+											"key": "idListado",
+											"value": "38"
+										},
+										{
+											"key": "idUsuario",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jun 2023 02:44:47 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"idListado\": 37,\n    \"idUsuario\": 1,\n    \"usuario\": \"Scarlet Cortes\",\n    \"evento\": \"Cumpleaños\",\n    \"comidasElegidas\": [\n        \"Pizzas\",\n        \"Panchos\"\n    ],\n    \"bebidasElegidas\": [\n        \"Bebida sin alcohol\"\n    ],\n    \"cantidadOfertas\": 10,\n    \"ofertas\": [\n        {\n            \"cantidad\": 4,\n            \"oferta\": {\n                \"idPublicacion\": 270,\n                \"idTipoProducto\": 1,\n                \"tipoProducto\": \"Gaseosa\",\n                \"nombreProducto\": \"GASEOSA COCA COLA 1.5LT\",\n                \"marca\": \"Coca-Cola\",\n                \"imagen\": \"https://d2r9epyceweg5n.cloudfront.net/stores/001/151/835/products/77908950004301-80602de5b61cff11bb15890782195412-640-0.jpg\",\n                \"precio\": 279.36,\n                \"peso\": 1500,\n                \"unidades\": 0,\n                \"nombreComercio\": \"Supermercado Napoli\",\n                \"localidad\": \"San Justo\",\n                \"idLocalidad\": 1,\n                \"latitud\": -34.695067,\n                \"longitud\": -58.536572,\n                \"fechaVencimiento\": \"2023-07-17T00:00:00\"\n            },\n            \"subtotal\": 1117.44\n        },\n        {\n            \"cantidad\": 3,\n            \"oferta\": {\n                \"idPublicacion\": 268,\n                \"idTipoProducto\": 2,\n                \"tipoProducto\": \"Jugo\",\n                \"nombreProducto\": \"AGUA SABORIZADA BAGGIO FRESH NARANJA 1.5LT\",\n                \"marca\": \"Baggio\",\n                \"imagen\": \"https://d3ugyf2ht6aenh.cloudfront.net/stores/001/219/229/products/604611-5271f343145345b6e516028681925353-640-0.webp\",\n                \"precio\": 271.5,\n                \"peso\": 1500,\n                \"unidades\": 0,\n                \"nombreComercio\": \"Supermercado Uno\",\n                \"localidad\": \"Ramos Mejía\",\n                \"idLocalidad\": 2,\n                \"latitud\": -34.653661,\n                \"longitud\": -58.572119,\n                \"fechaVencimiento\": \"2023-07-17T00:00:00\"\n            },\n            \"subtotal\": 814.5\n        },\n        {\n            \"cantidad\": 4,\n            \"oferta\": {\n                \"idPublicacion\": 52,\n                \"idTipoProducto\": 18,\n                \"tipoProducto\": \"Queso\",\n                \"nombreProducto\": \"QUESO MUZZARELLA DOÑA AURORA SIN SAL 500GR\",\n                \"marca\": \"Doña Aurora\",\n                \"imagen\": \"https://ardiaprod.vtexassets.com/arquivos/ids/214134-800-auto?v=637711240246100000&width=800&height=auto&aspect=true\",\n                \"precio\": 1200,\n                \"peso\": 500,\n                \"unidades\": 0,\n                \"nombreComercio\": \"Supermercado Michael\",\n                \"localidad\": \"San Justo\",\n                \"idLocalidad\": 1,\n                \"latitud\": -34.682015,\n                \"longitud\": -58.561581,\n                \"fechaVencimiento\": \"2023-07-17T00:00:00\"\n            },\n            \"subtotal\": 4800\n        },\n        {\n            \"cantidad\": 2,\n            \"oferta\": {\n                \"idPublicacion\": 20,\n                \"idTipoProducto\": 19,\n                \"tipoProducto\": \"Salsa de tomate\",\n                \"nombreProducto\": \"PURÉ DE TOMATE ALCO 520GR\",\n                \"marca\": \"Alco\",\n                \"imagen\": \"https://ardiaprod.vtexassets.com/arquivos/ids/187937-800-auto?v=637427616636030000&width=800&height=auto&aspect=true\",\n                \"precio\": 135.9,\n                \"peso\": 520,\n                \"unidades\": 0,\n                \"nombreComercio\": \"Supermercado Luna\",\n                \"localidad\": \"Ramos Mejía\",\n                \"idLocalidad\": 2,\n                \"latitud\": -34.656545,\n                \"longitud\": -58.5724,\n                \"fechaVencimiento\": \"2023-07-17T00:00:00\"\n            },\n            \"subtotal\": 271.8\n        },\n        {\n            \"cantidad\": 2,\n            \"oferta\": {\n                \"idPublicacion\": 22,\n                \"idTipoProducto\": 20,\n                \"tipoProducto\": \"Harina\",\n                \"nombreProducto\": \"HARINA DE TRIGO LEUDANTE CAÑUELAS 1KG\",\n                \"marca\": \"Cañuelas\",\n                \"imagen\": \"https://ardiaprod.vtexassets.com/arquivos/ids/230435-800-auto?v=638023863676230000&width=800&height=auto&aspect=true\",\n                \"precio\": 215,\n                \"peso\": 1000,\n                \"unidades\": 0,\n                \"nombreComercio\": \"Supermercado Luna\",\n                \"localidad\": \"Ramos Mejía\",\n                \"idLocalidad\": 2,\n                \"latitud\": -34.656545,\n                \"longitud\": -58.5724,\n                \"fechaVencimiento\": \"2023-07-17T00:00:00\"\n            },\n            \"subtotal\": 430\n        },\n        {\n            \"cantidad\": 4,\n            \"oferta\": {\n                \"idPublicacion\": 383,\n                \"idTipoProducto\": 11,\n                \"tipoProducto\": \"Pan de pancho\",\n                \"nombreProducto\": \"PAN DE PANCHO BIMBO 205GR\",\n                \"marca\": \"Bimbo\",\n                \"imagen\": \"https://vixark.b-cdn.net/lp-i-i-g/pan-blanco-para-perro-bimbo-205g.jpg\",\n                \"precio\": 266.5,\n                \"peso\": 0,\n                \"unidades\": 6,\n                \"nombreComercio\": \"Supermercado Luna\",\n                \"localidad\": \"Ramos Mejía\",\n                \"idLocalidad\": 2,\n                \"latitud\": -34.656545,\n                \"longitud\": -58.5724,\n                \"fechaVencimiento\": \"2023-07-17T00:00:00\"\n            },\n            \"subtotal\": 1066\n        },\n        {\n            \"cantidad\": 2,\n            \"oferta\": {\n                \"idPublicacion\": 204,\n                \"idTipoProducto\": 12,\n                \"tipoProducto\": \"Salchichas\",\n                \"nombreProducto\": \"SALCHICHAS SWIFT X12\",\n                \"marca\": \"Swift\",\n                \"imagen\": \"https://carrefourar.vtexassets.com/arquivos/ids/311192-170-170?v=1772336324&width=170&height=170&aspect=true\",\n                \"precio\": 411,\n                \"peso\": 0,\n                \"unidades\": 12,\n                \"nombreComercio\": \"Supermercado Luna\",\n                \"localidad\": \"Ramos Mejía\",\n                \"idLocalidad\": 2,\n                \"latitud\": -34.656545,\n                \"longitud\": -58.5724,\n                \"fechaVencimiento\": \"2023-07-17T00:00:00\"\n            },\n            \"subtotal\": 822\n        },\n        {\n            \"cantidad\": 1,\n            \"oferta\": {\n                \"idPublicacion\": 91,\n                \"idTipoProducto\": 15,\n                \"tipoProducto\": \"Mayonesa\",\n                \"nombreProducto\": \"MAYONESA NATURA 500ML\",\n                \"marca\": \"Natura\",\n                \"imagen\": \"https://ardiaprod.vtexassets.com/arquivos/ids/197352-800-auto?v=637559804490670000&width=800&height=auto&aspect=true\",\n                \"precio\": 320,\n                \"peso\": 500,\n                \"unidades\": 0,\n                \"nombreComercio\": \"Supermercado Luna\",\n                \"localidad\": \"Ramos Mejía\",\n                \"idLocalidad\": 2,\n                \"latitud\": -34.656545,\n                \"longitud\": -58.5724,\n                \"fechaVencimiento\": \"2023-07-17T00:00:00\"\n            },\n            \"subtotal\": 320\n        },\n        {\n            \"cantidad\": 1,\n            \"oferta\": {\n                \"idPublicacion\": 248,\n                \"idTipoProducto\": 16,\n                \"tipoProducto\": \"Mostaza\",\n                \"nombreProducto\": \"MOSTAZA NATURA 250GR\",\n                \"marca\": \"Natura\",\n                \"imagen\": \"https://carrefourar.vtexassets.com/arquivos/ids/234470/7791866004211_02.jpg?v=637786532109770000\",\n                \"precio\": 178.86,\n                \"peso\": 250,\n                \"unidades\": 0,\n                \"nombreComercio\": \"Supermercado Uno\",\n                \"localidad\": \"Ramos Mejía\",\n                \"idLocalidad\": 2,\n                \"latitud\": -34.653661,\n                \"longitud\": -58.572119,\n                \"fechaVencimiento\": \"2023-07-17T00:00:00\"\n            },\n            \"subtotal\": 178.86\n        },\n        {\n            \"cantidad\": 1,\n            \"oferta\": {\n                \"idPublicacion\": 104,\n                \"idTipoProducto\": 17,\n                \"tipoProducto\": \"Ketchup\",\n                \"nombreProducto\": \"KETCHUP NATURA 250GR\",\n                \"marca\": \"Natura\",\n                \"imagen\": \"https://ardiaprod.vtexassets.com/arquivos/ids/198623-800-auto?v=637559836590000000&width=800&height=auto&aspect=true\",\n                \"precio\": 214.75,\n                \"peso\": 250,\n                \"unidades\": 0,\n                \"nombreComercio\": \"Supermercado Lincoln\",\n                \"localidad\": \"San Justo\",\n                \"idLocalidad\": 1,\n                \"latitud\": -34.681864,\n                \"longitud\": -58.556759,\n                \"fechaVencimiento\": \"2023-07-17T00:00:00\"\n            },\n            \"subtotal\": 214.75\n        }\n    ],\n    \"totalListado\": 10035.35,\n    \"fechaCreacion\": \"2023-06-25T23:44:25.703\",\n    \"urlRecorrido\": \"https://www.google.com.ar/maps/dir/Puente+Rotonda+de+San+Justo/-34.671408,-58.5631544/@-34.6797969,-58.5691129,14.41z/data=!4m9!4m8!1m5!1m1!1s0x95bcc623d06043cb:0x195112316a6887e!2m2!1d-58.5606389!2d-34.6856646!1m0!3e3?entry=ttu\",\n    \"mensajeOfertas\": \"Las mejores ofertas\",\n    \"distanciaARecorrer\": 6.5\n}"
+						}
+					]
+				},
+				{
+					"name": "mis-listados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7292/api/ListadoOfertas/misListados?IdUsuario=1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"ListadoOfertas",
+								"misListados"
+							],
+							"query": [
+								{
+									"key": "IdUsuario",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Preferencias del evento",
+			"item": [
+				{
+					"name": "obtener-eventos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7292/api/Evento/eventos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Evento",
+								"eventos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener-comidas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7292/api/Evento/comidas?idEvento=2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Evento",
+								"comidas"
+							],
+							"query": [
+								{
+									"key": "idEvento",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener-bebidas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7292/api/Evento/bebidas?idEvento=1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Evento",
+								"bebidas"
+							],
+							"query": [
+								{
+									"key": "idEvento",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener-localidades",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7292/api/Ubicacion/localidades",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Ubicacion",
+								"localidades"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Publicaciones de ofertas",
+			"item": [
+				{
+					"name": "listado-publicaciones",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7292/api/Comercio/VerOfertas/:idComercio",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Comercio",
+								"VerOfertas",
+								":idComercio"
+							],
+							"variable": [
+								{
+									"key": "idComercio",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "publicar-oferta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idComercio\": 6,\r\n  \"idProducto\": 10,\r\n  \"precio\": 1500,\r\n  \"fechaFin\": \"2023-07-25T04:25:23.309Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7292/api/Comercio/cargarOferta",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Comercio",
+								"cargarOferta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "lista-tipoProductos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7292/api/Producto/tipoproductos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Producto",
+								"tipoproductos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "marcas-porTipoProducto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7292/api/Producto/marcas/:IdTipoProducto",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Producto",
+								"marcas",
+								":IdTipoProducto"
+							],
+							"variable": [
+								{
+									"key": "IdTipoProducto",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "productos-por-marca-y-tipo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7292/api/Producto/productos/:IdTipoProducto/:marca",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Producto",
+								"productos",
+								":IdTipoProducto",
+								":marca"
+							],
+							"variable": [
+								{
+									"key": "IdTipoProducto",
+									"value": "2"
+								},
+								{
+									"key": "marca",
+									"value": "baggio"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "producto-por-codigoBarras",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7292/api/Producto/producto/:codigoDeBarras",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7292",
+							"path": [
+								"api",
+								"Producto",
+								"producto",
+								":codigoDeBarras"
+							],
+							"variable": [
+								{
+									"key": "codigoDeBarras",
+									"value": "7790522011990"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
